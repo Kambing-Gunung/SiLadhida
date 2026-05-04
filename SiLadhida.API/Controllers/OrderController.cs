@@ -47,7 +47,7 @@ namespace SiLadhida.API.Controllers
 
         // UPDATE STATUS (STATE-BASED)
         [HttpPut("{id}/status")]
-        public IActionResult UpdateStatus(int id, UpdateStatusDto dto)
+        public IActionResult UpdateStatus(int id, [FromBody] UpdateStatusDto dto)
         {
             var order = _context.Pesanan.Find(id);
 

@@ -2,9 +2,9 @@ namespace SiLadhida.Core.Enums
 {
     public enum Status
     {
-        PesananTelahDibayar,
-        PesananDisiapkan,
-        SiapDiambil,
-        PesananSelesai
+        PesananTelahDibayar, // 0
+        PesananDisiapkan,    // 1
+        SiapDiambil,         // 2
+        PesananSelesai       // 3
     }
 }
