@@ -1,4 +1,5 @@
 ﻿using SiLadhida.Core.Enums;
+using SiLadhida.Core.Entities;
 
 namespace SiLadhida.Core.Services
 {
@@ -18,6 +19,18 @@ namespace SiLadhida.Core.Services
         public Status GetInitialStatus()
         {
             return Status.PesananTelahDibayar;
+        }
+
+        public int HitungTotal(List<OrderItem> items)
+        {
+            int total = 0;
+
+            foreach (var item in items)
+            {
+                total += item.Harga * item.Quantity;
+            }
+
+            return total;
         }
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SiLadhida.API.Data;
 using SiLadhida.API.DTOs;
 using SiLadhida.Core.Entities;
@@ -22,14 +23,41 @@ namespace SiLadhida.API.Controllers
 
         // CREATE ORDER
         [HttpPost]
-        public IActionResult Create(CreateOrderDto dto)
+        public IActionResult Create([FromBody] CreateOrderDto dto)
         {
             var order = new Pesanan
             {
                 NamaPemesan = dto.NamaPemesan,
-                NamaKue = dto.NamaKue,
                 StatusSekarang = _service.GetInitialStatus()
             };
+
+            var items = new List<OrderItem>();
+
+            foreach (var itemDto in dto.Items)
+            {
+                var produk = _context.Produk.Find(itemDto.ProdukId);
+
+                if (produk == null)
+                    return BadRequest($"Produk ID {itemDto.ProdukId} tidak ditemukan");
+
+                var item = new OrderItem
+                {
+                    ProdukId = produk.Id,
+                    Quantity = itemDto.Quantity,
+                    Harga = produk.Harga
+                };
+
+                items.Add(item);
+            }
+
+            order.Items = items;
+
+            foreach (var item in items)
+            {
+                item.Pesanan = order;
+            }
+
+            order.TotalHarga = _service.HitungTotal(items);
 
             _context.Pesanan.Add(order);
             _context.SaveChanges();
@@ -41,7 +69,10 @@ namespace SiLadhida.API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var data = _context.Pesanan.ToList();
+            var data = _context.Pesanan
+                .Include(p => p.Items)
+                .ThenInclude(i => i.Produk) // 🔥 INI TAMBAHAN
+                .ToList();
             return Ok(data);
         }
 
