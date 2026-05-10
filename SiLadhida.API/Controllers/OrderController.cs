@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using SiLadhida.API.Data;
 using SiLadhida.API.DTOs;
 using SiLadhida.Core.Entities;
@@ -25,44 +26,72 @@ namespace SiLadhida.API.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] CreateOrderDto dto)
         {
-            var order = new Pesanan
+            using var transaction = _context.Database.BeginTransaction();
+
+            try
             {
-                NamaPemesan = dto.NamaPemesan,
-                StatusSekarang = _service.GetInitialStatus()
-            };
-
-            var items = new List<OrderItem>();
-
-            foreach (var itemDto in dto.Items)
-            {
-                var produk = _context.Produk.Find(itemDto.ProdukId);
-
-                if (produk == null)
-                    return BadRequest($"Produk ID {itemDto.ProdukId} tidak ditemukan");
-
-                var item = new OrderItem
+                var order = new Pesanan
                 {
-                    ProdukId = produk.Id,
-                    Quantity = itemDto.Quantity,
-                    Harga = produk.Harga
+                    NamaPemesan = dto.NamaPemesan,
+                    StatusSekarang = _service.GetInitialStatus()
                 };
 
-                items.Add(item);
+                var items = new List<OrderItem>();
+
+                foreach (var itemDto in dto.Items)
+                {
+                    var produk = _context.Produk.Find(itemDto.ProdukId);
+
+                    if (produk == null)
+                        return BadRequest($"Produk ID {itemDto.ProdukId} tidak ditemukan");
+
+                    if (itemDto.Quantity > produk.Stock)
+                    {
+                        return BadRequest(
+                            $"Stock produk {produk.Nama} tidak mencukupi. " +
+                            $"Stock tersedia: {produk.Stock}"
+                        );
+                    }
+
+                    var item = new OrderItem
+                    {
+                        ProdukId = produk.Id,
+                        Quantity = itemDto.Quantity,
+                        Harga = produk.Harga
+                    };
+
+                    produk.Stock -= itemDto.Quantity;
+
+                    items.Add(item);
+                }
+
+                order.Items = items;
+
+                foreach (var item in items)
+                {
+                    item.Pesanan = order;
+                }
+
+                order.TotalHarga = _service.HitungTotal(items);
+
+                _context.Pesanan.Add(order);
+
+                // throw new Exception("Simulasi gagal");
+
+                _context.SaveChanges();
+
+                transaction.Commit();
+
+                return Ok(order);
             }
-
-            order.Items = items;
-
-            foreach (var item in items)
+            catch (Exception ex)
             {
-                item.Pesanan = order;
+                transaction.Rollback();
+
+                return StatusCode(500,
+                    $"Terjadi kesalahan: {ex.Message}");
             }
 
-            order.TotalHarga = _service.HitungTotal(items);
-
-            _context.Pesanan.Add(order);
-            _context.SaveChanges();
-
-            return Ok(order);
         }
 
         // GET ALL
