@@ -16,10 +16,13 @@ namespace SiLadhida.API.Controllers
         private readonly AppDbContext _context;
         private readonly PesananService _service;
 
-        public OrderController(AppDbContext context, PesananService service)
+        private readonly ILogger<OrderController> _logger;
+
+        public OrderController(AppDbContext context, PesananService service, ILogger<OrderController> logger)
         {
             _context = context;
             _service = service;
+            _logger = logger;
         }
 
         // CREATE ORDER
@@ -47,6 +50,11 @@ namespace SiLadhida.API.Controllers
 
                     if (itemDto.Quantity > produk.Stock)
                     {
+                        _logger.LogWarning(
+                            "Stock tidak mencukupi untuk produk {NamaProduk}",
+                            produk.Nama
+                        );
+
                         return BadRequest(
                             $"Stock produk {produk.Nama} tidak mencukupi. " +
                             $"Stock tersedia: {produk.Stock}"
@@ -82,11 +90,19 @@ namespace SiLadhida.API.Controllers
 
                 transaction.Commit();
 
+                _logger.LogInformation(
+                    "Pesanan berhasil dibuat oleh {NamaPemesan} dengan total {TotalHarga}", 
+                    order.NamaPemesan, 
+                    order.TotalHarga
+                );
+
                 return Ok(order);
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
+
+                _logger.LogError(ex, "Terjadi error saat membuat pesanan");
 
                 return StatusCode(500,
                     $"Terjadi kesalahan: {ex.Message}");
@@ -119,6 +135,12 @@ namespace SiLadhida.API.Controllers
 
             order.StatusSekarang = dto.StatusBaru;
             _context.SaveChanges();
+
+            _logger.LogInformation(
+                "Status pesanan {OrderId} berubah menjadi {Status}",
+                order.Id,
+                order.StatusSekarang
+            );
 
             return Ok(order);
         }
