@@ -1,19 +1,21 @@
 ﻿using SiLadhida.Core.Enums;
 using SiLadhida.Core.Entities;
+using SiLadhida.Core.StateMachines;
 
 namespace SiLadhida.Core.Services
 {
     public class PesananService
     {
+        private readonly PesananStateMachine _machine;
+
+        public PesananService()
+        {
+            _machine = new PesananStateMachine();
+        }
+
         public bool IsValidTransition(Status current, Status next)
         {
-            return (current, next) switch
-            {
-                (Status.PesananTelahDibayar, Status.PesananDisiapkan) => true,
-                (Status.PesananDisiapkan, Status.SiapDiambil) => true,
-                (Status.SiapDiambil, Status.PesananSelesai) => true,
-                _ => false
-            };
+            return _machine.CanTransition(current, next);
         }
 
         public Status GetInitialStatus()
