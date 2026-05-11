@@ -116,7 +116,7 @@ namespace SiLadhida.API.Controllers
         {
             var data = _context.Pesanan
                 .Include(p => p.Items)
-                .ThenInclude(i => i.Produk) // 🔥 INI TAMBAHAN
+                .ThenInclude(i => i.Produk) 
                 .ToList();
             return Ok(data);
         }
