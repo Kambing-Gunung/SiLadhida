@@ -17,6 +17,16 @@ namespace SiLadhida.Core
             int initialCount = daftarPesanan.Count;
 
             daftarPesanan.Add(pesanan);
+
+            // Menjamin jumlah elemen bertambah tepat satu
+            if (daftarPesanan.Count != initialCount + 1)
+                throw new Exception("Gagal : Item gagal ditambahkan ke list.");
+        }
+
+        public List<T> PrintDaftarPesanan()
+        {
+            // Menjamin tidak mengembalikan null meskipun kosong
+            return daftarPesanan ?? new List<T>();
         }
 
         public void ResetDaftarPesanan()
