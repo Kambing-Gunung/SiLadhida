@@ -1,17 +1,13 @@
-<Window xmlns="https://github.com/avaloniaui"
+<Window
+    xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    xmlns:views="using:SiLadhida.App.Views"
     x:Class="SiLadhida.App.MainWindow"
-    Title="SiLadhida.App">
-    <StackPanel Margin="20" Spacing="10">
-        <TextBlock Text="SiLadhida" FontSize="24" FontWeight="Bold" />
+    Width="1400"
+    Height="800"
+    Background="#F6F1EB"
+    Title="SiLadhida">
 
-        <Button Name="BtnLoad"
-            Content="Load Orders"
-            Width="150" />
+    <views:DashboardView/>
 
-        <ListBox Name="OrderList" Height="300" />
-    </StackPanel>
 </Window>

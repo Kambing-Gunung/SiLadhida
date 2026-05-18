@@ -1,0 +1,140 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SiLadhida.App.Views.DashboardView">
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+
+        <Border
+            Grid.Column="0"
+            Background="#5C3D2E">
+
+            <StackPanel Margin="20" Spacing="15">
+
+                <TextBlock
+                    Text="SiLadhida"
+                    FontSize="28"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Margin="0,20,0,30"/>
+
+                <Button Content="Dashboard"/>
+                <Button Content="Kasir"/>
+                <Button Content="Produk"/>
+                <Button Content="Pesanan"/>
+                <Button Content="Penjualan"/>
+
+            </StackPanel>
+
+        </Border>
+
+        <!-- CONTENT -->
+
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- TOPBAR -->
+
+            <Border
+                Grid.Row="0"
+                Background="#FFF8F0"
+                BorderBrush="#E0C097"
+                BorderThickness="0,0,0,1">
+
+                <Grid Margin="20">
+
+                    <TextBlock
+                        Text="Dashboard Admin"
+                        FontSize="24"
+                        FontWeight="SemiBold"
+                        VerticalAlignment="Center"/>
+
+                </Grid>
+
+            </Border>
+
+            <!-- MAIN CONTENT -->
+
+            <ScrollViewer Grid.Row="1">
+
+                <StackPanel Margin="20" Spacing="20">
+
+                    <TextBlock
+                        Text="Selamat datang di SiLadhida Admin Panel"
+                        FontSize="30"
+                        FontWeight="Bold"/>
+
+                    <WrapPanel ItemWidth="250">
+
+                        <!-- CARD 1 -->
+
+                        <Border
+                            Width="220"
+                            Height="120"
+                            Background="#FFF8F0"
+                            CornerRadius="12"
+                            Padding="20"
+                            Margin="10">
+
+                            <StackPanel>
+
+                                <TextBlock
+                                    Text="Total Produk"
+                                    FontSize="18"/>
+
+                                <TextBlock
+                                    Text="2"
+                                    FontSize="40"
+                                    FontWeight="Bold"/>
+
+                            </StackPanel>
+
+                        </Border>
+
+                        <!-- CARD 2 -->
+
+                        <Border
+                            Width="220"
+                            Height="120"
+                            Background="#FFF8F0"
+                            CornerRadius="12"
+                            Padding="20"
+                            Margin="10">
+
+                            <StackPanel>
+
+                                <TextBlock
+                                    Text="Total Pesanan"
+                                    FontSize="18"/>
+
+                                <TextBlock
+                                    Text="10"
+                                    FontSize="40"
+                                    FontWeight="Bold"/>
+
+                            </StackPanel>
+
+                        </Border>
+
+                    </WrapPanel>
+
+                </StackPanel>
+
+            </ScrollViewer>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

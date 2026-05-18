@@ -4,29 +4,45 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SiLadhida.App.Models;
 using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace SiLadhida.App.Services
 {
     public class ApiService
     {
-        private readonly HttpClient _client;
+        private readonly HttpClient _httpClient;
 
         public ApiService()
         {
-            _client = new HttpClient();
-            _client.BaseAddress = new Uri("http://localhost:5135/");
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("http://localhost:5135/");
         }
 
-        public async Task<List<Order>> GetOrders()
+        public async Task<List<Produk>> GetProdukAsync()
         {
-            var response = await _client.GetAsync("api/orders");
+            var result = await _httpClient.GetFromJsonAsync<List<Produk>>(
+                "http://localhost:5135/api/products"
+            );
 
-            if (!response.IsSuccessStatusCode)
-                return new List<Order>();
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            return JsonConvert.DeserializeObject<List<Order>>(json);
+            return result ?? new List<Produk>();
         }
+
+        public async Task<List<Order>> GetOrdersAsync()
+        {
+            var result = await _httpClient.GetFromJsonAsync<List<Order>>(
+                "http://localhost:5135/api/orders"
+            );
+
+            return result ?? new List<Order>();
+        }
+
+        public async Task CreateOrderAsync(CreateOrderRequest request)
+        {
+            await _httpClient.PostAsJsonAsync(
+                "http://localhost:5135/api/orders",
+                request
+            );
+        }
+
     }
 }
