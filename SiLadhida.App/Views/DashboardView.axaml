@@ -1,6 +1,7 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:SiLadhida.App.Components"
     x:Class="SiLadhida.App.Views.DashboardView">
 
     <Grid>
@@ -12,28 +13,7 @@
 
         <!-- SIDEBAR -->
 
-        <Border
-            Grid.Column="0"
-            Background="#5C3D2E">
-
-            <StackPanel Margin="20" Spacing="15">
-
-                <TextBlock
-                    Text="SiLadhida"
-                    FontSize="28"
-                    FontWeight="Bold"
-                    Foreground="White"
-                    Margin="0,20,0,30"/>
-
-                <Button Content="Dashboard"/>
-                <Button Content="Kasir"/>
-                <Button Content="Produk"/>
-                <Button Content="Pesanan"/>
-                <Button Content="Penjualan"/>
-
-            </StackPanel>
-
-        </Border>
+        <components:Sidebar Grid.Column="0"/>
 
         <!-- CONTENT -->
 
@@ -46,23 +26,7 @@
 
             <!-- TOPBAR -->
 
-            <Border
-                Grid.Row="0"
-                Background="#FFF8F0"
-                BorderBrush="#E0C097"
-                BorderThickness="0,0,0,1">
-
-                <Grid Margin="20">
-
-                    <TextBlock
-                        Text="Dashboard Admin"
-                        FontSize="24"
-                        FontWeight="SemiBold"
-                        VerticalAlignment="Center"/>
-
-                </Grid>
-
-            </Border>
+            <components:Topbar Grid.Row="0"/>
 
             <!-- MAIN CONTENT -->
 
@@ -77,7 +41,7 @@
 
                     <WrapPanel ItemWidth="250">
 
-                        <!-- CARD 1 -->
+                        <!-- CARD -->
 
                         <Border
                             Width="220"
@@ -102,7 +66,7 @@
 
                         </Border>
 
-                        <!-- CARD 2 -->
+                        <!-- CARD -->
 
                         <Border
                             Width="220"
