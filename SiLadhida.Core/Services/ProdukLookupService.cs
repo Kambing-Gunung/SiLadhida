@@ -8,7 +8,7 @@ namespace SiLadhida.Core.Services
         {
             if (DataProdukConfig.KodeProduk.ContainsKey(kode))
             {
-                return DataProdukConfig.KodeProduk[kode];
+                return DataProdukConfig.KodeProduk[kode].Nama;
             }
 
             return null;
