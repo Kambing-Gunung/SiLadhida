@@ -3,31 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="SiLadhida.App.Views.ProdukView">
 
-    <Border
-        Background="#4E342E"
-        CornerRadius="12"
-        Padding="20"
-        Margin="10">
-
-        <StackPanel>
-
-            <TextBlock
-                Name="TitleText"
-                Text="Title"
-                FontSize="18"
-                FontWeight="Bold"
-                Foreground="White"/>
-
-            <TextBlock
-                Name="ValueText"
-                Text="0"
-                FontSize="28"
-                FontWeight="Bold"
-                Margin="0,10,0,0"
-                Foreground="#D7CCC8"/>
-
-        </StackPanel>
-
-    </Border>
+        <TextBlock Text="Produk"/>
 
 </UserControl>

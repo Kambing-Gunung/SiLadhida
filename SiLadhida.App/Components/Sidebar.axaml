@@ -14,15 +14,14 @@
                 FontSize="28"
                 FontWeight="Bold"
                 Foreground="White"
-                Margin="0,20,0,30"/>
+                Margin="0,20,0,30" />
 
             <!-- MENU -->
 
-            <Button Content="Dashboard"/>
-            <Button Content="Kasir"/>
-            <Button Content="Produk"/>
-            <Button Content="Pesanan"/>
-            <Button Content="Penjualan"/>
+            <Button Content="Dashboard" Click="Dashboard_Click" />
+            <Button Content="Kasir" Click="Kasir_Click" />
+            <Button Content="Produk" Click="Produk_Click" />
+            <Button Content="Pesanan" Click="Pesanan_Click" />
 
         </StackPanel>
 

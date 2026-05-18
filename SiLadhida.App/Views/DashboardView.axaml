@@ -4,17 +4,6 @@
     xmlns:components="using:SiLadhida.App.Components"
     x:Class="SiLadhida.App.Views.DashboardView">
 
-    <Grid>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <!-- SIDEBAR -->
-
-        <components:Sidebar Grid.Column="0"/>
-
         <!-- CONTENT -->
 
         <Grid Grid.Column="1">
@@ -98,7 +87,5 @@
             </ScrollViewer>
 
         </Grid>
-
-    </Grid>
 
 </UserControl>
