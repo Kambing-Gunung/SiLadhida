@@ -1,10 +1,20 @@
 namespace SiLadhida.Core.Enums
 {
-    public enum Status
+    public enum StateOrder
     {
-        PesananTelahDibayar, // 0
-        PesananDisiapkan,    // 1
-        SiapDiambil,         // 2
-        PesananSelesai       // 3
+        MenungguPembayaran, 
+        SedangDipanggang, 
+        SiapDiambil, 
+        Selesai,
+        Dibatalkan       
+    }
+
+    public enum StateTrigger
+    {
+        PembayaranDikonfirmasi,
+        WaktuPembayaranHabis,
+        SelesaiDipanggang,
+        KueDiambilPelanggan,
+        DibatalkanPelanggan
     }
 }
