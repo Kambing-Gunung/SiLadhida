@@ -14,10 +14,6 @@ namespace SiLadhida.Core.StateMachines
 
             _transitions = new Dictionary<(StateOrder, StateTrigger), StateOrder>
             {
-                {
-                    (StateOrder.MenungguPembayaran, StateTrigger.PembayaranDikonfirmasi),
-                    StateOrder.SedangDipanggang
-                },
 
                 {
                     (StateOrder.MenungguPembayaran, StateTrigger.WaktuPembayaranHabis),
@@ -27,11 +23,12 @@ namespace SiLadhida.Core.StateMachines
                 { (StateOrder.MenungguPembayaran, StateTrigger.DibatalkanPelanggan),
                     StateOrder.Dibatalkan
                 },
-
                 {
-                    (StateOrder.SedangDipanggang, StateTrigger.SelesaiDipanggang),
+                    (StateOrder.MenungguPembayaran, StateTrigger.PembayaranDikonfirmasi),
                     StateOrder.SiapDiambil
                 },
+
+      
 
                 { (StateOrder.SiapDiambil, StateTrigger.KueDiambilPelanggan),
                     StateOrder.Selesai }

@@ -3,7 +3,6 @@ namespace SiLadhida.Core.Enums
     public enum StateOrder
     {
         MenungguPembayaran, 
-        SedangDipanggang, 
         SiapDiambil, 
         Selesai,
         Dibatalkan       
@@ -13,7 +12,6 @@ namespace SiLadhida.Core.Enums
     {
         PembayaranDikonfirmasi,
         WaktuPembayaranHabis,
-        SelesaiDipanggang,
         KueDiambilPelanggan,
         DibatalkanPelanggan
     }
