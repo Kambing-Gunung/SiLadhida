@@ -13,14 +13,19 @@ namespace SiLadhida.Core.Services
             _machine = new PesananStateMachine();
         }
 
-        public bool IsValidTransition(Status current, Status next)
+        public bool IsValidTransition(StateOrder current, StateTrigger trigger)
         {
-            return _machine.CanTransition(current, next);
+            return _machine.CanTransition(current, trigger);
         }
 
-        public Status GetInitialStatus()
+        public StateOrder GetInitialStatus()
         {
-            return Status.PesananTelahDibayar;
+            return StateOrder.MenungguPembayaran;
+        }
+
+        public StateOrder GetNextState(StateOrder current, StateTrigger trigger)
+        {
+            return _machine.GetNextState(current, trigger);
         }
 
         public int HitungTotal(List<OrderItem> items)
