@@ -21,7 +21,7 @@ namespace SiLadhida.Tests.Services
             var result = _service.GetInitialStatus();
 
             // Assert
-            result.Should().Be(Status.PesananTelahDibayar);
+            result.Should().Be(StateOrder.MenungguPembayaran);
         }
 
         [Fact]
@@ -29,8 +29,8 @@ namespace SiLadhida.Tests.Services
         {
             // Act
             var result = _service.IsValidTransition(
-                Status.PesananTelahDibayar,
-                Status.PesananDisiapkan
+                StateOrder.MenungguPembayaran,
+                StateTrigger.PembayaranDikonfirmasi            
             );
 
             // Assert
@@ -42,8 +42,8 @@ namespace SiLadhida.Tests.Services
         {
             // Act
             var result = _service.IsValidTransition(
-                Status.PesananTelahDibayar,
-                Status.PesananSelesai
+                StateOrder.MenungguPembayaran,
+                StateTrigger.KueDiambilPelanggan
             );
 
             // Assert

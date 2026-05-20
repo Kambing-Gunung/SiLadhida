@@ -4,6 +4,6 @@ namespace SiLadhida.API.DTOs
 {
     public class UpdateStatusDto
     {
-        public Status StatusBaru { get; set; }
+        public StateTrigger Trigger { get; set; }
     }
 }
