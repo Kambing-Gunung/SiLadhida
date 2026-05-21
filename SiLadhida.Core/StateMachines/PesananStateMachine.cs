@@ -1,52 +1,53 @@
+
+
+
 using SiLadhida.Core.Enums;
 
 namespace SiLadhida.Core.StateMachines
 {
     public class PesananStateMachine
     {
-        private readonly Dictionary<Status, List<Status>> _transitions;
+        private readonly Dictionary<(StateOrder, StateTrigger), StateOrder> _transitions;
 
         public PesananStateMachine()
         {
-            _transitions = new Dictionary<Status, List<Status>>
+
+            _transitions = new Dictionary<(StateOrder, StateTrigger), StateOrder>
             {
-                {
-                    Status.PesananTelahDibayar,
-                    new List<Status>
-                    {
-                        Status.PesananDisiapkan
-                    }
-                },
 
                 {
-                    Status.PesananDisiapkan,
-                    new List<Status>
-                    {
-                        Status.SiapDiambil
-                    }
+                    (StateOrder.MenungguPembayaran, StateTrigger.WaktuPembayaranHabis),
+                    StateOrder.Dibatalkan
                 },
 
+                { (StateOrder.MenungguPembayaran, StateTrigger.DibatalkanPelanggan),
+                    StateOrder.Dibatalkan
+                },
                 {
-                    Status.SiapDiambil,
-                    new List<Status>
-                    {
-                        Status.PesananSelesai
-                    }
+                    (StateOrder.MenungguPembayaran, StateTrigger.PembayaranDikonfirmasi),
+                    StateOrder.SiapDiambil
                 },
 
-                {
-                    Status.PesananSelesai,
-                    new List<Status>()
-                }
+      
+
+                { (StateOrder.SiapDiambil, StateTrigger.KueDiambilPelanggan),
+                    StateOrder.Selesai }
             };
         }
 
-        public bool CanTransition(Status current, Status next)
+        public bool CanTransition(StateOrder current, StateTrigger trigger)
         {
-            if (!_transitions.ContainsKey(current))
-                return false;
+            return _transitions.ContainsKey((current, trigger));
+        }
 
-            return _transitions[current].Contains(next);
+        public StateOrder GetNextState(StateOrder current, StateTrigger trigger)
+        {
+            if (_transitions.TryGetValue((current, trigger), out StateOrder nextState))
+            {
+                return nextState;
+            }
+
+            throw new InvalidOperationException($"Transisi tidak valid! ");
         }
     }
 }

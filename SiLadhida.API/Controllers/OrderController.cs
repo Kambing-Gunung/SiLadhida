@@ -130,15 +130,16 @@ namespace SiLadhida.API.Controllers
             if (order == null)
                 return NotFound("Pesanan tidak ditemukan");
 
-            if (!_service.IsValidTransition(order.StatusSekarang, dto.StatusBaru))
+            if (!_service.IsValidTransition(order.StatusSekarang, dto.Trigger))
                 return BadRequest("Transisi status tidak valid");
 
-            order.StatusSekarang = dto.StatusBaru;
+            order.StatusSekarang = _service.GetNextState(order.StatusSekarang, dto.Trigger);
             _context.SaveChanges();
 
             _logger.LogInformation(
                 "Status pesanan {OrderId} berubah menjadi {Status}",
                 order.Id,
+                dto.Trigger,
                 order.StatusSekarang
             );
 

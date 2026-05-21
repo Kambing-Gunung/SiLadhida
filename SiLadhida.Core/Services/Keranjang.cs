@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SiLadhida.Core.Services
 {
-    public class Keranjang<T>
+    public class Keranjang<T> 
     {
         private List<T> daftarPesanan = new List<T>();
 
