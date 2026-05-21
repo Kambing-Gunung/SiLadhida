@@ -1,4 +1,6 @@
 using SiLadhida.API.Data;
+using SiLadhida.API.Repositories.Interfaces;
+using SiLadhida.API.Repositories.Implementations;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using SiLadhida.Core.Services;
@@ -16,7 +18,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("Default"),
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))
     ));
-
+    
+builder.Services.AddScoped<IPesananRepository, PesananRepository>();
 builder.Services.AddScoped<PesananService>();
 builder.Services.AddScoped<ProdukLookupService>();
 builder.Services.AddEndpointsApiExplorer();

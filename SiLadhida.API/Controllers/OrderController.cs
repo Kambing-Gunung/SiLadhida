@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SiLadhida.API.Data;
+using SiLadhida.API.Repositories.Interfaces;
+using SiLadhida.API.Repositories.Implementations;
 using SiLadhida.API.DTOs;
 using SiLadhida.Core.Entities;
 using SiLadhida.Core.Services;
@@ -12,16 +14,25 @@ namespace SiLadhida.API.Controllers
     [Route("api/orders")]
     public class OrderController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IPesananRepository _repository;
         private readonly PesananService _service;
-
+        private readonly AppDbContext _context;
         private readonly ILogger<OrderController> _logger;
 
-        public OrderController(AppDbContext context, PesananService service, ILogger<OrderController> logger)
+        public OrderController(IPesananRepository repository, PesananService service, AppDbContext context, ILogger<OrderController> logger)
         {
-            _context = context;
+            _repository = repository;
             _service = service;
+            _context = context;
             _logger = logger;
+        }
+
+        // GET ALL
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var data = await _repository.GetAllAsync();
+            return Ok(data);
         }
 
         // CREATE ORDER
@@ -81,17 +92,15 @@ namespace SiLadhida.API.Controllers
 
                 order.TotalHarga = _service.HitungTotal(items);
 
-                _context.Pesanan.Add(order);
-
                 // throw new Exception("Simulasi gagal");
-
-                await _context.SaveChangesAsync();
+                await _repository.AddAsync(order);
+                await _repository.SaveChangesAsync();
 
                 transaction.Commit();
 
                 _logger.LogInformation(
-                    "Pesanan berhasil dibuat oleh {NamaPemesan} dengan total {TotalHarga}", 
-                    order.NamaPemesan, 
+                    "Pesanan berhasil dibuat oleh {NamaPemesan} dengan total {TotalHarga}",
+                    order.NamaPemesan,
                     order.TotalHarga
                 );
 
@@ -109,22 +118,11 @@ namespace SiLadhida.API.Controllers
 
         }
 
-        // GET ALL
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var data = await _context.Pesanan
-                .Include(p => p.Items)
-                .ThenInclude(i => i.Produk) 
-                .ToListAsync();
-            return Ok(data);
-        }
-
         // UPDATE STATUS (STATE-BASED)
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateStatusDto dto)
         {
-            var order = await _context.Pesanan.FindAsync(id);
+            var order = await _repository.GetByIdAsync(id);
 
             if (order == null)
                 return NotFound("Pesanan tidak ditemukan");
@@ -133,7 +131,7 @@ namespace SiLadhida.API.Controllers
                 return BadRequest("Transisi status tidak valid");
 
             order.StatusSekarang = _service.GetNextState(order.StatusSekarang, dto.Trigger);
-            await _context.SaveChangesAsync();
+            await _repository.SaveChangesAsync();
 
             _logger.LogInformation(
                 "Status pesanan {OrderId} | trigger {Trigger} | menjadi {Status}",
