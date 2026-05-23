@@ -1,0 +1,24 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SiLadhida.App.Components.Topbar">
+
+    <Border
+        Background="#FFF8F0"
+        BorderBrush="#E0C097"
+        BorderThickness="0,0,0,1">
+
+        <Grid Margin="20">
+
+            <TextBlock
+                Text="Dashboard Admin"
+                Foreground="Black"
+                FontSize="24"
+                FontWeight="SemiBold"
+                VerticalAlignment="Center"/>
+
+        </Grid>
+
+    </Border>
+
+</UserControl>

@@ -1,0 +1,30 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="SiLadhida.App.Components.Sidebar">
+
+    <Border Background="#5C3D2E">
+
+        <StackPanel Margin="20" Spacing="15">
+
+            <!-- LOGO -->
+
+            <TextBlock
+                Text="SiLadhida"
+                FontSize="28"
+                FontWeight="Bold"
+                Foreground="White"
+                Margin="0,20,0,30" />
+
+            <!-- MENU -->
+
+            <Button Content="Dashboard" Click="Dashboard_Click" />
+            <Button Content="Kasir" Click="Kasir_Click" />
+            <Button Content="Produk" Click="Produk_Click" />
+            <Button Content="Pesanan" Click="Pesanan_Click" />
+
+        </StackPanel>
+
+    </Border>
+
+</UserControl>

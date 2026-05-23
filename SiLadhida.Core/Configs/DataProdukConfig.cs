@@ -1,5 +1,5 @@
-using SiLadhida.Core.Entities;
 using System.Collections.Generic;
+using SiLadhida.Core.Entities;
 
 namespace SiLadhida.Core.Configs
 {

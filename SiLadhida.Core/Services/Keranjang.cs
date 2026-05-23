@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SiLadhida.Core
+namespace SiLadhida.Core.Services
 {
     public class Keranjang<T> 
     {
