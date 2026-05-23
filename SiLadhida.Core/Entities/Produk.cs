@@ -5,7 +5,7 @@ namespace SiLadhida.Core.Entities
     public class Produk
     {
         public int Id { get; set; }
-        public string Nama { get; set; }
+        public string Nama { get; set; } = string.Empty;
 
         private int _harga;
         public int Harga
