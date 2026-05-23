@@ -34,77 +34,72 @@ public class OrderService : IOrderService
     }
 
     public async Task<CreateOrderResponseDto> CreateAsync(CreateOrderDto dto)
+{
+    using var transaction =
+        await _context.Database.BeginTransactionAsync();
+
+    var order = new Pesanan
     {
-        using var transaction = await _context.Database.BeginTransactionAsync();
+        NamaPemesan = dto.NamaPemesan,
+        StatusSekarang = _pesananService.GetInitialStatus()
+    };
 
-        try
+    var items = new List<OrderItem>();
+
+    foreach (var itemDto in dto.Items)
+    {
+        var produk =
+            await _context.Produk.FindAsync(itemDto.ProdukId);
+
+        if (produk == null)
+            throw new Exception(
+                $"Produk ID {itemDto.ProdukId} tidak ditemukan");
+
+        if (itemDto.Quantity > produk.Stock)
+            throw new Exception(
+                $"Stock produk {produk.Nama} tidak mencukupi");
+
+        var item = new OrderItem
         {
-            var order = new Pesanan
-            {
-                NamaPemesan = dto.NamaPemesan,
-                StatusSekarang = _pesananService.GetInitialStatus()
-            };
+            ProdukId = produk.Id,
+            Quantity = itemDto.Quantity,
+            Harga = produk.Harga
+        };
 
-            var items = new List<OrderItem>();
+        produk.Stock -= itemDto.Quantity;
 
-            foreach (var itemDto in dto.Items)
-            {
-                var produk = await _context.Produk.FindAsync(itemDto.ProdukId);
-
-                if (produk == null)
-                    throw new Exception($"Produk ID {itemDto.ProdukId} tidak ditemukan");
-
-                if (itemDto.Quantity > produk.Stock)
-                    throw new Exception($"Stock produk {produk.Nama} tidak mencukupi");
-
-                var item = new OrderItem
-                {
-                    ProdukId = produk.Id,
-                    Quantity = itemDto.Quantity,
-                    Harga = produk.Harga
-                };
-
-                produk.Stock -= itemDto.Quantity;
-
-                items.Add(item);
-            }
-
-            order.Items = items;
-
-            foreach (var item in items)
-            {
-                item.Pesanan = order;
-            }
-
-            order.TotalHarga = _pesananService.HitungTotal(items);
-
-            await _repository.AddAsync(order);
-            await _repository.SaveChangesAsync();
-
-            await transaction.CommitAsync();
-
-            _logger.LogInformation(
-                "Pesanan berhasil dibuat oleh {NamaPemesan}",
-                order.NamaPemesan
-            );
-
-            return new CreateOrderResponseDto
-            {
-                Id = order.Id,
-                NamaPemesan = order.NamaPemesan,
-                TotalHarga = order.TotalHarga,
-                Status = order.StatusSekarang.ToString()
-            };
-        }
-        catch (Exception ex)
-        {
-            await transaction.RollbackAsync();
-
-            _logger.LogError(ex, "Gagal membuat pesanan");
-
-            throw;
-        }
+        items.Add(item);
     }
+
+    order.Items = items;
+
+    foreach (var item in items)
+    {
+        item.Pesanan = order;
+    }
+
+    order.TotalHarga =
+        _pesananService.HitungTotal(items);
+
+    await _repository.AddAsync(order);
+
+    await _repository.SaveChangesAsync();
+
+    await transaction.CommitAsync();
+
+    _logger.LogInformation(
+        "Pesanan berhasil dibuat oleh {NamaPemesan}",
+        order.NamaPemesan
+    );
+
+    return new CreateOrderResponseDto
+    {
+        Id = order.Id,
+        NamaPemesan = order.NamaPemesan,
+        TotalHarga = order.TotalHarga,
+        Status = order.StatusSekarang.ToString()
+    };
+}
 
     public async Task<Pesanan?> UpdateStatusAsync(int id, UpdateStatusDto dto)
     {

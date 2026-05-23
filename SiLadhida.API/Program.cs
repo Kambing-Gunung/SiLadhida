@@ -1,4 +1,5 @@
 using SiLadhida.API.Data;
+using SiLadhida.API.Middleware;
 using SiLadhida.API.Repositories.Interfaces;
 using SiLadhida.API.Repositories.Implementations;
 using SiLadhida.API.Services.Interfaces;
@@ -27,9 +28,12 @@ builder.Services.AddScoped<PesananService>();
 builder.Services.AddScoped<ProdukLookupService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+    
+builder.Services.AddScoped<ExceptionMiddleware>();
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseSwagger();
 app.UseSwaggerUI();
 
