@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using SiLadhida.API.Common;
 
 namespace SiLadhida.API.Middleware;
 
@@ -39,11 +40,7 @@ public class ExceptionMiddleware
         context.Response.StatusCode =
             (int)HttpStatusCode.InternalServerError;
 
-        var response = new
-        {
-            success = false,
-            message = exception.Message
-        };
+        var response = ApiResponse<string>.ErrorResponse(exception.Message);
 
         var json = JsonSerializer.Serialize(response);
 

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SiLadhida.API.DTOs;
+using SiLadhida.API.Common;
 using SiLadhida.API.Services.Interfaces;
 
 namespace SiLadhida.API.Controllers;
@@ -20,7 +21,12 @@ public class OrderController : ControllerBase
     {
         var data = await _service.GetAllAsync();
 
-        return Ok(data);
+        return Ok(
+            ApiResponse<object>.SuccessResponse(
+                data,
+                "Berhasil mengambil data pesanan"
+            )
+        );
     }
 
     [HttpPost]
@@ -29,7 +35,12 @@ public class OrderController : ControllerBase
     {
         var result = await _service.CreateAsync(dto);
 
-        return Ok(result);
+        return Ok(
+            ApiResponse<object>.SuccessResponse(
+                result,
+                "Pesanan berhasil dibuat"
+            )
+        );
     }
 
     [HttpPut("{id}/status")]
@@ -42,6 +53,11 @@ public class OrderController : ControllerBase
         if (result == null)
             return NotFound("Pesanan tidak ditemukan");
 
-        return Ok(result);
+        return Ok(
+            ApiResponse<object>.SuccessResponse(
+                result,
+                "Status pesanan berhasil diperbarui"
+            )
+        );
     }
 }
