@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using SiLadhida.API.Data;
 using SiLadhida.API.DTOs;
 using SiLadhida.API.DTOs.Responses;
@@ -15,18 +16,21 @@ public class OrderService : IOrderService
     private readonly IPesananRepository _repository;
     private readonly PesananService _pesananService;
     private readonly ILogger<OrderService> _logger;
+    private readonly IMapper _mapper;
 
     public OrderService(
-        AppDbContext context,
-        IPesananRepository repository,
-        PesananService pesananService,
-        ILogger<OrderService> logger)
-    {
-        _context = context;
-        _repository = repository;
-        _pesananService = pesananService;
-        _logger = logger;
-    }
+    AppDbContext context,
+    IPesananRepository repository,
+    PesananService pesananService,
+    ILogger<OrderService> logger,
+    IMapper mapper)
+{
+    _context = context;
+    _repository = repository;
+    _pesananService = pesananService;
+    _logger = logger;
+    _mapper = mapper;
+}
 
     public async Task<List<Pesanan>> GetAllAsync()
     {
@@ -92,13 +96,7 @@ public class OrderService : IOrderService
         order.NamaPemesan
     );
 
-    return new CreateOrderResponseDto
-    {
-        Id = order.Id,
-        NamaPemesan = order.NamaPemesan,
-        TotalHarga = order.TotalHarga,
-        Status = order.StatusSekarang.ToString()
-    };
+    return _mapper.Map<CreateOrderResponseDto>(order);
 }
 
     public async Task<Pesanan?> UpdateStatusAsync(int id, UpdateStatusDto dto)

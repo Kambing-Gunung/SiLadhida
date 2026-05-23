@@ -7,6 +7,9 @@ using SiLadhida.API.Services.Implementations;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using SiLadhida.Core.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using SiLadhida.API.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,30 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState
+            .Values
+            .SelectMany(v => v.Errors)
+            .Select(e => e.ErrorMessage)
+            .ToList();
+
+        var response = new
+        {
+            success = false,
+            message = "Validation failed",
+            errors
+        };
+
+        return new BadRequestObjectResult(response);
+    };
+});
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("Default"),
@@ -24,8 +51,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IPesananRepository, PesananRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<PesananService>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<ProdukLookupService>();
+builder.Services.AddScoped<PesananService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
     
