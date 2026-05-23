@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using SiLadhida.API.DTOs;
 using SiLadhida.API.Common;
 using SiLadhida.API.Services.Interfaces;
@@ -16,6 +17,7 @@ public class OrderController : ControllerBase
         _service = service;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -28,7 +30,7 @@ public class OrderController : ControllerBase
             )
         );
     }
-
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateOrderDto dto)
@@ -43,10 +45,11 @@ public class OrderController : ControllerBase
         );
     }
 
+    [Authorize]
     [HttpPut("{id}/status")]
     public async Task<IActionResult> UpdateStatus(
-        int id,
-        [FromBody] UpdateStatusDto dto)
+            int id,
+            [FromBody] UpdateStatusDto dto)
     {
         var result = await _service.UpdateStatusAsync(id, dto);
 
