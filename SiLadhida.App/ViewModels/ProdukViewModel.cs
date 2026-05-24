@@ -58,7 +58,7 @@ public partial class ProdukViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task UpdateProductAsync(Product product)
+    public async Task UpdateProductAsync(Product product)
     {
         if (product == null)
             return;
@@ -71,7 +71,7 @@ public partial class ProdukViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task DeleteProductAsync(Product product)
+    public async Task DeleteProductAsync(Product product)
     {
         if (product == null)
             return;

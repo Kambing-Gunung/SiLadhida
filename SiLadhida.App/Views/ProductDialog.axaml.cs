@@ -16,6 +16,18 @@ public partial class ProductDialog : Window
         DataContext = Product;
     }
 
+    public ProductDialog(Product product)
+    {
+        Product = new ProductFormModel
+        {
+            Nama = product.Nama,
+            Harga = product.Harga,
+            Stock = product.Stock
+        };
+
+        DataContext = Product;
+    }
+
     private void Save_Click(
     object? sender,
     Avalonia.Interactivity.RoutedEventArgs e)

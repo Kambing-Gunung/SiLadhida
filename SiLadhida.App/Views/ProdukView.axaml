@@ -1,10 +1,10 @@
 <UserControl
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:vm="using:SiLadhida.App.ViewModels"
-    xmlns:model="using:SiLadhida.App.Models"
-    x:Class="SiLadhida.App.Views.ProdukView"
-    x:DataType="vm:ProdukViewModel">
+xmlns="https://github.com/avaloniaui"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:vm="using:SiLadhida.App.ViewModels"
+xmlns:model="using:SiLadhida.App.Models"
+x:Class="SiLadhida.App.Views.ProdukView"
+x:DataType="vm:ProdukViewModel">
 
     <UserControl.DataContext>
         <vm:ProdukViewModel/>
@@ -16,27 +16,27 @@
 
             <!-- TITLE -->
             <TextBlock
-                Text="Manajemen Produk"
-                FontSize="28"
-                FontWeight="Bold"
-                Margin="0,0,0,20"/>
+            Text="Manajemen Produk"
+            FontSize="28"
+            FontWeight="Bold"
+            Margin="0,0,0,20"/>
 
             <!-- LOADING -->
             <TextBlock
-                Text="Loading products..."
-                IsVisible="{Binding IsLoading}"
-                HorizontalAlignment="Center"
-                Margin="0,0,0,10"/>
+            Text="Loading products..."
+            IsVisible="{Binding IsLoading}"
+            HorizontalAlignment="Center"
+            Margin="0,0,0,10"/>
 
             <!-- BUTTON -->
             <Button
-                Content="+ Tambah Produk"
-                Width="180"
-                Height="40"
-                Margin="0,0,0,20"
-                Background="#6D4C41"
-                Foreground="White"
-                Click="AddProduct_Click"/>
+            Content="+ Tambah Produk"
+            Width="180"
+            Height="40"
+            Margin="0,0,0,20"
+            Background="#6D4C41"
+            Foreground="White"
+            Click="AddProduct_Click"/>
 
             <!-- PRODUCT LIST -->
             <ItemsControl ItemsSource="{Binding Products}">
@@ -52,47 +52,47 @@
                     <DataTemplate x:DataType="model:Product">
 
                         <Border
-                            Width="220"
-                            Margin="10"
-                            Padding="16"
-                            CornerRadius="16"
-                            Background="#4E342E">
+                        Width="220"
+                        Margin="10"
+                        Padding="16"
+                        CornerRadius="16"
+                        Background="#4E342E">
 
                             <StackPanel Spacing="10">
 
                                 <!-- PRODUCT NAME -->
                                 <TextBlock
-                                    Text="{Binding Nama}"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="White"/>
+                                Text="{Binding Nama}"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="White"/>
 
                                 <!-- PRICE -->
                                 <TextBlock
-                                    Text="{Binding Harga, StringFormat='Rp {0:N0}'}"
-                                    Foreground="#D7CCC8"/>
+                                Text="{Binding Harga, StringFormat='Rp {0:N0}'}"
+                                Foreground="#D7CCC8"/>
 
                                 <!-- STOCK -->
                                 <TextBlock
-                                    Text="{Binding Stock, StringFormat='Stock: {0}'}"
-                                    Foreground="#D7CCC8"/>
+                                Text="{Binding Stock, StringFormat='Stock: {0}'}"
+                                Foreground="#D7CCC8"/>
 
                                 <!-- ACTION BUTTONS -->
                                 <StackPanel
-                                    Orientation="Horizontal"
-                                    Spacing="10">
+                                Orientation="Horizontal"
+                                Spacing="10">
 
-                                    <Button
+                                        <Button
                                         Content="Edit"
                                         Background="#8D6E63"
                                         Command="{Binding $parent[UserControl].DataContext.UpdateProductCommand}"
                                         CommandParameter="{Binding}" />
 
                                     <Button
-                                        Content="Delete"
-                                        Background="#A1887F"
-                                        Command="{Binding $parent[UserControl].DataContext.DeleteProductCommand}"
-                                        CommandParameter="{Binding}" />
+                                    Content="Delete"
+                                    Background="#A1887F"
+                                    Click="Delete_Click"
+                                    Tag="{Binding}" />
 
                                 </StackPanel>
 
