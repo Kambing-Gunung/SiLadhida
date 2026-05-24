@@ -1,12 +1,13 @@
 using System;
+using Avalonia.Controls;
 
 namespace SiLadhida.App.Services;
 
 public class NavigationService
 {
-    public event Action<object>? OnViewChanged;
+    public event Action<UserControl>? OnViewChanged;
 
-    public void Navigate(object view)
+    public void Navigate(UserControl view)
     {
         OnViewChanged?.Invoke(view);
     }

@@ -1,0 +1,48 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:SiLadhida.App.Components"
+    x:Class="SiLadhida.App.Views.DashboardLayout">
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <components:Sidebar Grid.Column="0"/>
+
+        <!-- Main Area -->
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Topbar -->
+            <Border
+                Background="#5D4037"
+                Grid.Row="0">
+
+                <TextBlock
+                    Text="Admin Dashboard"
+                    FontSize="24"
+                    Foreground="White"
+                    VerticalAlignment="Center"
+                    Margin="20,0"/>
+
+            </Border>
+
+            <!-- Dynamic Content -->
+            <ContentControl
+                Name="DashboardContent"
+                Grid.Row="1"/>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

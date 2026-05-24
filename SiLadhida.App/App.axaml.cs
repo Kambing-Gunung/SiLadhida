@@ -7,7 +7,7 @@ namespace SiLadhida.App;
 
 public partial class App : Application
 {
-    public static NavigationService Navigation { get; } = new();
+    public static NavigationService Navigation { get; } = new NavigationService();
     
     public override void Initialize()
     {

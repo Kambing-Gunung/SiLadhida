@@ -9,11 +9,23 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
+        var layout = new DashboardLayout();
+
+        MainContent.Content = layout;
+
         App.Navigation.OnViewChanged += view =>
         {
-            MainContent.Content = view;
+            if (view is LoginView)
+            {
+                MainContent.Content = view;
+            }
+            else
+            {
+                layout.SetContent(view);
+                MainContent.Content = layout;
+            }
         };
 
-        MainContent.Content = new DashboardView();
+        MainContent.Content = new LoginView();
     }
 }
