@@ -4,7 +4,6 @@ using SiLadhida.App.Models;
 using SiLadhida.App.Services;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using SiLadhida.App.Views;
 
 namespace SiLadhida.App.ViewModels;
 
@@ -12,8 +11,19 @@ public partial class ProdukViewModel : ObservableObject
 {
     private readonly ProductApiService _service;
 
-    [ObservableProperty]
-    private ObservableCollection<Product> products = new();
+    private ObservableCollection<Product> _products = new();
+    public ObservableCollection<Product> Products
+    {
+        get => _products;
+        set => SetProperty(ref _products, value);
+    }
+
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set => SetProperty(ref _isLoading, value);
+    }
 
     public ProdukViewModel()
     {
@@ -25,30 +35,23 @@ public partial class ProdukViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadProductsAsync()
     {
-        var data = await _service.GetProductsAsync();
+        try
+        {
+            IsLoading = true;
 
-        Products = new ObservableCollection<Product>(data);
+            var data = await _service.GetProductsAsync();
+
+            Products = new ObservableCollection<Product>(data ?? []);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]
-    private async Task CreateProductAsync()
+    public async Task CreateProductAsync(Product product)
     {
-        var dialog = new ProductDialog();
-
-        var result = await dialog.ShowDialog<ProductFormModel?>(
-            App.MainWindow!
-        );
-
-        if (result == null)
-            return;
-
-        var product = new Product
-        {
-            Nama = result.Nama,
-            Harga = result.Harga,
-            Stock = result.Stock
-        };
-
         await _service.CreateProductAsync(product);
 
         await LoadProductsAsync();
