@@ -4,6 +4,7 @@ using SiLadhida.App.Models;
 using SiLadhida.App.Services;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using SiLadhida.App.Views;
 
 namespace SiLadhida.App.ViewModels;
 
@@ -32,14 +33,23 @@ public partial class ProdukViewModel : ObservableObject
     [RelayCommand]
     private async Task CreateProductAsync()
     {
-        var newProduct = new Product
+        var dialog = new ProductDialog();
+
+        var result = await dialog.ShowDialog<ProductFormModel?>(
+            App.MainWindow!
+        );
+
+        if (result == null)
+            return;
+
+        var product = new Product
         {
-            Nama = "Produk Baru",
-            Harga = 10000,
-            Stock = 10
+            Nama = result.Nama,
+            Harga = result.Harga,
+            Stock = result.Stock
         };
 
-        await _service.CreateProductAsync(newProduct);
+        await _service.CreateProductAsync(product);
 
         await LoadProductsAsync();
     }

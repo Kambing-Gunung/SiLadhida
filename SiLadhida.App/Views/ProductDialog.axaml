@@ -1,0 +1,31 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:SiLadhida.App.Models"
+    x:Class="SiLadhida.App.Views.ProductDialog"
+    x:DataType="models:ProductFormModel"
+    Width="400"
+    Height="350"
+    Title="Tambah Produk">
+
+    <StackPanel Margin="20" Spacing="10">
+
+        <TextBlock Text="Nama Produk"/>
+
+        <TextBox Text="{Binding Nama}" />
+
+        <TextBlock Text="Harga"/>
+
+        <TextBox Text="{Binding Harga}" />
+
+        <TextBlock Text="Stock"/>
+
+        <TextBox Text="{Binding Stock}" />
+
+        <Button
+            Content="Simpan"
+            HorizontalAlignment="Right"
+            Width="100"
+            Click="Save_Click"/>
+    </StackPanel>
+</Window>
