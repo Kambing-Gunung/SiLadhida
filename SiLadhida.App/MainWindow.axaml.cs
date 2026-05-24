@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using SiLadhida.App.Views;
+using System.Threading.Tasks;
 
 namespace SiLadhida.App;
 
@@ -26,6 +27,20 @@ public partial class MainWindow : Window
             }
         };
 
+        App.Notification.OnSuccess += ShowToast;
+        App.Notification.OnError += ShowToast;
+
         MainContent.Content = new LoginView();
+    }
+
+    private async void ShowToast(string message)
+    {
+        ToastText.Text = message;
+
+        ToastBorder.IsVisible = true;
+
+        await Task.Delay(2500);
+
+        ToastBorder.IsVisible = false;
     }
 }

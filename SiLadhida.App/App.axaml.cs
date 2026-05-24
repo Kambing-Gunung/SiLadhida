@@ -9,8 +9,9 @@ namespace SiLadhida.App;
 public partial class App : Application
 {
     public static NavigationService Navigation { get; } = new NavigationService();
+    public static NotificationService Notification { get; } = new NotificationService();
     public static Window? MainWindow { get; private set; }
-    
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);

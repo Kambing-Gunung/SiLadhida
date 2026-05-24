@@ -6,6 +6,27 @@
     Height="700"
     Title="SiLadhida">
 
-    <ContentControl Name="MainContent"/>
+    <Grid>
+
+    <ContentControl
+        x:Name="MainContent"/>
+
+    <Border
+        x:Name="ToastBorder"
+        Background="#323232"
+        CornerRadius="10"
+        Padding="16"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Bottom"
+        Margin="20"
+        IsVisible="False">
+
+        <TextBlock
+            x:Name="ToastText"
+            Foreground="White"/>
+
+    </Border>
+
+</Grid>
 
 </Window>

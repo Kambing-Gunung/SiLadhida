@@ -1,3 +1,4 @@
+using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SiLadhida.App.Models;
@@ -43,6 +44,10 @@ public partial class ProdukViewModel : ObservableObject
 
             Products = new ObservableCollection<Product>(data ?? []);
         }
+        catch (Exception ex)
+        {
+            App.Notification.ShowError(ex.Message);
+        }
         finally
         {
             IsLoading = false;
@@ -55,6 +60,8 @@ public partial class ProdukViewModel : ObservableObject
         await _service.CreateProductAsync(product);
 
         await LoadProductsAsync();
+
+        App.Notification.ShowSuccess("Produk berhasil ditambahkan");
     }
 
     [RelayCommand]
@@ -68,6 +75,8 @@ public partial class ProdukViewModel : ObservableObject
         await _service.UpdateProductAsync(product);
 
         await LoadProductsAsync();
+
+        App.Notification.ShowSuccess("Produk berhasil diperbarui");
     }
 
     [RelayCommand]
@@ -79,5 +88,7 @@ public partial class ProdukViewModel : ObservableObject
         await _service.DeleteProductAsync(product.Id);
 
         await LoadProductsAsync();
+
+        App.Notification.ShowSuccess("Produk berhasil dihapus");
     }
 }
