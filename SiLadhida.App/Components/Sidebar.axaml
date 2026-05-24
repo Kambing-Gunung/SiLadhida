@@ -3,25 +3,43 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="SiLadhida.App.Components.Sidebar">
 
-    <Border Background="#5C3D2E">
+    <Border
+        Background="#3E2723"
+        Width="220">
 
-        <StackPanel Margin="20" Spacing="15">
-
-            <!-- LOGO -->
+        <StackPanel Margin="20" Spacing="10">
 
             <TextBlock
                 Text="SiLadhida"
                 FontSize="28"
                 FontWeight="Bold"
                 Foreground="White"
-                Margin="0,20,0,30" />
+                Margin="0,0,0,30"/>
 
-            <!-- MENU -->
+            <Button
+                Name="DashboardButton"
+                Content="Dashboard"
+                Click="Dashboard_Click"/>
 
-            <Button Content="Dashboard" Click="Dashboard_Click" />
-            <Button Content="Kasir" Click="Kasir_Click" />
-            <Button Content="Produk" Click="Produk_Click" />
-            <Button Content="Pesanan" Click="Pesanan_Click" />
+            <Button
+                Name="ProdukButton"
+                Content="Produk"
+                Click="Produk_Click"/>
+
+            <Button
+                Name="PesananButton"
+                Content="Pesanan"
+                Click="Pesanan_Click"/>
+
+            <Button
+                Name="KasirButton"
+                Content="Kasir"
+                Click="Kasir_Click"/>
+
+            <Button
+                Name="LogoutButton"
+                Content="Logout"
+                Click="Logout_Click"/>
 
         </StackPanel>
 

@@ -1,9 +1,14 @@
 using SiLadhida.Core.Enums;
 
-namespace SiLadhida.API.DTOs
+namespace SiLadhida.API.DTOs;
+
+/// <summary>
+/// Data transfer object for updating an order status
+/// </summary>
+public class UpdateStatusDto
 {
-    public class UpdateStatusDto
-    {
-        public StateTrigger Trigger { get; set; }
-    }
+    /// <summary>
+    /// The state transition trigger for status update
+    /// </summary>
+    public StateTrigger Trigger { get; set; }
 }

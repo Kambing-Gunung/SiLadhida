@@ -1,32 +1,60 @@
 using Microsoft.AspNetCore.Mvc;
+using SiLadhida.API.Common;
 using SiLadhida.Core.Services;
 
-namespace SiLadhida.API.Controllers
+namespace SiLadhida.API.Controllers;
+
+[ApiController]
+[Route("api/lookup")]
+public class LookupController : ControllerBase
 {
-    [ApiController]
-    [Route("api/lookup")]
-    public class LookupController : ControllerBase
+    private readonly ProdukLookupService _service;
+    private readonly ILogger<LookupController> _logger;
+
+    public LookupController(
+        ProdukLookupService service,
+        ILogger<LookupController> logger)
     {
-        private readonly ProdukLookupService _service;
+        _service = service;
+        _logger = logger;
+    }
 
-        public LookupController(ProdukLookupService service)
+    [HttpGet("{kode}")]
+    public IActionResult GetProduk(string kode)
+    {
+        if (string.IsNullOrWhiteSpace(kode))
         {
-            _service = service;
+            return BadRequest(
+                ApiResponse<object>.ErrorResponse(
+                    "Kode produk tidak boleh kosong"
+                )
+            );
         }
 
-        [HttpGet("{kode}")]
-        public IActionResult GetProduk(string kode)
+        _logger.LogInformation("Looking up product with code {ProductCode}", kode);
+
+        var nama = _service.GetNamaProduk(kode);
+
+        if (nama == null)
         {
-            var nama = _service.GetNamaProduk(kode);
+            _logger.LogWarning("Product not found with code {ProductCode}", kode);
 
-            if (nama == null)
-                return NotFound("Kode produk tidak ditemukan");
-
-            return Ok(new
-            {
-                kode,
-                namaProduk = nama
-            });
+            return NotFound(
+                ApiResponse<object>.ErrorResponse(
+                    "Kode produk tidak ditemukan"
+                )
+            );
         }
+
+        return Ok(
+            ApiResponse<object>.SuccessResponse(
+                new
+                {
+                    kode,
+                    namaProduk = nama
+                },
+                "Produk ditemukan"
+            )
+        );
     }
 }

@@ -1,0 +1,53 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.ViewModels"
+    x:Class="SiLadhida.App.Views.LoginView"
+    x:DataType="vm:LoginViewModel">
+
+    <Design.DataContext>
+        <vm:LoginViewModel/>
+    </Design.DataContext>
+
+    <Grid Background="#3E2723">
+
+        <Border
+            Width="350"
+            Padding="30"
+            CornerRadius="15"
+            Background="#5D4037"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <StackPanel Spacing="15">
+
+                <TextBlock
+                    Text="Login Admin"
+                    FontSize="28"
+                    Foreground="White"
+                    HorizontalAlignment="Center"/>
+
+                <TextBox
+                    Text="{Binding Username}"
+                    Watermark="Username"/>
+
+                <TextBox
+                    Text="{Binding Password}"
+                    PasswordChar="*"
+                    Watermark="Password"/>
+
+                <Button
+                    Content="Login"
+                    Command="{Binding LoginCommand}"/>
+
+                <TextBlock
+                    Text="{Binding Message}"
+                    Foreground="White"/>
+
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+
+</UserControl>

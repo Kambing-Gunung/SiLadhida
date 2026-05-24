@@ -4,7 +4,7 @@ using SiLadhida.API.DTOs;
 namespace SiLadhida.API.Validators;
 
 public class CreateOrderItemDtoValidator
-    : AbstractValidator<CreateOrderItemDto>
+    : AbstractValidator<OrderItemDto>
 {
     public CreateOrderItemDtoValidator()
     {

@@ -1,33 +1,61 @@
 using Microsoft.AspNetCore.Mvc;
-using SiLadhida.API.Data;
+using SiLadhida.API.Common;
+using SiLadhida.API.Services.Interfaces;
 using SiLadhida.Core.Entities;
 
-namespace SiLadhida.API.Controllers
+namespace SiLadhida.API.Controllers;
+
+[ApiController]
+[Route("api/products")]
+public class ProductController : ControllerBase
 {
-    [ApiController]
-    [Route("api/products")]
-    public class ProductController : ControllerBase
+    private readonly IProductService _service;
+    private readonly ILogger<ProductController> _logger;
+
+    public ProductController(
+        IProductService service,
+        ILogger<ProductController> logger)
     {
-        private readonly AppDbContext _context;
+        _service = service;
+        _logger = logger;
+    }
 
-        public ProductController(AppDbContext context)
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        _logger.LogInformation("Fetching all products");
+
+        var data = await _service.GetAllAsync();
+
+        return Ok(
+            ApiResponse<object>.SuccessResponse(
+                data,
+                "Berhasil mengambil data produk"
+            )
+        );
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] Produk produk)
+    {
+        if (produk == null)
         {
-            _context = context;
+            return BadRequest(
+                ApiResponse<object>.ErrorResponse(
+                    "Data produk tidak valid"
+                )
+            );
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var data = _context.Produk.ToList();
-            return Ok(data);
-        }
+        _logger.LogInformation("Creating new product: {ProductName}", produk.Nama);
 
-        [HttpPost]
-        public IActionResult Create(Produk produk)
-        {
-            _context.Produk.Add(produk);
-            _context.SaveChanges();
-            return Ok(produk);
-        }
+        var result = await _service.CreateAsync(produk);
+
+        return Ok(
+            ApiResponse<object>.SuccessResponse(
+                result,
+                "Produk berhasil dibuat"
+            )
+        );
     }
 }

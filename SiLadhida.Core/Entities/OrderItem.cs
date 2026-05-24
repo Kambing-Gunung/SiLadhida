@@ -9,11 +9,11 @@ public class OrderItem
     public int PesananId { get; set; }
 
     [JsonIgnore]
-    public Pesanan Pesanan { get; set; }
+    public Pesanan? Pesanan { get; set; }
 
     public int ProdukId { get; set; }
     
-    public Produk Produk { get; set; }
+    public Produk? Produk { get; set; }
 
     public int Quantity { get; set; }
 
