@@ -28,9 +28,9 @@ namespace SiLadhida.Core.Services
             return _machine.GetNextState(current, trigger);
         }
 
-        public int HitungTotal(List<OrderItem> items)
+        public decimal HitungTotal(List<OrderItem> items)
         {
-            int total = 0;
+            decimal total = 0;
 
             foreach (var item in items)
             {

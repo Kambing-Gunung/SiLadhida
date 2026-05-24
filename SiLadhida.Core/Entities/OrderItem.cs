@@ -17,5 +17,5 @@ public class OrderItem
 
     public int Quantity { get; set; }
 
-    public int Harga { get; set; }
+    public decimal Harga { get; set; }
 }

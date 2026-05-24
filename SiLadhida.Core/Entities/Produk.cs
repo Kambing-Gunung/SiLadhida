@@ -7,8 +7,8 @@ namespace SiLadhida.Core.Entities
         public int Id { get; set; }
         public string Nama { get; set; } = string.Empty;
 
-        private int _harga;
-        public int Harga
+        private decimal _harga;
+        public decimal Harga
         {
             get => _harga;
             set

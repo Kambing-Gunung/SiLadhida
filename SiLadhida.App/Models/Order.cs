@@ -10,7 +10,7 @@ namespace SiLadhida.App.Models
 
         public string StatusSekarang { get; set; } = string.Empty;
 
-        public int TotalHarga { get; set; }
+        public decimal TotalHarga { get; set; }
 
         public List<OrderItem> Items { get; set; } = new();
     }
