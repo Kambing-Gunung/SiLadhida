@@ -1,8 +1,85 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="SiLadhida.App.Views.ProdukView">
+    xmlns:vm="using:SiLadhida.App.ViewModels"
+    xmlns:model="using:SiLadhida.App.Models"
+    x:Class="SiLadhida.App.Views.ProdukView"
+    x:DataType="vm:ProdukViewModel">
 
-        <TextBlock Text="Produk"/>
+    <UserControl.DataContext>
+        <vm:ProdukViewModel/>
+    </UserControl.DataContext>
+
+    <ScrollViewer>
+
+        <StackPanel Margin="20">
+
+            <TextBlock
+                Text="Manajemen Produk"
+                FontSize="28"
+                FontWeight="Bold"
+                Margin="0,0,0,20"/>
+
+            <ItemsControl ItemsSource="{Binding Products}">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+
+                    <DataTemplate x:DataType="model:Product">
+
+                        <Border
+                            Width="220"
+                            Margin="10"
+                            Padding="16"
+                            CornerRadius="16"
+                            Background="#4E342E">
+
+                            <StackPanel Spacing="10">
+
+                                <TextBlock
+                                    Text="{Binding Nama}"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="White"/>
+
+                                <TextBlock
+                                    Text="{Binding Harga, StringFormat='Rp {0:N0}'}"
+                                    Foreground="#D7CCC8"/>
+
+                                <TextBlock
+                                    Text="{Binding Stock, StringFormat='Stock: {0}'}"
+                                    Foreground="#D7CCC8"/>
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="10">
+
+                                    <Button
+                                        Content="Edit"
+                                        Background="#8D6E63"/>
+
+                                    <Button
+                                        Content="Delete"
+                                        Background="#A1887F"/>
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </Border>
+
+                    </DataTemplate>
+
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </StackPanel>
+
+    </ScrollViewer>
 
 </UserControl>

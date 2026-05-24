@@ -1,9 +1,7 @@
-namespace SiLadhida.App.Models;
+namespace SiLadhida.API.DTOs;
 
-public class Product
+public class CreateProductDto
 {
-    public int Id { get; set; }
-
     public string Nama { get; set; } = string.Empty;
 
     public decimal Harga { get; set; }

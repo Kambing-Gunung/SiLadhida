@@ -1,4 +1,5 @@
 using SiLadhida.Core.Entities;
+using SiLadhida.API.DTOs;
 
 namespace SiLadhida.API.Services.Interfaces;
 
@@ -21,4 +22,14 @@ public interface IProductService
     /// Creates a new product
     /// </summary>
     Task<Produk> CreateAsync(Produk produk);
+
+    /// <summary>
+    /// Updates an existing product
+    /// </summary>
+    Task<Produk?> UpdateAsync(int id, UpdateProductDto dto);
+
+    /// <summary>
+    /// Deletes a product by its ID
+    /// </summary>
+    Task<bool> DeleteAsync(int id);
 }
