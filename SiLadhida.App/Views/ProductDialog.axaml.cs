@@ -16,8 +16,27 @@ public partial class ProductDialog : Window
         DataContext = Product;
     }
 
-    private void Save_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void Save_Click(
+    object? sender,
+    Avalonia.Interactivity.RoutedEventArgs e)
     {
+        if (!Product.IsValid())
+        {
+            ErrorText.Text =
+                "Semua field wajib valid";
+
+            ErrorText.IsVisible = true;
+
+            return;
+        }
+
         Close(Product);
+    }
+
+    private void Cancel_Click(
+        object? sender,
+        Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        Close(null);
     }
 }

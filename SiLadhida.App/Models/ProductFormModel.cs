@@ -1,10 +1,23 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace SiLadhida.App.Models;
 
-public class ProductFormModel
+public partial class ProductFormModel : ObservableObject
 {
-    public string Nama { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string nama = string.Empty;
 
-    public decimal Harga { get; set; }
+    [ObservableProperty]
+    private decimal harga;
 
-    public int Stock { get; set; }
+    [ObservableProperty]
+    private int stock;
+
+    public bool IsValid()
+    {
+        return
+            !string.IsNullOrWhiteSpace(Nama)
+            && Harga > 0
+            && Stock >= 0;
+    }
 }
