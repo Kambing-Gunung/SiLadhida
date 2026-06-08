@@ -10,44 +10,33 @@ public class OrderApiService : ApiService
 {
     public async Task<List<Order>> GetOrdersAsync()
     {
-        try
-        {
-            var response = await HttpClient.GetAsync(
-                "api/orders"
-            );
+        var response = await HttpClient.GetFromJsonAsync<
+            ApiResponse<List<Order>>
+        >("api/orders");
 
-            Console.WriteLine(
-                $"STATUS: {response.StatusCode}"
-            );
+        return response?.Data ?? new List<Order>();
+    }
 
-            if (!response.IsSuccessStatusCode)
-            {
-                Console.WriteLine(
-                    $"ERROR GET ORDERS: {response.StatusCode}"
-                );
+    public async Task CreateOrderAsync(Order order)
+    {
+        var response = await HttpClient.PostAsJsonAsync(
+            "api/orders",
+            order
+        );
+    }
 
-                return new List<Order>();
-            }
+    public async Task UpdateOrderAsync(Order order)
+    {
+        await HttpClient.PutAsJsonAsync(
+            $"api/orders/{order.Id}",
+            order
+        );
+    }
 
-            var result = await response.Content
-                .ReadFromJsonAsync<
-                    ApiResponse<List<Order>>
-                >();
-
-            Console.WriteLine(
-                $"TOTAL DATA: {result?.Data?.Count}"
-            );
-
-            return result?.Data
-                ?? new List<Order>();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(
-                $"SERVICE ERROR: {ex.Message}"
-            );
-
-            return new List<Order>();
-        }
+    public async Task DeleteOrderAsync(int id)
+    {
+        await HttpClient.DeleteAsync(
+            $"api/orders/{id}"
+        );
     }
 }

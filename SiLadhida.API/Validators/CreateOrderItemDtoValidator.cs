@@ -8,7 +8,7 @@ public class CreateOrderItemDtoValidator
 {
     public CreateOrderItemDtoValidator()
     {
-        RuleFor(x => x.ProdukId)
+        RuleFor(x => x.ProductId)
             .GreaterThan(0)
             .WithMessage("Produk ID tidak valid");
 

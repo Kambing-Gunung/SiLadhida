@@ -24,7 +24,7 @@ public class OrderItemDto
     /// <summary>
     /// The product ID for this order item
     /// </summary>
-    public int ProdukId { get; set; }
+    public int ProductId { get; set; }
 
     /// <summary>
     /// The quantity of the product ordered

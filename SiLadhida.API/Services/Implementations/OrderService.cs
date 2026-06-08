@@ -16,26 +16,26 @@ namespace SiLadhida.API.Services.Implementations;
 public class OrderService : IOrderService
 {
     private readonly AppDbContext _context;
-    private readonly IPesananRepository _repository;
-    private readonly PesananService _pesananService;
+    private readonly IOrderRepository _repository;
+    private readonly Core.Services.OrderService _orderService;
     private readonly ILogger<OrderService> _logger;
     private readonly IMapper _mapper;
 
     public OrderService(
         AppDbContext context,
-        IPesananRepository repository,
-        PesananService pesananService,
+        IOrderRepository repository,
+        Core.Services.OrderService orderService,
         ILogger<OrderService> logger,
         IMapper mapper)
     {
         _context = context;
         _repository = repository;
-        _pesananService = pesananService;
+        _orderService = orderService;
         _logger = logger;
         _mapper = mapper;
     }
 
-    public async Task<List<Pesanan>> GetAllAsync()
+    public async Task<List<Order>> GetAllAsync()
     {
         _logger.LogInformation("Retrieving all orders");
         return await _repository.GetAllAsync();
@@ -52,10 +52,10 @@ public class OrderService : IOrderService
 
         try
         {
-            var order = new Pesanan
+            var order = new Order
             {
                 NamaPemesan = dto.NamaPemesan,
-                StatusSekarang = _pesananService.GetInitialStatus()
+                StatusSekarang = _orderService.GetInitialStatus()
             };
 
             var items = new List<OrderItem>();
@@ -65,32 +65,32 @@ public class OrderService : IOrderService
             {
                 foreach (var itemDto in dto.Items)
                 {
-                    var produk = await _context.Produk.FindAsync(itemDto.ProdukId);
+                    var product = await _context.Product.FindAsync(itemDto.ProductId);
 
-                    if (produk == null)
+                    if (product == null)
                     {
-                        _logger.LogError("Product with ID {ProductId} not found", itemDto.ProdukId);
+                        _logger.LogError("Product with ID {ProductId} not found", itemDto.ProductId);
                         throw new InvalidOperationException(
-                            $"Produk ID {itemDto.ProdukId} tidak ditemukan");
+                            $"Produk ID {itemDto.ProductId} tidak ditemukan");
                     }
 
-                    if (itemDto.Quantity > produk.Stock)
+                    if (itemDto.Quantity > product.Stock)
                     {
                         _logger.LogError("Insufficient stock for product {ProductName}. Required: {Required}, Available: {Available}",
-                            produk.Nama, itemDto.Quantity, produk.Stock);
+                            product.Nama, itemDto.Quantity, product.Stock);
 
                         throw new InvalidOperationException(
-                            $"Stock produk {produk.Nama} tidak mencukupi");
+                            $"Stock produk {product.Nama} tidak mencukupi");
                     }
 
                     var item = new OrderItem
                     {
-                        ProdukId = produk.Id,
+                        ProductId = product.Id,
                         Quantity = itemDto.Quantity,
-                        Harga = produk.Harga
+                        Harga = product.Harga
                     };
 
-                    produk.Stock -= itemDto.Quantity;
+                    product.Stock -= itemDto.Quantity;
                     items.Add(item);
                 }
             }
@@ -100,10 +100,10 @@ public class OrderService : IOrderService
             // Link items to order
             foreach (var item in items)
             {
-                item.Pesanan = order;
+                item.Order = order;
             }
 
-            order.TotalHarga = _pesananService.HitungTotal(items);
+            order.TotalHarga = _orderService.HitungTotal(items);
 
             await _repository.AddAsync(order);
             await _repository.SaveChangesAsync();
@@ -122,7 +122,7 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<Pesanan?> UpdateStatusAsync(int id, UpdateStatusDto dto)
+    public async Task<Order?> UpdateStatusAsync(int id, UpdateStatusDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto);
 
@@ -136,7 +136,7 @@ public class OrderService : IOrderService
             return null;
         }
 
-        if (!_pesananService.IsValidTransition(order.StatusSekarang, dto.Trigger))
+        if (!_orderService.IsValidTransition(order.StatusSekarang, dto.Trigger))
         {
             _logger.LogWarning("Invalid status transition from {CurrentStatus} with trigger {Trigger}",
                 order.StatusSekarang, dto.Trigger);
@@ -144,7 +144,7 @@ public class OrderService : IOrderService
             throw new InvalidOperationException("Transisi status tidak valid");
         }
 
-        order.StatusSekarang = _pesananService.GetNextState(order.StatusSekarang, dto.Trigger);
+        order.StatusSekarang = _orderService.GetNextState(order.StatusSekarang, dto.Trigger);
 
         await _repository.SaveChangesAsync();
 

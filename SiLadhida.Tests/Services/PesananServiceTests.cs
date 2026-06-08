@@ -7,7 +7,7 @@ namespace SiLadhida.Tests.Services
 {
     public class PesananServiceTests
     {
-        private readonly PesananService _service;
+        private readonly OrderService _service;
 
         public PesananServiceTests()
         {

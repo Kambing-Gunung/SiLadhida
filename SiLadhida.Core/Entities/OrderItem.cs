@@ -6,14 +6,14 @@ public class OrderItem
 {
     public int Id { get; set; }
 
-    public int PesananId { get; set; }
+    public int OrderId { get; set; }
 
     [JsonIgnore]
-    public Pesanan? Pesanan { get; set; }
+    public Order? Order { get; set; }
 
-    public int ProdukId { get; set; }
+    public int ProductId { get; set; }
     
-    public Produk? Produk { get; set; }
+    public Product? Product { get; set; }
 
     public int Quantity { get; set; }
 

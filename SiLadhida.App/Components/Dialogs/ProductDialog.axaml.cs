@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using SiLadhida.App.Models;
 
-namespace SiLadhida.App.Views;
+namespace SiLadhida.App.Components.Dialogs;
 
-public partial class ProductDialog : Window
+public partial class ProductDialog : UserControl
 {
     public ProductFormModel Product { get; private set; }
 
@@ -18,6 +18,8 @@ public partial class ProductDialog : Window
 
     public ProductDialog(Product product)
     {
+        InitializeComponent();
+
         Product = new ProductFormModel
         {
             Nama = product.Nama,
@@ -42,13 +44,15 @@ public partial class ProductDialog : Window
             return;
         }
 
-        Close(Product);
+        var window = TopLevel.GetTopLevel(this) as Window;
+        window?.Close(Product);
     }
 
     private void Cancel_Click(
         object? sender,
         Avalonia.Interactivity.RoutedEventArgs e)
     {
-        Close(null);
+        var window = TopLevel.GetTopLevel(this) as Window;
+        window?.Close(null);
     }
 }

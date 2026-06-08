@@ -10,9 +10,9 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Produk> Produk => Set<Produk>();
+    public DbSet<Product> Product => Set<Product>();
 
-    public DbSet<Pesanan> Pesanan => Set<Pesanan>();
+    public DbSet<Order> Order => Set<Order>();
 
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
@@ -21,36 +21,36 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // PRODUCT SEED
-        modelBuilder.Entity<Produk>().HasData(
-            new Produk
+        modelBuilder.Entity<Product>().HasData(
+            new Product
             {
                 Id = 1,
                 Nama = "Espresso",
                 Harga = 18000,
                 Stock = 50
             },
-            new Produk
+            new Product
             {
                 Id = 2,
                 Nama = "Cappuccino",
                 Harga = 25000,
                 Stock = 40
             },
-            new Produk
+            new Product
             {
                 Id = 3,
                 Nama = "Latte",
                 Harga = 28000,
                 Stock = 35
             },
-            new Produk
+            new Product
             {
                 Id = 4,
                 Nama = "Americano",
                 Harga = 22000,
                 Stock = 60
             },
-            new Produk
+            new Product
             {
                 Id = 5,
                 Nama = "Croissant",

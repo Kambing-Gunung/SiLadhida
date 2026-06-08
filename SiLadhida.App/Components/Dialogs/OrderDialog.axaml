@@ -1,0 +1,54 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:SiLadhida.App.Models"
+    x:Class="SiLadhida.App.Components.Dialogs.OrderDialog"
+    x:DataType="models:OrderFormModel">
+
+    <StackPanel Margin="20" Spacing="10">
+
+        <TextBlock Text="Nama Order"/>
+
+        <TextBox
+        Text="{Binding NamaPemesan}"
+        PlaceholderText="Masukkan nama order"/>
+
+        <TextBlock Text="Status Sekarang"/>
+
+        <TextBox
+        Text="{Binding StatusSekarang}"
+        PlaceholderText="Masukkan status sekarang"/>
+
+        <TextBlock Text="Total Harga"/>
+
+        <TextBox
+        Text="{Binding TotalHarga}"
+        PlaceholderText="Masukkan total harga"/>
+
+        <TextBlock Text="Items"/>
+
+        <TextBox
+        Text="{Binding Items}"
+        PlaceholderText="Masukkan items"/>
+
+        <TextBlock
+        x:Name="ErrorText"
+        Foreground="Red"
+        IsVisible="False"/>
+
+        <Button
+        Content="Simpan"
+        HorizontalAlignment="Right"
+        Width="100"
+        Click="Save_Click"/>
+
+        <Button
+        Content="Batal"
+        HorizontalAlignment="Right"
+        Width="100"
+        Margin="0,10,0,0"
+        Click="Cancel_Click"/>
+
+    </StackPanel>
+
+</UserControl>

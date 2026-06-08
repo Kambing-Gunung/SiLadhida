@@ -5,11 +5,11 @@ using SiLadhida.Core.Enums;
 
 namespace SiLadhida.Core.StateMachines
 {
-    public class PesananStateMachine
+    public class OrderStateMachine
     {
         private readonly Dictionary<(StateOrder, StateTrigger), StateOrder> _transitions;
 
-        public PesananStateMachine()
+        public OrderStateMachine()
         {
 
             _transitions = new Dictionary<(StateOrder, StateTrigger), StateOrder>

@@ -8,7 +8,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Pesanan, CreateOrderResponseDto>()
+        CreateMap<Order, CreateOrderResponseDto>()
             .ForMember(
                 dest => dest.Status,
                 opt => opt.MapFrom(src => src.StatusSekarang.ToString())

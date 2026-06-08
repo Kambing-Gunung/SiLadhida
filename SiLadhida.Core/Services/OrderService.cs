@@ -4,13 +4,13 @@ using SiLadhida.Core.StateMachines;
 
 namespace SiLadhida.Core.Services
 {
-    public class PesananService
+    public class OrderService
     {
-        private readonly PesananStateMachine _machine;
+        private readonly OrderStateMachine _machine;
 
-        public PesananService()
+        public OrderService()
         {
-            _machine = new PesananStateMachine();
+            _machine = new OrderStateMachine();
         }
 
         public bool IsValidTransition(StateOrder current, StateTrigger trigger)

@@ -19,11 +19,11 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IPesananRepository, PesananRepository>();
-        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderService, Services.Implementations.OrderService>();
         services.AddScoped<IProductService, ProductService>();
-        services.AddScoped<ProdukLookupService>();
-        services.AddScoped<PesananService>();
+        services.AddScoped<ProductLookupService>();
+        services.AddScoped<Core.Services.OrderService>();
 
         return services;
     }

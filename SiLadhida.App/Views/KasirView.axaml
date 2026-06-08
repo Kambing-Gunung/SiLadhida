@@ -1,8 +1,74 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.ViewModels"
+    
+    xmlns:components="using:SiLadhida.App.Components"
     x:Class="SiLadhida.App.Views.KasirView">
 
-    <TextBlock Text="Kasir"/>
-    
+    <!-- CONTENT -->
+    <Grid Grid.Column="1">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- TOPBAR -->
+        <components:Topbar Grid.Row="0">
+            <components:Topbar.DataContext>
+                <vm:TopbarViewModel Title="Daftar Kasir"/>
+            </components:Topbar.DataContext>
+        </components:Topbar>
+
+        <!-- MAIN CONTENT -->
+        <ScrollViewer Grid.Row="1">
+
+            <StackPanel Margin="20" Spacing="20">
+
+                <ListBox Name="OrderListBox">
+
+                    <ListBox.ItemTemplate>
+
+                        <DataTemplate
+                            x:DataType="vm:OrderViewModel">
+
+                            <Border
+                                Background="#3E2723"
+                                CornerRadius="10"
+                                Padding="15"
+                                Margin="0,0,0,10">
+
+                                <!-- <StackPanel Spacing="5">
+
+                                    <TextBlock
+                                        Text="{Binding NamaPemesan}"
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        Foreground="White"/>
+
+                                    <TextBlock
+                                        Text="{Binding StatusSekarang}"
+                                        Foreground="#D7CCC8"/>
+
+                                    <TextBlock
+                                        Text="{Binding TotalHarga}"
+                                        Foreground="#D7CCC8"/>
+
+                                </StackPanel> -->
+
+                            </Border>
+
+                        </DataTemplate>
+
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+    </Grid>
+
 </UserControl>
