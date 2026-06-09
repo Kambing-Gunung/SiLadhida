@@ -1,11 +1,11 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.ViewModels"
     xmlns:components="using:SiLadhida.App.Components"
     x:Class="SiLadhida.App.Views.DashboardView">
 
         <!-- CONTENT -->
-
         <Grid Grid.Column="1">
 
             <Grid.RowDefinitions>
@@ -14,8 +14,11 @@
             </Grid.RowDefinitions>
 
             <!-- TOPBAR -->
-
-            <components:Topbar Grid.Row="0"/>
+             <components:Topbar Grid.Row="0">
+                <components:Topbar.DataContext>
+                    <vm:TopbarViewModel Title="Dashboard Admin"/>
+                </components:Topbar.DataContext>
+            </components:Topbar>
 
             <!-- MAIN CONTENT -->
 
@@ -35,7 +38,7 @@
                         <Border
                             Width="220"
                             Height="120"
-                            Background="#FFF8F0"
+                            Background="#4E342E"
                             CornerRadius="12"
                             Padding="20"
                             Margin="10">
@@ -44,10 +47,12 @@
 
                                 <TextBlock
                                     Text="Total Produk"
+                                    Foreground="#D7CCC8"
                                     FontSize="18"/>
 
                                 <TextBlock
                                     Text="2"
+                                    Foreground="#D7CCC8"
                                     FontSize="40"
                                     FontWeight="Bold"/>
 
@@ -60,7 +65,7 @@
                         <Border
                             Width="220"
                             Height="120"
-                            Background="#FFF8F0"
+                            Background="#4E342E"
                             CornerRadius="12"
                             Padding="20"
                             Margin="10">
@@ -69,10 +74,12 @@
 
                                 <TextBlock
                                     Text="Total Pesanan"
+                                    Foreground="#D7CCC8"
                                     FontSize="18"/>
 
                                 <TextBlock
                                     Text="10"
+                                    Foreground="#D7CCC8"
                                     FontSize="40"
                                     FontWeight="Bold"/>
 

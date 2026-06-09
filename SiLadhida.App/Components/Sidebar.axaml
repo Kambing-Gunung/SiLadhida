@@ -19,27 +19,42 @@
             <Button
                 Name="DashboardButton"
                 Content="Dashboard"
-                Click="Dashboard_Click"/>
+                Click="Dashboard_Click"
+                Background="#4E342E"
+                Foreground="#D7CCC8"
+                Width="180"/>
 
             <Button
                 Name="ProdukButton"
                 Content="Produk"
-                Click="Produk_Click"/>
+                Click="Produk_Click"
+                Background="#4E342E"
+                Foreground="#D7CCC8"
+                Width="180"/>
 
             <Button
                 Name="PesananButton"
                 Content="Pesanan"
-                Click="Pesanan_Click"/>
+                Click="Pesanan_Click"
+                Background="#4E342E"
+                Foreground="#D7CCC8"
+                Width="180"/>
 
             <Button
                 Name="KasirButton"
                 Content="Kasir"
-                Click="Kasir_Click"/>
+                Click="Kasir_Click"
+                Background="#4E342E"
+                Foreground="#D7CCC8"
+                Width="180"/>
 
             <Button
                 Name="LogoutButton"
                 Content="Logout"
-                Click="Logout_Click"/>
+                Click="Logout_Click"
+                Background="#4E342E"
+                Foreground="#D7CCC8"
+                Width="180"/>
 
         </StackPanel>
 

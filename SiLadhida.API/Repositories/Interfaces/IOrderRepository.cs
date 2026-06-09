@@ -5,22 +5,22 @@ namespace SiLadhida.API.Repositories.Interfaces;
 /// <summary>
 /// Data access interface for order (Pesanan) entities
 /// </summary>
-public interface IPesananRepository
+public interface IOrderRepository
 {
     /// <summary>
     /// Retrieves all orders with their items and products
     /// </summary>
-    Task<List<Pesanan>> GetAllAsync();
+    Task<List<Order>> GetAllAsync();
 
     /// <summary>
     /// Retrieves a specific order by its ID with related items and products
     /// </summary>
-    Task<Pesanan?> GetByIdAsync(int id);
+    Task<Order?> GetByIdAsync(int id);
 
     /// <summary>
     /// Adds a new order to the database (does not save changes)
     /// </summary>
-    Task AddAsync(Pesanan pesanan);
+    Task AddAsync(Order order);
 
     /// <summary>
     /// Saves all pending changes to the database

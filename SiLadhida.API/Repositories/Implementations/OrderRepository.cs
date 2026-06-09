@@ -8,46 +8,46 @@ namespace SiLadhida.API.Repositories.Implementations;
 /// <summary>
 /// Provides data access for order (Pesanan) entities
 /// </summary>
-public class PesananRepository : IPesananRepository
+public class OrderRepository : IOrderRepository
 {
     private readonly AppDbContext _context;
-    private readonly ILogger<PesananRepository> _logger;
+    private readonly ILogger<OrderRepository> _logger;
 
-    public PesananRepository(
+    public OrderRepository(
         AppDbContext context,
-        ILogger<PesananRepository> logger)
+        ILogger<OrderRepository> logger)
     {
         _context = context;
         _logger = logger;
     }
 
-    public async Task<List<Pesanan>> GetAllAsync()
+    public async Task<List<Order>> GetAllAsync()
     {
         _logger.LogInformation("Retrieving all orders from database");
 
-        return await _context.Pesanan
+        return await _context.Order
             .Include(p => p.Items)
-            .ThenInclude(i => i.Produk)
+            .ThenInclude(i => i.Product)
             .ToListAsync();
     }
 
-    public async Task<Pesanan?> GetByIdAsync(int id)
+    public async Task<Order?> GetByIdAsync(int id)
     {
         _logger.LogInformation("Retrieving order with ID {OrderId}", id);
 
-        return await _context.Pesanan
+        return await _context.Order
             .Include(p => p.Items)
-            .ThenInclude(i => i.Produk)
+            .ThenInclude(i => i.Product)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public async Task AddAsync(Pesanan pesanan)
+    public async Task AddAsync(Order order)
     {
-        ArgumentNullException.ThrowIfNull(pesanan);
+        ArgumentNullException.ThrowIfNull(order);
 
         _logger.LogInformation("Adding new order to database");
 
-        await _context.Pesanan.AddAsync(pesanan);
+        await _context.Order.AddAsync(order);
     }
 
     public async Task SaveChangesAsync()

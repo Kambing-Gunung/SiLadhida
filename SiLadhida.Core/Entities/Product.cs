@@ -2,7 +2,7 @@ using System;
 
 namespace SiLadhida.Core.Entities
 {
-    public class Produk
+    public class Product
     {
         public int Id { get; set; }
         public string Nama { get; set; } = string.Empty;

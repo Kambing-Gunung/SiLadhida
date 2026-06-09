@@ -2,13 +2,13 @@ using SiLadhida.Core.Configs;
 
 namespace SiLadhida.Core.Services
 {
-    public class ProdukLookupService
+    public class ProductLookupService
     {
-        public string? GetNamaProduk(string kode)
+        public string? GetProductNama(string kode)
         {
-            if (DataProdukConfig.KodeProduk.ContainsKey(kode))
+            if (DataProductConfig.KodeProduk.ContainsKey(kode))
             {
-                return DataProdukConfig.KodeProduk[kode].Nama;
+                return DataProductConfig.KodeProduk[kode].Nama;
             }
 
             return null;

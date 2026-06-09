@@ -17,7 +17,7 @@ namespace SiLadhida.API.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Pesanan",
+                name: "Order",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -29,12 +29,12 @@ namespace SiLadhida.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pesanan", x => x.Id);
+                    table.PrimaryKey("PK_Order", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Produk",
+                name: "Product",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -46,7 +46,7 @@ namespace SiLadhida.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Produk", x => x.Id);
+                    table.PrimaryKey("PK_Product", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -56,8 +56,8 @@ namespace SiLadhida.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    PesananId = table.Column<int>(type: "int", nullable: false),
-                    ProdukId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Harga = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
                 },
@@ -65,22 +65,22 @@ namespace SiLadhida.API.Migrations
                 {
                     table.PrimaryKey("PK_OrderItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Pesanan_PesananId",
-                        column: x => x.PesananId,
-                        principalTable: "Pesanan",
+                        name: "FK_OrderItems_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Produk_ProdukId",
-                        column: x => x.ProdukId,
-                        principalTable: "Produk",
+                        name: "FK_OrderItems_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
-                table: "Produk",
+                table: "Product",
                 columns: new[] { "Id", "Harga", "Nama", "Stock" },
                 values: new object[,]
                 {
@@ -92,14 +92,14 @@ namespace SiLadhida.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_PesananId",
+                name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
-                column: "PesananId");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ProdukId",
+                name: "IX_OrderItems_ProductId",
                 table: "OrderItems",
-                column: "ProdukId");
+                column: "ProductId");
         }
 
         /// <inheritdoc />
@@ -109,10 +109,10 @@ namespace SiLadhida.API.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "Pesanan");
+                name: "Order");
 
             migrationBuilder.DropTable(
-                name: "Produk");
+                name: "Product");
         }
     }
 }

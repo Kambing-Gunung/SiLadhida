@@ -10,7 +10,7 @@ using SiLadhida.API.Data;
 namespace SiLadhida.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260524174630_InitialCreate")]
+    [Migration("20260608173820_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,34 +21,7 @@ namespace SiLadhida.API.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("SiLadhida.Core.Entities.OrderItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Harga")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<int>("PesananId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProdukId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PesananId");
-
-                    b.HasIndex("ProdukId");
-
-                    b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("SiLadhida.Core.Entities.Pesanan", b =>
+            modelBuilder.Entity("SiLadhida.Core.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,10 +39,37 @@ namespace SiLadhida.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pesanan");
+                    b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("SiLadhida.Core.Entities.Produk", b =>
+            modelBuilder.Entity("SiLadhida.Core.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Harga")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("SiLadhida.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +87,7 @@ namespace SiLadhida.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Produk");
+                    b.ToTable("Product");
 
                     b.HasData(
                         new
@@ -129,24 +129,24 @@ namespace SiLadhida.API.Migrations
 
             modelBuilder.Entity("SiLadhida.Core.Entities.OrderItem", b =>
                 {
-                    b.HasOne("SiLadhida.Core.Entities.Pesanan", "Pesanan")
+                    b.HasOne("SiLadhida.Core.Entities.Order", "Order")
                         .WithMany("Items")
-                        .HasForeignKey("PesananId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SiLadhida.Core.Entities.Produk", "Produk")
+                    b.HasOne("SiLadhida.Core.Entities.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProdukId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Pesanan");
+                    b.Navigation("Order");
 
-                    b.Navigation("Produk");
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("SiLadhida.Core.Entities.Pesanan", b =>
+            modelBuilder.Entity("SiLadhida.Core.Entities.Order", b =>
                 {
                     b.Navigation("Items");
                 });

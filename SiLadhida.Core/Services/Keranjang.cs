@@ -4,27 +4,27 @@ using System.Text;
 
 namespace SiLadhida.Core.Services
 {
-    public class Keranjang<T> 
+    public class Cart<T> 
     {
-        private List<T> daftarPesanan = new List<T>();
+        private List<T> OrderList = new List<T>();
 
-        public void TambahPesanan(T pesanan)
+        public void AddOrder(T order)
         {
             // Pesanan tidak boleh null
-            if (pesanan == null)
-                throw new ArgumentNullException(nameof(pesanan), "Gagal : Objek pesanan tidak boleh null.");
+            if (order == null)
+                throw new ArgumentNullException(nameof(order), "Gagal : Objek pesanan tidak boleh null.");
 
-            int initialCount = daftarPesanan.Count;
+            int initialCount = OrderList.Count;
 
-            daftarPesanan.Add(pesanan);
+            OrderList.Add(order);
         }
 
-        public void ResetDaftarPesanan()
+        public void ResetOrderList()
         {
-            daftarPesanan.Clear();
+            OrderList.Clear();
 
             // Menjamin keranjang benar-benar bersih
-            if (daftarPesanan.Count != 0)
+            if (OrderList.Count != 0)
                 throw new Exception("Gagal : Keranjang gagal dikosongkan.");
         }
     }

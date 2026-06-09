@@ -4,16 +4,16 @@
     xmlns:vm="using:SiLadhida.App.ViewModels"
     xmlns:model="using:SiLadhida.App.Models"
     xmlns:components="using:SiLadhida.App.Components"
-    x:Class="SiLadhida.App.Views.ProdukView"
-    x:DataType="vm:ProdukViewModel">
+    x:Class="SiLadhida.App.Views.OrderView"
+    x:DataType="vm:OrderViewModel">
 
     <UserControl.DataContext>
-        <vm:ProdukViewModel/>
+        <vm:OrderViewModel/>
     </UserControl.DataContext>
 
     <!-- CONTENT -->
-
     <Grid Grid.Column="1">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
@@ -22,7 +22,7 @@
         <!-- TOPBAR -->
         <components:Topbar Grid.Row="0">
             <components:Topbar.DataContext>
-                <vm:TopbarViewModel Title="Manajemen Produk"/>
+                <vm:TopbarViewModel Title="Daftar Pesanan"/>
             </components:Topbar.DataContext>
         </components:Topbar>
 
@@ -33,23 +33,23 @@
 
                 <!-- LOADING -->
                 <TextBlock
-                    Text="Loading products..."
+                    Text="Loading orders..."
                     IsVisible="{Binding IsLoading}"
                     HorizontalAlignment="Center"
                     Margin="0,0,0,10"/>
 
                 <!-- BUTTON -->
                 <Button
-                    Content="+ Tambah Produk"
+                    Content="+ Tambah Pesanan"
                     Width="180"
                     Height="40"
                     Margin="0,0,0,20"
                     Background="#6D4C41"
                     Foreground="White"
-                    Click="AddProduct_Click"/>
+                    Click="AddOrder_Click"/>
 
-                <!-- PRODUCT LIST -->
-                <ItemsControl ItemsSource="{Binding Products}">
+                <!-- ORDER LIST -->
+                <ItemsControl ItemsSource="{Binding Orders}">
 
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -59,50 +59,50 @@
 
                     <ItemsControl.ItemTemplate>
 
-                        <DataTemplate x:DataType="model:Product">
+                        <DataTemplate x:DataType="model:Order">
 
                             <Border
-                                Width="220"
-                                Margin="10"
-                                Padding="16"
-                                CornerRadius="16"
-                                Background="#4E342E">
+                                Background="#3E2723"
+                                CornerRadius="10"
+                                Padding="15"
+                                Margin="0,0,0,10">
 
                                 <StackPanel Spacing="10">
 
-                                    <!-- PRODUCT NAME -->
+                                    <!-- ORDER NAME -->
                                     <TextBlock
-                                        Text="{Binding Nama}"
-                                        FontSize="20"
+                                        Text="{Binding NamaPemesan}"
+                                        FontSize="18"
                                         FontWeight="Bold"
                                         Foreground="White"/>
 
-                                    <!-- PRICE -->
+                                    <!-- ORDER STATUS -->
                                     <TextBlock
-                                        Text="{Binding Harga, StringFormat='Rp {0:N0}'}"
+                                        Text="{Binding StatusSekarang}"
                                         Foreground="#D7CCC8"/>
 
-                                    <!-- STOCK -->
+                                    <!-- ORDER TOTAL -->
                                     <TextBlock
-                                        Text="{Binding Stock, StringFormat='Stock: {0}'}"
+                                        Text="{Binding TotalHarga, StringFormat='Total: Rp {0:N0}'}"
                                         Foreground="#D7CCC8"/>
 
-                                    <!-- ACTION BUTTONS -->
+                                    <!-- ACTIONS -->
                                     <StackPanel
                                         Orientation="Horizontal"
                                         Spacing="10">
 
                                         <Button
                                             Content="Edit"
-                                            Background="#8D6E63"
-                                            Command="{Binding $parent[UserControl].DataContext.UpdateProductCommand}"
-                                            CommandParameter="{Binding}" />
+                                            Background="#6D4C41"
+                                            Command="{Binding $parent[UserControl].DataContext.UpdateOrderCommand}"
+                                            CommandParameter="{Binding}"/>
 
                                         <Button
                                             Content="Delete"
-                                            Background="#A1887F"
+                                            Background="#B71C1C"
+                                            Foreground="White"
                                             Click="Delete_Click"
-                                            Tag="{Binding}" />
+                                            Tag="{Binding}"/>
 
                                     </StackPanel>
 

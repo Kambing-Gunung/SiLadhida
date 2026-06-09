@@ -12,7 +12,7 @@ public interface IOrderService
     /// <summary>
     /// Retrieves all orders
     /// </summary>
-    Task<List<Pesanan>> GetAllAsync();
+    Task<List<Order>> GetAllAsync();
 
     /// <summary>
     /// Creates a new order with items and calculates total price
@@ -31,5 +31,5 @@ public interface IOrderService
     /// <returns>The updated order, or null if not found</returns>
     /// <exception cref="ArgumentNullException">Thrown when dto is null</exception>
     /// <exception cref="InvalidOperationException">Thrown when status transition is invalid</exception>
-    Task<Pesanan?> UpdateStatusAsync(int id, UpdateStatusDto dto);
+    Task<Order?> UpdateStatusAsync(int id, UpdateStatusDto dto);
 }

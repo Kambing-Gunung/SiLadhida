@@ -4,27 +4,26 @@ using SiLadhida.App.Models;
 using SiLadhida.App.ViewModels;
 using SiLadhida.App.Views;
 using SiLadhida.App.Components;
-using Avalonia.Input;
 
 namespace SiLadhida.App.Views;
 
-public partial class ProdukView : UserControl
+public partial class OrderView : UserControl
 {
-    public ProdukView()
+    public OrderView()
     {
         InitializeComponent();
     }
 
-    private async void AddProduct_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void AddOrder_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        var content = new SiLadhida.App.Components.Dialogs.ProductDialog();
+        var content = new SiLadhida.App.Components.Dialogs.OrderDialog();
 
         var host = new Window
         {
             Content = content,
             Width = 400,
-            Height = 400,
-            Title = "Tambah Produk",
+            Height = 450,
+            Title = "Tambah Order",
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             WindowDecorations = WindowDecorations.None
         };
@@ -34,21 +33,22 @@ public partial class ProdukView : UserControl
         if (mainWindow == null)
             return;
 
-        var result = await host.ShowDialog<ProductFormModel?>(mainWindow);
+        var result = await host.ShowDialog<OrderFormModel?>(mainWindow);
 
         if (result == null)
             return;
 
-        if (DataContext is ProdukViewModel vm)
+        if (DataContext is OrderViewModel vm)
         {
-            var product = new Product
+            var order = new Order
             {
-                Nama = result.Nama,
-                Harga = result.Harga,
-                Stock = result.Stock
+                NamaPemesan = result.NamaPemesan,
+                StatusSekarang = result.StatusSekarang,
+                TotalHarga = result.TotalHarga,
+                Items = result.Items,
             };
 
-            await vm.CreateProductAsync(product);
+            await vm.CreateOrderAsync(order);
         }
     }
 
@@ -57,11 +57,11 @@ public partial class ProdukView : UserControl
         if (sender is not Button button)
             return;
 
-        if (button.Tag is not Product product)
+        if (button.Tag is not Order order)
             return;
 
         var dialog = new ConfirmDialog(
-            $"Hapus produk '{product.Nama}' ?");
+            $"Hapus order '{order.NamaPemesan}' ?");
 
         var mainWindow =
             TopLevel.GetTopLevel(this) as Window;
@@ -75,9 +75,9 @@ public partial class ProdukView : UserControl
         if (!confirmed)
             return;
 
-        if (DataContext is ProdukViewModel vm)
+        if (DataContext is OrderViewModel vm)
         {
-            await vm.DeleteProductAsync(product);
+            await vm.DeleteOrderAsync(order);
         }
     }
 
@@ -86,19 +86,19 @@ public partial class ProdukView : UserControl
         if (sender is not Button button)
             return;
 
-        if (button.Tag is not Product product)
+        if (button.Tag is not Order order)
             return;
 
-        var content = new SiLadhida.App.Components.Dialogs.ProductDialog(product);
+        var content = new SiLadhida.App.Components.Dialogs.OrderDialog(order);
 
         var host = new Window
         {
             Content = content,
             Width = 400,
-            Height = 400,
-            Title = "Edit Produk",
+            Height = 350,
+            Title = "Edit Order",
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            WindowDecorations = WindowDecorations.None,
+            WindowDecorations = WindowDecorations.None
         };
 
         var mainWindow = TopLevel.GetTopLevel(this) as Window;
@@ -106,18 +106,19 @@ public partial class ProdukView : UserControl
         if (mainWindow == null)
             return;
 
-        var result = await host.ShowDialog<ProductFormModel?>(mainWindow);
+        var result = await host.ShowDialog<OrderFormModel?>(mainWindow);
 
         if (result == null)
             return;
 
-        if (DataContext is ProdukViewModel vm)
+        if (DataContext is OrderViewModel vm)
         {
-            product.Nama = result.Nama;
-            product.Harga = result.Harga;
-            product.Stock = result.Stock;
+            order.NamaPemesan = result.NamaPemesan;
+            order.StatusSekarang = result.StatusSekarang;
+            order.TotalHarga = result.TotalHarga;
+            order.Items = result.Items;
 
-            await vm.UpdateProductAsync(product);
+            await vm.UpdateOrderAsync(order);
         }
     }
 }

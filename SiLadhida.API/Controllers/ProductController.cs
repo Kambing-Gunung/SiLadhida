@@ -62,9 +62,9 @@ public class ProductController : ControllerBase
 
     // CREATE
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Produk produk)
+    public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
-        if (produk == null)
+        if (dto == null)
         {
             return BadRequest(
                 ApiResponse<object>.ErrorResponse(
@@ -75,10 +75,10 @@ public class ProductController : ControllerBase
 
         _logger.LogInformation(
             "Creating new product: {ProductName}",
-            produk.Nama
+            dto.Nama
         );
 
-        var result = await _service.CreateAsync(produk);
+        var result = await _service.CreateAsync(dto);
 
         return Ok(
             ApiResponse<object>.SuccessResponse(

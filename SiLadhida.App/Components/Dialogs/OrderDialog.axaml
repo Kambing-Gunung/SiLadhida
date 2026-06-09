@@ -1,0 +1,87 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:SiLadhida.App.Models"
+    x:Class="SiLadhida.App.Components.Dialogs.OrderDialog"
+    x:DataType="models:OrderFormModel"
+
+    Background="#3E2723">
+
+    <StackPanel Margin="20" Spacing="10">
+        <TextBlock
+            Text="Tambah Pesanan"
+            Foreground="White"
+            FontSize="24"
+            FontWeight="SemiBold"
+            HorizontalAlignment="Center"/>
+
+        <Line
+            StartPoint="0,0"
+            EndPoint="300,0"
+            Stroke="White"
+            StrokeThickness="1"
+            HorizontalAlignment="Center"
+            Margin="0, 0, 0, 10"/>
+
+        <TextBlock
+            Text="Nama Pemesan"
+            Foreground="White"/>
+
+        <TextBox
+            Text="{Binding NamaPemesan}"
+            PlaceholderText="Masukkan nama pemesan"/>
+
+        <TextBlock
+            Text="Status Sekarang"
+            Foreground="White"/>
+
+        <TextBox
+            Text="{Binding StatusSekarang}"
+            PlaceholderText="Masukkan status sekarang"/>
+
+        <TextBlock
+            Text="Total Harga"
+            Foreground="White"/>
+
+        <TextBox
+            Text="{Binding TotalHarga}"
+            PlaceholderText="Masukkan total harga"/>
+
+        <!-- Item product masuk disini -->
+        <TextBlock
+            Text="Items"
+            Foreground="White"/>
+
+        <TextBox
+            Text="{Binding Items}"
+            PlaceholderText="Masukkan items"/>
+
+        <TextBlock
+            x:Name="ErrorText"
+            Foreground="Red"
+            IsVisible="False"/>
+
+        <StackPanel 
+        HorizontalAlignment="Center" 
+        Orientation="Horizontal"
+        Spacing="10"
+        Margin="0,30,0,0">
+
+            <Button
+                Content="Simpan"
+                HorizontalContentAlignment="Center"
+                Width="100"
+                Foreground="White"
+                Click="Save_Click"/>
+    
+            <Button
+                Content="Batal"
+                HorizontalContentAlignment="Center"
+                Width="100"
+                Foreground="White"
+                Click="Cancel_Click"/>
+        </StackPanel>
+
+    </StackPanel>
+
+</UserControl>

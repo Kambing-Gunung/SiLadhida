@@ -67,10 +67,11 @@ public partial class ProdukViewModel : ObservableObject
     [RelayCommand]
     public async Task UpdateProductAsync(Product product)
     {
-        if (product == null)
+        if (product == null || product.Id <= 0)
+        {
+            App.Notification.ShowError("Produk tidak valid");
             return;
-
-        product.Harga += 5000;
+        }
 
         await _service.UpdateProductAsync(product);
 
@@ -82,8 +83,11 @@ public partial class ProdukViewModel : ObservableObject
     [RelayCommand]
     public async Task DeleteProductAsync(Product product)
     {
-        if (product == null)
+        if (product == null || product.Id <= 0)
+        {
+            App.Notification.ShowError("Produk tidak valid");
             return;
+        }
 
         await _service.DeleteProductAsync(product.Id);
 

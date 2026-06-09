@@ -8,11 +8,11 @@ namespace SiLadhida.API.Controllers;
 [Route("api/lookup")]
 public class LookupController : ControllerBase
 {
-    private readonly ProdukLookupService _service;
+    private readonly ProductLookupService _service;
     private readonly ILogger<LookupController> _logger;
 
     public LookupController(
-        ProdukLookupService service,
+        ProductLookupService service,
         ILogger<LookupController> logger)
     {
         _service = service;
@@ -20,7 +20,7 @@ public class LookupController : ControllerBase
     }
 
     [HttpGet("{kode}")]
-    public IActionResult GetProduk(string kode)
+    public IActionResult GetProduct(string kode)
     {
         if (string.IsNullOrWhiteSpace(kode))
         {
@@ -33,7 +33,7 @@ public class LookupController : ControllerBase
 
         _logger.LogInformation("Looking up product with code {ProductCode}", kode);
 
-        var nama = _service.GetNamaProduk(kode);
+        var nama = _service.GetProductNama(kode);
 
         if (nama == null)
         {

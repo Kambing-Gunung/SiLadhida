@@ -22,35 +22,42 @@ public class ProductService : IProductService
         _logger = logger;
     }
 
-    public async Task<List<Produk>> GetAllAsync()
+    public async Task<List<Product>> GetAllAsync()
     {
         _logger.LogInformation("Retrieving all products");
-        return await _context.Produk.ToListAsync();
+        return await _context.Product.ToListAsync();
     }
 
-    public async Task<Produk?> GetByIdAsync(int id)
+    public async Task<Product?> GetByIdAsync(int id)
     {
         _logger.LogInformation("Retrieving product with ID {ProductId}", id);
-        return await _context.Produk.FirstOrDefaultAsync(p => p.Id == id);
+        return await _context.Product.FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public async Task<Produk> CreateAsync(Produk produk)
+    public async Task<Product> CreateAsync(CreateProductDto dto)
     {
-        ArgumentNullException.ThrowIfNull(produk);
+        ArgumentNullException.ThrowIfNull(dto);
 
-        _logger.LogInformation("Creating new product: {ProductName}", produk.Nama);
+        var product = new Product
+        {
+            Nama = dto.Nama,
+            Harga = dto.Harga,
+            Stock = dto.Stock
+        };
 
-        _context.Produk.Add(produk);
+        _logger.LogInformation("Creating product: {Name}", dto.Nama);
+
+        _context.Product.Add(product);
         await _context.SaveChangesAsync();
 
-        _logger.LogInformation("Product created successfully with ID {ProductId}", produk.Id);
+        _logger.LogInformation("Product created with ID {Id}", product.Id);
 
-        return produk;
+        return product;
     }
 
-    public async Task<Produk?> UpdateAsync(int id, UpdateProductDto dto)
+    public async Task<Product?> UpdateAsync(int id, UpdateProductDto dto)
     {
-        var product = await _context.Produk
+        var product = await _context.Product
             .FirstOrDefaultAsync(p => p.Id == id);
 
         if (product == null)
@@ -79,7 +86,7 @@ public class ProductService : IProductService
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var product = await _context.Produk
+        var product = await _context.Product
             .FirstOrDefaultAsync(p => p.Id == id);
 
         if (product == null)
@@ -92,7 +99,7 @@ public class ProductService : IProductService
             return false;
         }
 
-        _context.Produk.Remove(product);
+        _context.Product.Remove(product);
 
         await _context.SaveChangesAsync();
 

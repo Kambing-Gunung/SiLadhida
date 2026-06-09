@@ -6,7 +6,7 @@ using SiLadhida.App.Views;
 
 namespace SiLadhida.App.ViewModels;
 
-public partial class LoginViewModel : BaseViewModel
+public partial class LoginViewModel : ObservableObject
 {
     private readonly AuthService _authService;
 

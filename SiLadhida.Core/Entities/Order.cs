@@ -2,7 +2,7 @@ using SiLadhida.Core.Enums;
 
 namespace SiLadhida.Core.Entities
 {
-    public class Pesanan
+    public class Order
     {
         public int Id { get; set; }
         public string NamaPemesan { get; set; } = string.Empty;
