@@ -1,7 +1,8 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 
-namespace SiLadhida.App.Views;
+namespace SiLadhida.App.Components;
 
 public partial class ConfirmDialog : Window
 {
@@ -12,17 +13,18 @@ public partial class ConfirmDialog : Window
         MessageText.Text = message;
     }
 
-    private void Confirm_Click(
-        object? sender,
-        RoutedEventArgs e)
+    private void Confirm_Click(object? sender, RoutedEventArgs e)
     {
         Close(true);
     }
 
-    private void Cancel_Click(
-        object? sender,
-        RoutedEventArgs e)
+    private void Cancel_Click(object? sender, RoutedEventArgs e)
     {
         Close(false);
+    }
+
+    private void BeginMoveDrag(object? sender, PointerPressedEventArgs e)
+    {
+        BeginMoveDrag(e);
     }
 }

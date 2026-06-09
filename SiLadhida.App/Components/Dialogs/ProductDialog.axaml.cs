@@ -30,9 +30,7 @@ public partial class ProductDialog : UserControl
         DataContext = Product;
     }
 
-    private void Save_Click(
-    object? sender,
-    Avalonia.Interactivity.RoutedEventArgs e)
+    private void Save_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (!Product.IsValid())
         {
@@ -48,9 +46,7 @@ public partial class ProductDialog : UserControl
         window?.Close(Product);
     }
 
-    private void Cancel_Click(
-        object? sender,
-        Avalonia.Interactivity.RoutedEventArgs e)
+    private void Cancel_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         var window = TopLevel.GetTopLevel(this) as Window;
         window?.Close(null);

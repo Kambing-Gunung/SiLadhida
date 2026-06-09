@@ -1,36 +1,43 @@
 <Window
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="SiLadhida.App.Views.ConfirmDialog"
-    Width="350"
-    Height="180"
-    Title="Konfirmasi">
+    x:Class="SiLadhida.App.Components.ConfirmDialog"
 
-    <StackPanel
-        Margin="20"
-        Spacing="20">
+    PointerPressed="BeginMoveDrag"
+    WindowDecorations="None"
+    Width = "400"
+    Height = "200"
+    WindowStartupLocation = "CenterOwner">
+
+    <StackPanel Margin="20" Spacing="20">
+
+        <TextBlock Text="Nama Order"/>
 
         <TextBlock
             x:Name="MessageText"
             TextWrapping="Wrap"
             FontSize="16"/>
 
-        <StackPanel
-            Orientation="Horizontal"
-            HorizontalAlignment="Right"
-            Spacing="10">
+        <StackPanel 
+        HorizontalAlignment="Center" 
+        Orientation="Horizontal"
+        Spacing="10"
+        Margin="0,30,0,0">
 
             <Button
                 Content="Batal"
                 Width="100"
-                Click="Cancel_Click"/>
+                HorizontalContentAlignment="Center"
+                Foreground="White"
+                />
 
             <Button
                 Content="Ya"
                 Width="100"
                 Background="#8D6E63"
+                HorizontalContentAlignment="Center"
                 Foreground="White"
-                Click="Confirm_Click"/>
+                />
 
         </StackPanel>
 

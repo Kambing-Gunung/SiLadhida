@@ -31,9 +31,7 @@ public partial class OrderDialog : UserControl
         DataContext = Order;
     }
 
-    private void Save_Click(
-    object? sender,
-    Avalonia.Interactivity.RoutedEventArgs e)
+    private void Save_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (!Order.IsValid())
         {
@@ -49,9 +47,7 @@ public partial class OrderDialog : UserControl
         window?.Close(Order);
     }
 
-    private void Cancel_Click(
-        object? sender,
-        Avalonia.Interactivity.RoutedEventArgs e)
+    private void Cancel_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         var window = TopLevel.GetTopLevel(this) as Window;
         window?.Close(null);

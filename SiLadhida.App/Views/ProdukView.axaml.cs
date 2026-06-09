@@ -4,6 +4,7 @@ using SiLadhida.App.Models;
 using SiLadhida.App.ViewModels;
 using SiLadhida.App.Views;
 using SiLadhida.App.Components;
+using Avalonia.Input;
 
 namespace SiLadhida.App.Views;
 
@@ -22,9 +23,10 @@ public partial class ProdukView : UserControl
         {
             Content = content,
             Width = 400,
-            Height = 350,
+            Height = 400,
             Title = "Tambah Produk",
-            WindowStartupLocation = WindowStartupLocation.CenterOwner
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            WindowDecorations = WindowDecorations.None
         };
 
         var mainWindow = TopLevel.GetTopLevel(this) as Window;
@@ -93,9 +95,10 @@ public partial class ProdukView : UserControl
         {
             Content = content,
             Width = 400,
-            Height = 350,
+            Height = 400,
             Title = "Edit Produk",
-            WindowStartupLocation = WindowStartupLocation.CenterOwner
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            WindowDecorations = WindowDecorations.None,
         };
 
         var mainWindow = TopLevel.GetTopLevel(this) as Window;

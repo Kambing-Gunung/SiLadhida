@@ -22,9 +22,10 @@ public partial class OrderView : UserControl
         {
             Content = content,
             Width = 400,
-            Height = 350,
+            Height = 450,
             Title = "Tambah Order",
-            WindowStartupLocation = WindowStartupLocation.CenterOwner
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            WindowDecorations = WindowDecorations.None
         };
 
         var mainWindow = TopLevel.GetTopLevel(this) as Window;
@@ -96,7 +97,8 @@ public partial class OrderView : UserControl
             Width = 400,
             Height = 350,
             Title = "Edit Order",
-            WindowStartupLocation = WindowStartupLocation.CenterOwner
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            WindowDecorations = WindowDecorations.None
         };
 
         var mainWindow = TopLevel.GetTopLevel(this) as Window;
