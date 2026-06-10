@@ -7,6 +7,7 @@ using SiLadhida.API.Repositories.Interfaces;
 using SiLadhida.API.Services.Interfaces;
 using SiLadhida.Core.Entities;
 using SiLadhida.Core.Services;
+using SiLadhida.API.Factories.Interfaces;
 
 namespace SiLadhida.API.Services.Implementations;
 
@@ -18,6 +19,7 @@ public class OrderService : IOrderService
     private readonly AppDbContext _context;
     private readonly IOrderRepository _repository;
     private readonly Core.Services.OrderService _orderService;
+    private readonly IOrderFactory _orderFactory;
     private readonly ILogger<OrderService> _logger;
     private readonly IMapper _mapper;
 
@@ -52,67 +54,17 @@ public class OrderService : IOrderService
 
         try
         {
-            var order = new Order
+            var order = await _orderFactory.CreateOrderAsync(dto.NamaPemesan, dto.Items ?? new List<OrderItemDto>());
             {
-                NamaPemesan = dto.NamaPemesan,
-                StatusSekarang = _orderService.GetInitialStatus()
+                await _repository.AddAsync(order);
+                await _repository.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                _logger.LogInformation("Order created successfully by {CustomerName} with ID {OrderID}",
+                order.NamaPemesan,order.Id);
+
+                return _mapper.Map<CreateOrderResponseDto>(order);
             };
-
-            var items = new List<OrderItem>();
-
-            // Validate and process order items
-            if (dto.Items != null && dto.Items.Any())
-            {
-                foreach (var itemDto in dto.Items)
-                {
-                    var product = await _context.Product.FindAsync(itemDto.ProductId);
-
-                    if (product == null)
-                    {
-                        _logger.LogError("Product with ID {ProductId} not found", itemDto.ProductId);
-                        throw new InvalidOperationException(
-                            $"Produk ID {itemDto.ProductId} tidak ditemukan");
-                    }
-
-                    if (itemDto.Quantity > product.Stock)
-                    {
-                        _logger.LogError("Insufficient stock for product {ProductName}. Required: {Required}, Available: {Available}",
-                            product.Nama, itemDto.Quantity, product.Stock);
-
-                        throw new InvalidOperationException(
-                            $"Stock produk {product.Nama} tidak mencukupi");
-                    }
-
-                    var item = new OrderItem
-                    {
-                        ProductId = product.Id,
-                        Quantity = itemDto.Quantity,
-                        Harga = product.Harga
-                    };
-
-                    product.Stock -= itemDto.Quantity;
-                    items.Add(item);
-                }
-            }
-
-            order.Items = items;
-
-            // Link items to order
-            foreach (var item in items)
-            {
-                item.Order = order;
-            }
-
-            order.TotalHarga = _orderService.HitungTotal(items);
-
-            await _repository.AddAsync(order);
-            await _repository.SaveChangesAsync();
-            await transaction.CommitAsync();
-
-            _logger.LogInformation("Order created successfully by {CustomerName} with ID {OrderId}",
-                order.NamaPemesan, order.Id);
-
-            return _mapper.Map<CreateOrderResponseDto>(order);
         }
         catch (Exception ex)
         {
