@@ -24,6 +24,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ProductLookupService>();
         services.AddScoped<Core.Services.OrderService>();
+        services.AddScoped<Factories.Interfaces.IOrderFactory, Factories.Implementations.OrderFactory>();
 
         return services;
     }
