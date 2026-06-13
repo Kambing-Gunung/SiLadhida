@@ -47,41 +47,6 @@ namespace SiLadhida.API.Services.Implementations
             return order;
         }
 
-        public async Task<Order?> UpdateStatusAsync(
-            int id,
-            StateTrigger trigger)
-        {
-            var order =
-                await _orderRepository.GetByIdAsync(id);
-
-            if (order is null)
-                return null;
-
-            switch (trigger)
-            {
-                case StateTrigger.DibatalkanPelanggan:
-                    order.Cancel();
-                    break;
-
-                case StateTrigger.KueDiambilPelanggan:
-                    order.Complete();
-                    break;
-
-                default:
-                    throw new InvalidOperationException(
-                        "Trigger tidak dikenali");
-            }
-
-            await _orderRepository.SaveChangesAsync();
-
-            _logger.LogInformation(
-                "Order status updated: {OrderId}",
-                order.Id);
-
-            return order;
-        }
-
-
         public async Task<Order?> PayOrderAsync(int orderId)
         {
             var order =
@@ -128,6 +93,127 @@ namespace SiLadhida.API.Services.Implementations
             _logger.LogInformation(
                 "Order {OrderId} berhasil dibayar",
                 order.Id);
+
+            return order;
+        }
+
+        public async Task<Order?> UpdateStatusAsync(int id, StateTrigger trigger)
+        {
+            var order =
+                await _orderRepository.GetByIdAsync(id);
+
+            if (order is null)
+                return null;
+
+            switch (trigger)
+            {
+                case StateTrigger.DibatalkanPelanggan:
+                    order.Cancel();
+                    break;
+
+                case StateTrigger.KueDiambilPelanggan:
+                    order.Complete();
+                    break;
+
+                default:
+                    throw new InvalidOperationException(
+                        "Trigger tidak dikenali");
+            }
+
+            await _orderRepository.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Order status updated: {OrderId}",
+                order.Id);
+
+            return order;
+        }
+
+        public async Task<Order?> AddItemAsync(int orderId, int productId, int quantity)
+        {
+            var order =
+                await _orderRepository.GetByIdAsync(orderId);
+
+            if (order is null)
+                return null;
+
+            var product =
+                await _productRepository.GetByIdAsync(productId);
+
+            if (product is null)
+                throw new InvalidOperationException(
+                    "Produk tidak ditemukan.");
+
+            order.AddItem(
+                product.Id,
+                quantity,
+                product.Harga);
+
+            await _orderRepository.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task<Order?> RemoveItemAsync(int orderId, int productId)
+        {
+            var order =
+                await _orderRepository.GetByIdAsync(orderId);
+
+            if (order is null)
+                return null;
+
+            order.RemoveItem(productId);
+
+            await _orderRepository.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task<Order?> IncreaseItemAsync(int orderId, int productId, int quantity)
+        {
+            var order =
+                await _orderRepository.GetByIdAsync(orderId);
+
+            if (order is null)
+                return null;
+
+            order.IncreaseItemQuantity(
+                productId,
+                quantity);
+
+            await _orderRepository.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task<Order?> DecreaseItemAsync(int orderId, int productId, int quantity)
+        {
+            var order =
+                await _orderRepository.GetByIdAsync(orderId);
+
+            if (order is null)
+                return null;
+
+            order.DecreaseItemQuantity(
+                productId,
+                quantity);
+
+            await _orderRepository.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task<Order?> ClearItemsAsync(int orderId)
+        {
+            var order =
+                await _orderRepository.GetByIdAsync(orderId);
+
+            if (order is null)
+                return null;
+
+            order.ClearItems();
+
+            await _orderRepository.SaveChangesAsync();
 
             return order;
         }

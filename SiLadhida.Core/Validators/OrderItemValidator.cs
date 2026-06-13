@@ -19,7 +19,7 @@ namespace SiLadhida.Core.Validators
 
         public static void EnsurePositiveQuantity(int quantity)
         {
-            if (quantity < 0)
+            if (quantity <= 0)
                 throw new ArgumentException("Quantity harus lebih dari 0.");
         }
 
