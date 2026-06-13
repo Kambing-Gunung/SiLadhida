@@ -1,112 +1,91 @@
-using SiLadhida.API.Data;
 using SiLadhida.API.Services.Interfaces;
 using SiLadhida.Core.Entities;
-using Microsoft.EntityFrameworkCore;
-using SiLadhida.API.DTOs;
+using SiLadhida.Core.Interfaces;
 
 namespace SiLadhida.API.Services.Implementations;
 
-/// <summary>
-/// Provides product management services
-/// </summary>
 public class ProductService : IProductService
 {
-    private readonly AppDbContext _context;
+    private readonly IProductRepository _repository;
     private readonly ILogger<ProductService> _logger;
 
     public ProductService(
-        AppDbContext context,
+        IProductRepository repository,
         ILogger<ProductService> logger)
     {
-        _context = context;
+        _repository = repository;
         _logger = logger;
     }
 
     public async Task<List<Product>> GetAllAsync()
     {
-        _logger.LogInformation("Retrieving all products");
-        return await _context.Product.ToListAsync();
+        return await _repository.GetAllAsync();
     }
 
     public async Task<Product?> GetByIdAsync(int id)
     {
-        _logger.LogInformation("Retrieving product with ID {ProductId}", id);
-        return await _context.Product.FirstOrDefaultAsync(p => p.Id == id);
+        return await _repository.GetByIdAsync(id);
     }
 
-    public async Task<Product> CreateAsync(CreateProductDto dto)
+    public async Task<Product> CreateAsync(
+        string nama,
+        decimal harga,
+        int stock)
     {
-        ArgumentNullException.ThrowIfNull(dto);
+        var product = Product.Create(
+            nama,
+            harga,
+            stock);
 
-        var product = new Product
-        {
-            Nama = dto.Nama,
-            Harga = dto.Harga,
-            Stock = dto.Stock
-        };
+        await _repository.AddAsync(product);
+        await _repository.SaveChangesAsync();
 
-        _logger.LogInformation("Creating product: {Name}", dto.Nama);
-
-        _context.Product.Add(product);
-        await _context.SaveChangesAsync();
-
-        _logger.LogInformation("Product created with ID {Id}", product.Id);
+        _logger.LogInformation(
+            "Product created: {ProductName}",
+            product.Nama);
 
         return product;
     }
 
-    public async Task<Product?> UpdateAsync(int id, UpdateProductDto dto)
+    public async Task<Product?> UpdateAsync(
+        int id,
+        string nama,
+        decimal harga,
+        int stock)
     {
-        var product = await _context.Product
-            .FirstOrDefaultAsync(p => p.Id == id);
+        var product =
+            await _repository.GetByIdAsync(id);
 
-        if (product == null)
-        {
-            _logger.LogWarning(
-                "Product with ID {ProductId} not found",
-                id
-            );
-
+        if (product is null)
             return null;
-        }
 
-        product.Nama = dto.Nama;
-        product.Harga = dto.Harga;
-        product.Stock = dto.Stock;
+        product.Rename(nama);
+        product.UpdatePrice(harga);
+        product.SetStock(stock);
 
-        await _context.SaveChangesAsync();
+        await _repository.SaveChangesAsync();
 
         _logger.LogInformation(
-            "Product updated successfully: {ProductId}",
-            id
-        );
+            "Product updated: {ProductId}",
+            product.Id);
 
         return product;
     }
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var product = await _context.Product
-            .FirstOrDefaultAsync(p => p.Id == id);
+        var product =
+            await _repository.GetByIdAsync(id);
 
-        if (product == null)
-        {
-            _logger.LogWarning(
-                "Product with ID {ProductId} not found",
-                id
-            );
-
+        if (product is null)
             return false;
-        }
 
-        _context.Product.Remove(product);
-
-        await _context.SaveChangesAsync();
+        await _repository.DeleteAsync(product);
+        await _repository.SaveChangesAsync();
 
         _logger.LogInformation(
-            "Product deleted successfully: {ProductId}",
-            id
-        );
+            "Product deleted: {ProductId}",
+            product.Id);
 
         return true;
     }

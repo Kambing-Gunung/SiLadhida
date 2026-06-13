@@ -25,35 +25,77 @@ public class AppDbContext : DbContext
             new Product
             {
                 Id = 1,
-                Nama = "Espresso",
+                Nama = "Bolu Coklat",
                 Harga = 18000,
                 Stock = 50
             },
             new Product
             {
                 Id = 2,
-                Nama = "Cappuccino",
+                Nama = "Bolu Strawberry",
                 Harga = 25000,
                 Stock = 40
             },
             new Product
             {
                 Id = 3,
-                Nama = "Latte",
+                Nama = "Bolu Pandan",
                 Harga = 28000,
                 Stock = 35
             },
             new Product
             {
                 Id = 4,
-                Nama = "Americano",
+                Nama = "Bolu Keju",
                 Harga = 22000,
                 Stock = 60
             },
             new Product
             {
                 Id = 5,
-                Nama = "Croissant",
+                Nama = "Bolu Coklat Keju",
+                Harga = 15000,
+                Stock = 25
+            },
+            new Product
+            {
+                Id = 6,
+                Nama = "Bolu Keju Pandan",
+                Harga = 15000,
+                Stock = 25
+            },
+            new Product
+            {
+                Id = 7,
+                Nama = "Bolu Coklat Strawberry",
+                Harga = 15000,
+                Stock = 25
+            },
+            new Product
+            {
+                Id = 8,
+                Nama = "Nastar",
+                Harga = 15000,
+                Stock = 25
+            },
+            new Product
+            {
+                Id = 9,
+                Nama = "Kastengel",
+                Harga = 15000,
+                Stock = 25
+            },
+            new Product
+            {
+                Id = 10,
+                Nama = "Kue Sagu Keju",
+                Harga = 15000,
+                Stock = 25
+            },
+            new Product
+            {
+                Id = 11,
+                Nama = "Kue Rambutan Coklat",
                 Harga = 15000,
                 Stock = 25
             }

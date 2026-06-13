@@ -1,34 +1,58 @@
 using System;
+using SiLadhida.Core.Validators;
 
 namespace SiLadhida.Core.Entities
 {
     public class Product
     {
-        public int Id { get; set; }
-        public string Nama { get; set; } = string.Empty;
+        public int Id { get; private set; }
+        public string Nama { get; private set; }
+        public decimal Harga { get; private set; }
+        public int Stock { get; private set; }
 
-        private decimal _harga;
-        public decimal Harga
+        private Product(string nama, decimal harga, int stock)
         {
-            get => _harga;
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentException("Harga tidak boleh negatif.");
-                _harga = value;
-            }
+            ProductValidator.ValidateNama(nama);
+            ProductValidator.ValidateHarga(harga);
+            ProductValidator.ValidateStock(stock);
+
+            Nama = nama.Trim();
+            Harga = harga;
+            Stock = stock;
         }
 
-        private int _stock;
-        public int Stock
+        public static Product Create(string nama, decimal harga, int stock)
+            => new Product(nama, harga, stock);
+
+        public void Rename(string namaBaru)
         {
-            get => _stock;
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentException("Stock tidak boleh kurang dari 0.");
-                _stock = value;
-            }
+            ProductValidator.ValidateNama(namaBaru);
+            Nama = namaBaru.Trim();
+        }
+
+        public void UpdatePrice(decimal hargaBaru)
+        {
+            ProductValidator.ValidateHarga(hargaBaru);
+            Harga = hargaBaru;
+        }
+
+        public void SetStock(int stockBaru)
+        {
+            ProductValidator.ValidateStock(stockBaru);
+            Stock = stockBaru;
+        }
+
+        public void IncreaseStock(int quantity)
+        {
+            ProductValidator.EnsurePositiveQuantity(quantity);
+            Stock += quantity;
+        }
+
+        public void DecreaseStock(int quantity)
+        {
+            ProductValidator.EnsureAvailableStock(Stock, quantity);
+
+            Stock -= quantity;
         }
     }
 }

@@ -1,16 +1,24 @@
-using SiLadhida.API.DTOs;
 using SiLadhida.Core.Entities;
 
-namespace SiLadhida.API.Services.Interfaces;
-
-public interface IProductService
+namespace SiLadhida.API.Services.Interfaces
 {
-    Task<List<Product>> GetAllAsync();
-    Task<Product?> GetByIdAsync(int id);
+    public interface IProductService
+    {
+        Task<List<Product>> GetAllAsync();
 
-    Task<Product> CreateAsync(CreateProductDto dto);
+        Task<Product?> GetByIdAsync(int id);
 
-    Task<Product?> UpdateAsync(int id, UpdateProductDto dto);
+        Task<Product> CreateAsync(
+            string nama,
+            decimal harga,
+            int stock);
 
-    Task<bool> DeleteAsync(int id);
+        Task<Product?> UpdateAsync(
+            int id,
+            string nama,
+            decimal harga,
+            int stock);
+
+        Task<bool> DeleteAsync(int id);
+    }
 }

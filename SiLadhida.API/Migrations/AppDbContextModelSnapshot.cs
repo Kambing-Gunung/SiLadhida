@@ -91,35 +91,77 @@ namespace SiLadhida.API.Migrations
                         {
                             Id = 1,
                             Harga = 18000m,
-                            Nama = "Espresso",
+                            Nama = "Bolu Coklat",
                             Stock = 50
                         },
                         new
                         {
                             Id = 2,
                             Harga = 25000m,
-                            Nama = "Cappuccino",
+                            Nama = "Bolu Strawberry",
                             Stock = 40
                         },
                         new
                         {
                             Id = 3,
                             Harga = 28000m,
-                            Nama = "Latte",
+                            Nama = "Bolu Pandan",
                             Stock = 35
                         },
                         new
                         {
                             Id = 4,
                             Harga = 22000m,
-                            Nama = "Americano",
+                            Nama = "Bolu Keju",
                             Stock = 60
                         },
                         new
                         {
                             Id = 5,
                             Harga = 15000m,
-                            Nama = "Croissant",
+                            Nama = "Bolu Coklat Keju",
+                            Stock = 25
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Harga = 15000m,
+                            Nama = "Bolu Keju Pandan",
+                            Stock = 25
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Harga = 15000m,
+                            Nama = "Bolu Coklat Strawberry",
+                            Stock = 25
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Harga = 15000m,
+                            Nama = "Nastar",
+                            Stock = 25
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Harga = 15000m,
+                            Nama = "Kastengel",
+                            Stock = 25
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Harga = 15000m,
+                            Nama = "Kue Sagu Keju",
+                            Stock = 25
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Harga = 15000m,
+                            Nama = "Kue Rambutan Coklat",
                             Stock = 25
                         });
                 });

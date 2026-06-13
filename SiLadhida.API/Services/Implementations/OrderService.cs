@@ -1,107 +1,135 @@
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using SiLadhida.API.Data;
-using SiLadhida.API.DTOs;
-using SiLadhida.API.DTOs.Responses;
-using SiLadhida.API.Repositories.Interfaces;
 using SiLadhida.API.Services.Interfaces;
 using SiLadhida.Core.Entities;
-using SiLadhida.Core.Services;
-using SiLadhida.API.Factories.Interfaces;
+using SiLadhida.Core.Enums;
+using SiLadhida.Core.Interfaces;
 
-namespace SiLadhida.API.Services.Implementations;
-
-/// <summary>
-/// Provides order management services including creation, retrieval, and status updates
-/// </summary>
-public class OrderService : IOrderService
+namespace SiLadhida.API.Services.Implementations
 {
-    private readonly AppDbContext _context;
-    private readonly IOrderRepository _repository;
-    private readonly Core.Services.OrderService _orderService;
-    private readonly IOrderFactory _orderFactory;
-    private readonly ILogger<OrderService> _logger;
-    private readonly IMapper _mapper;
-
-    public OrderService(
-        AppDbContext context,
-        IOrderRepository repository,
-        Core.Services.OrderService orderService,
-        ILogger<OrderService> logger,
-        IMapper mapper)
+    public class OrderService : IOrderService
     {
-        _context = context;
-        _repository = repository;
-        _orderService = orderService;
-        _logger = logger;
-        _mapper = mapper;
-    }
+        private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly ILogger<OrderService> _logger;
 
-    public async Task<List<Order>> GetAllAsync()
-    {
-        _logger.LogInformation("Retrieving all orders");
-        return await _repository.GetAllAsync();
-    }
-
-    public async Task<CreateOrderResponseDto> CreateAsync(CreateOrderDto dto)
-    {
-        ArgumentNullException.ThrowIfNull(dto);
-
-        _logger.LogInformation("Creating new order for customer {CustomerName} with {ItemCount} items",
-            dto.NamaPemesan, dto.Items?.Count ?? 0);
-
-        using var transaction = await _context.Database.BeginTransactionAsync();
-
-        try
+        public OrderService(
+            IOrderRepository orderRepository,
+            IProductRepository productRepository,
+            ILogger<OrderService> logger)
         {
-            var order = await _orderFactory.CreateOrderAsync(dto.NamaPemesan, dto.Items ?? new List<OrderItemDto>());
+            _orderRepository = orderRepository;
+            _productRepository = productRepository;
+            _logger = logger;
+        }
+
+        public async Task<List<Order>> GetAllAsync()
+        {
+            return await _orderRepository.GetAllAsync();
+        }
+
+        public async Task<Order?> GetByIdAsync(int id)
+        {
+            return await _orderRepository.GetByIdAsync(id);
+        }
+
+        public async Task<Order> CreateAsync(
+            string namaPemesan)
+        {
+            var order =
+                Order.Create(namaPemesan);
+
+            await _orderRepository.AddAsync(order);
+            await _orderRepository.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Order created: {OrderId}",
+                order.Id);
+
+            return order;
+        }
+
+        public async Task<Order?> UpdateStatusAsync(
+            int id,
+            StateTrigger trigger)
+        {
+            var order =
+                await _orderRepository.GetByIdAsync(id);
+
+            if (order is null)
+                return null;
+
+            switch (trigger)
             {
-                await _repository.AddAsync(order);
-                await _repository.SaveChangesAsync();
-                await transaction.CommitAsync();
+                case StateTrigger.DibatalkanPelanggan:
+                    order.Cancel();
+                    break;
 
-                _logger.LogInformation("Order created successfully by {CustomerName} with ID {OrderID}",
-                order.NamaPemesan,order.Id);
+                case StateTrigger.KueDiambilPelanggan:
+                    order.Complete();
+                    break;
 
-                return _mapper.Map<CreateOrderResponseDto>(order);
-            };
+                default:
+                    throw new InvalidOperationException(
+                        "Trigger tidak dikenali");
+            }
+
+            await _orderRepository.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Order status updated: {OrderId}",
+                order.Id);
+
+            return order;
         }
-        catch (Exception ex)
+
+
+        public async Task<Order?> PayOrderAsync(int orderId)
         {
-            _logger.LogError(ex, "Error creating order for customer {CustomerName}", dto.NamaPemesan);
-            await transaction.RollbackAsync();
-            throw;
+            var order =
+                await _orderRepository.GetByIdAsync(orderId);
+
+            if (order is null)
+                return null;
+
+            var productIds = order.Items
+                .Select(x => x.ProductId)
+                .Distinct()
+                .ToList();
+
+            var products =
+                await _productRepository.GetByIdsAsync(productIds);
+
+            foreach (var item in order.Items)
+            {
+                var product = products
+                    .FirstOrDefault(
+                        p => p.Id == item.ProductId);
+
+                if (product is null)
+                    throw new InvalidOperationException(
+                        $"Product {item.ProductId} tidak ditemukan.");
+
+                if (product.Stock < item.Quantity)
+                    throw new InvalidOperationException(
+                        $"Stock {product.Nama} tidak mencukupi.");
+            }
+
+            foreach (var item in order.Items)
+            {
+                var product = products
+                    .First(p => p.Id == item.ProductId);
+
+                product.DecreaseStock(item.Quantity);
+            }
+
+            order.Pay();
+
+            await _orderRepository.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Order {OrderId} berhasil dibayar",
+                order.Id);
+
+            return order;
         }
-    }
-
-    public async Task<Order?> UpdateStatusAsync(int id, UpdateStatusDto dto)
-    {
-        ArgumentNullException.ThrowIfNull(dto);
-
-        _logger.LogInformation("Updating status for order {OrderId} with trigger {Trigger}", id, dto.Trigger);
-
-        var order = await _repository.GetByIdAsync(id);
-
-        if (order == null)
-        {
-            _logger.LogWarning("Order with ID {OrderId} not found", id);
-            return null;
-        }
-
-        if (!_orderService.IsValidTransition(order.StatusSekarang, dto.Trigger))
-        {
-            _logger.LogWarning("Invalid status transition from {CurrentStatus} with trigger {Trigger}",
-                order.StatusSekarang, dto.Trigger);
-
-            throw new InvalidOperationException("Transisi status tidak valid");
-        }
-
-        order.StatusSekarang = _orderService.GetNextState(order.StatusSekarang, dto.Trigger);
-
-        await _repository.SaveChangesAsync();
-
-        _logger.LogInformation("Order {OrderId} status updated to {NewStatus}", id, order.StatusSekarang);
-
-        return order;
     }
 }

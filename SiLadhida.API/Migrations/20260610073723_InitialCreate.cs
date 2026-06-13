@@ -84,11 +84,17 @@ namespace SiLadhida.API.Migrations
                 columns: new[] { "Id", "Harga", "Nama", "Stock" },
                 values: new object[,]
                 {
-                    { 1, 18000m, "Espresso", 50 },
-                    { 2, 25000m, "Cappuccino", 40 },
-                    { 3, 28000m, "Latte", 35 },
-                    { 4, 22000m, "Americano", 60 },
-                    { 5, 15000m, "Croissant", 25 }
+                    { 1, 18000m, "Bolu Coklat", 50 },
+                    { 2, 25000m, "Bolu Strawberry", 40 },
+                    { 3, 28000m, "Bolu Pandan", 35 },
+                    { 4, 22000m, "Bolu Keju", 60 },
+                    { 5, 15000m, "Bolu Coklat Keju", 25 },
+                    { 6, 15000m, "Bolu Keju Pandan", 25 },
+                    { 7, 15000m, "Bolu Coklat Strawberry", 25 },
+                    { 8, 15000m, "Nastar", 25 },
+                    { 9, 15000m, "Kastengel", 25 },
+                    { 10, 15000m, "Kue Sagu Keju", 25 },
+                    { 11, 15000m, "Kue Rambutan Coklat", 25 }
                 });
 
             migrationBuilder.CreateIndex(
