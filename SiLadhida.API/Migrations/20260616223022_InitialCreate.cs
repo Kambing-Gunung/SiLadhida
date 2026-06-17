@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace SiLadhida.API.Migrations
 {
     /// <inheritdoc />
@@ -24,8 +22,7 @@ namespace SiLadhida.API.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     NamaPemesan = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StatusSekarang = table.Column<int>(type: "int", nullable: false),
-                    TotalHarga = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
+                    StatusSekarang = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,42 +67,13 @@ namespace SiLadhida.API.Migrations
                         principalTable: "Order",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderItems_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.InsertData(
-                table: "Product",
-                columns: new[] { "Id", "Harga", "Nama", "Stock" },
-                values: new object[,]
-                {
-                    { 1, 18000m, "Bolu Coklat", 50 },
-                    { 2, 25000m, "Bolu Strawberry", 40 },
-                    { 3, 28000m, "Bolu Pandan", 35 },
-                    { 4, 22000m, "Bolu Keju", 60 },
-                    { 5, 15000m, "Bolu Coklat Keju", 25 },
-                    { 6, 15000m, "Bolu Keju Pandan", 25 },
-                    { 7, 15000m, "Bolu Coklat Strawberry", 25 },
-                    { 8, 15000m, "Nastar", 25 },
-                    { 9, 15000m, "Kastengel", 25 },
-                    { 10, 15000m, "Kue Sagu Keju", 25 },
-                    { 11, 15000m, "Kue Rambutan Coklat", 25 }
-                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
                 column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ProductId",
-                table: "OrderItems",
-                column: "ProductId");
         }
 
         /// <inheritdoc />
@@ -115,10 +83,10 @@ namespace SiLadhida.API.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "Product");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Order");
         }
     }
 }

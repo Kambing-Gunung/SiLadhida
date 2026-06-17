@@ -45,10 +45,9 @@ public partial class OrderView : UserControl
                 NamaPemesan = result.NamaPemesan,
                 StatusSekarang = result.StatusSekarang,
                 TotalHarga = result.TotalHarga,
-                Items = result.Items,
             };
 
-            await vm.CreateOrderAsync(order);
+            // await vm.CreateOrderAsync(order);
         }
     }
 
@@ -77,7 +76,7 @@ public partial class OrderView : UserControl
 
         if (DataContext is OrderViewModel vm)
         {
-            await vm.DeleteOrderAsync(order);
+            // await vm.DeleteOrderAsync(order);
         }
     }
 
@@ -116,9 +115,8 @@ public partial class OrderView : UserControl
             order.NamaPemesan = result.NamaPemesan;
             order.StatusSekarang = result.StatusSekarang;
             order.TotalHarga = result.TotalHarga;
-            order.Items = result.Items;
 
-            await vm.UpdateOrderAsync(order);
+            // await vm.UpdateOrderAsync(order);
         }
     }
 }

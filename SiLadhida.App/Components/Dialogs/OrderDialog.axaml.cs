@@ -1,3 +1,4 @@
+using System.Linq;
 using Avalonia.Controls;
 using SiLadhida.App.Models;
 
@@ -25,7 +26,6 @@ public partial class OrderDialog : UserControl
             NamaPemesan = order.NamaPemesan,
             StatusSekarang = order.StatusSekarang,
             TotalHarga = order.TotalHarga,
-            Items = order.Items
         };
 
         DataContext = Order;

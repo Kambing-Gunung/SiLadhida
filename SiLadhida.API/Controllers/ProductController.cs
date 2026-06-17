@@ -78,7 +78,7 @@ public class ProductController : ControllerBase
             dto.Nama
         );
 
-        var result = await _service.CreateAsync(dto);
+        var result = await _service.CreateAsync(dto.Nama, dto.Harga, dto.Stock);
 
         return Ok(
             ApiResponse<object>.SuccessResponse(
@@ -94,7 +94,7 @@ public class ProductController : ControllerBase
         int id,
         [FromBody] UpdateProductDto dto)
     {
-        var result = await _service.UpdateAsync(id, dto);
+        var result = await _service.UpdateAsync(id, dto.Nama, dto.Harga, dto.Stock);
 
         if (result == null)
         {

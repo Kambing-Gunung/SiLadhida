@@ -38,65 +38,130 @@ public class OrderController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateOrderDto? dto)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
     {
-        if (dto == null)
-        {
-            return BadRequest(
-                ApiResponse<object>.ErrorResponse(
-                    "Data pesanan tidak valid"
-                )
-            );
-        }
+        var order =
+            await _service.GetByIdAsync(id);
 
-        _logger.LogInformation("Creating new order for customer {CustomerName}", dto.NamaPemesan);
+        if (order is null)
+            return NotFound();
 
-        var result = await _service.CreateAsync(dto);
-
-        return Ok(
-            ApiResponse<object>.SuccessResponse(
-                result,
-                "Pesanan berhasil dibuat"
-            )
-        );
+        return Ok(order);
     }
 
     [Authorize]
-    [HttpPut("{id}/status")]
-    public async Task<IActionResult> UpdateStatus(
-        int id,
-        [FromBody] UpdateStatusDto? dto)
+    [HttpPost("{id}/items")]
+    public async Task<IActionResult> AddItem(int id, AddOrderItemDto dto)
     {
-        if (dto == null)
-        {
-            return BadRequest(
-                ApiResponse<object>.ErrorResponse(
-                    "Data status tidak valid"
-                )
-            );
-        }
+        var order =
+            await _service.AddItemAsync(
+                id,
+                dto.ProductId,
+                dto.Quantity);
 
-        _logger.LogInformation("Updating status for order {OrderId}", id);
+        if (order is null)
+            return NotFound();
 
-        var result = await _service.UpdateStatusAsync(id, dto);
+        return Ok(order);
+    }
 
-        if (result == null)
-        {
-            _logger.LogWarning("Order not found with ID {OrderId}", id);
+    [Authorize]
+    [HttpDelete("{id}/items/{productId}")]
+    public async Task<IActionResult> RemoveItem(int id, int productId)
+    {
+        var order =
+            await _service.RemoveItemAsync(
+                id,
+                productId);
 
-            return NotFound(
-                ApiResponse<object>.ErrorResponse(
-                    "Pesanan tidak ditemukan"
-                )
-            );
-        }
+        if (order is null)
+            return NotFound();
 
-        return Ok(
-            ApiResponse<object>.SuccessResponse(
-                result,
-                "Status pesanan berhasil diperbarui"
-            )
-        );
+        return Ok(order);
+    }
+
+    [HttpPut("{id}/items/{productId}/increase")]
+    public async Task<IActionResult> IncreaseItem(
+        int id,
+        int productId,
+        UpdateItemQuantityDto dto)
+    {
+        var order =
+            await _service.IncreaseItemAsync(
+                id,
+                productId,
+                dto.Quantity);
+
+        if (order is null)
+            return NotFound();
+
+        return Ok(order);
+    }
+
+    [HttpPut("{id}/items/{productId}/decrease")]
+    public async Task<IActionResult> DecreaseItem(
+        int id,
+        int productId,
+        UpdateItemQuantityDto dto)
+    {
+        var order =
+            await _service.DecreaseItemAsync(
+                id,
+                productId,
+                dto.Quantity);
+
+        if (order is null)
+            return NotFound();
+
+        return Ok(order);
+    }
+
+    [HttpDelete("{id}/items")]
+    public async Task<IActionResult> ClearItems(int id)
+    {
+        var order =
+            await _service.ClearItemsAsync(id);
+
+        if (order is null)
+            return NotFound();
+
+        return Ok(order);
+    }
+
+    [HttpPut("{id}/pay")]
+    public async Task<IActionResult> Pay(int id)
+    {
+        var order =
+            await _service.PayOrderAsync(id);
+
+        if (order is null)
+            return NotFound();
+
+        return Ok(order);
+    }
+
+    [HttpPut("{id}/cancel")]
+    public async Task<IActionResult> Cancel(int id)
+    {
+        var order =
+            await _service.CancelOrderAsync(id);
+
+        if (order is null)
+            return NotFound();
+
+        return Ok(order);
+    }
+
+    [HttpPut("{id}/complete")]
+    public async Task<IActionResult> Complete(int id)
+    {
+        var order =
+            await _service.CompleteOrderAsync(id);
+
+        if (order is null)
+            return NotFound();
+
+        return Ok(order);
     }
 }

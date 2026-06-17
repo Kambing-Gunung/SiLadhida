@@ -4,10 +4,12 @@ namespace SiLadhida.App.Models
     {
         public int Id { get; set; }
 
-        public int ProdukId { get; set; }
+        public int ProductId { get; set; }
 
         public int Quantity { get; set; }
 
-        public int Harga { get; set; }
+        public decimal Harga { get; set; }
+
+        public decimal SubTotal => Quantity * Harga;
     }
 }

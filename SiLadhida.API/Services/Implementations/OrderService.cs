@@ -47,55 +47,7 @@ namespace SiLadhida.API.Services.Implementations
             return order;
         }
 
-        public async Task<Order?> PayOrderAsync(int orderId)
-        {
-            var order =
-                await _orderRepository.GetByIdAsync(orderId);
 
-            if (order is null)
-                return null;
-
-            var productIds = order.Items
-                .Select(x => x.ProductId)
-                .Distinct()
-                .ToList();
-
-            var products =
-                await _productRepository.GetByIdsAsync(productIds);
-
-            foreach (var item in order.Items)
-            {
-                var product = products
-                    .FirstOrDefault(
-                        p => p.Id == item.ProductId);
-
-                if (product is null)
-                    throw new InvalidOperationException(
-                        $"Product {item.ProductId} tidak ditemukan.");
-
-                if (product.Stock < item.Quantity)
-                    throw new InvalidOperationException(
-                        $"Stock {product.Nama} tidak mencukupi.");
-            }
-
-            foreach (var item in order.Items)
-            {
-                var product = products
-                    .First(p => p.Id == item.ProductId);
-
-                product.DecreaseStock(item.Quantity);
-            }
-
-            order.Pay();
-
-            await _orderRepository.SaveChangesAsync();
-
-            _logger.LogInformation(
-                "Order {OrderId} berhasil dibayar",
-                order.Id);
-
-            return order;
-        }
 
         public async Task<Order?> UpdateStatusAsync(int id, StateTrigger trigger)
         {
@@ -129,7 +81,10 @@ namespace SiLadhida.API.Services.Implementations
             return order;
         }
 
-        public async Task<Order?> AddItemAsync(int orderId, int productId, int quantity)
+        public async Task<Order?> AddItemAsync(
+            int orderId,
+            int productId,
+            int quantity)
         {
             var order =
                 await _orderRepository.GetByIdAsync(orderId);
@@ -142,7 +97,7 @@ namespace SiLadhida.API.Services.Implementations
 
             if (product is null)
                 throw new InvalidOperationException(
-                    "Produk tidak ditemukan.");
+                    "Product tidak ditemukan.");
 
             order.AddItem(
                 product.Id,
@@ -154,7 +109,9 @@ namespace SiLadhida.API.Services.Implementations
             return order;
         }
 
-        public async Task<Order?> RemoveItemAsync(int orderId, int productId)
+        public async Task<Order?> RemoveItemAsync(
+            int orderId,
+            int productId)
         {
             var order =
                 await _orderRepository.GetByIdAsync(orderId);
@@ -169,7 +126,10 @@ namespace SiLadhida.API.Services.Implementations
             return order;
         }
 
-        public async Task<Order?> IncreaseItemAsync(int orderId, int productId, int quantity)
+        public async Task<Order?> IncreaseItemAsync(
+            int orderId,
+            int productId,
+            int quantity)
         {
             var order =
                 await _orderRepository.GetByIdAsync(orderId);
@@ -186,7 +146,10 @@ namespace SiLadhida.API.Services.Implementations
             return order;
         }
 
-        public async Task<Order?> DecreaseItemAsync(int orderId, int productId, int quantity)
+        public async Task<Order?> DecreaseItemAsync(
+            int orderId,
+            int productId,
+            int quantity)
         {
             var order =
                 await _orderRepository.GetByIdAsync(orderId);
@@ -212,6 +175,81 @@ namespace SiLadhida.API.Services.Implementations
                 return null;
 
             order.ClearItems();
+
+            await _orderRepository.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task<Order?> PayOrderAsync(int orderId)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            if (order is null)
+                return null;
+
+            var productIds = order.Items
+                .Select(x => x.ProductId)
+                .Distinct()
+                .ToList();
+
+            var products = await _productRepository.GetByIdsAsync(productIds);
+
+            foreach (var item in order.Items)
+            {
+                var product = products
+                    .FirstOrDefault(
+                        p => p.Id == item.ProductId);
+
+                if (product is null)
+                    throw new InvalidOperationException(
+                        $"Product {item.ProductId} tidak ditemukan.");
+
+                if (product.Stock < item.Quantity)
+                    throw new InvalidOperationException(
+                        $"Stock {product.Nama} tidak mencukupi.");
+            }
+
+            foreach (var item in order.Items)
+            {
+                var product =
+                    products.First(
+                        p => p.Id == item.ProductId);
+
+                product.DecreaseStock(item.Quantity);
+            }
+
+            order.Pay();
+
+            await _orderRepository.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task<Order?> CancelOrderAsync(int orderId)
+        {
+            var order =
+                await _orderRepository.GetByIdAsync(orderId);
+
+            if (order is null)
+                return null;
+
+            order.Cancel();
+
+            await _orderRepository.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task<Order?> CompleteOrderAsync(int orderId)
+        {
+            var order =
+                await _orderRepository.GetByIdAsync(orderId);
+
+            if (order is null)
+                return null;
+
+            order.Complete();
 
             await _orderRepository.SaveChangesAsync();
 

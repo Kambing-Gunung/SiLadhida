@@ -1,20 +1,43 @@
 using SiLadhida.Core.Entities;
-using SiLadhida.Core.Enums;
 
-namespace SiLadhida.API.Services.Interfaces
+namespace SiLadhida.API.Services.Interfaces;
+
+public interface IOrderService
 {
-    public interface IOrderService
-    {
-        Task<List<Order>> GetAllAsync();
+    Task<List<Order>> GetAllAsync();
 
-        Task<Order?> GetByIdAsync(int id);
+    Task<Order?> GetByIdAsync(int id);
 
-        Task<Order> CreateAsync(string namaPemesan);
+    Task<Order> CreateAsync(string namaPemesan);
 
-        Task<Order?> UpdateStatusAsync(
-            int id,
-            StateTrigger trigger);
+    Task<Order?> AddItemAsync(
+        int orderId,
+        int productId,
+        int quantity);
 
-        Task<Order?> PayOrderAsync(int orderId);
-    }
+    Task<Order?> RemoveItemAsync(
+        int orderId,
+        int productId);
+
+    Task<Order?> IncreaseItemAsync(
+        int orderId,
+        int productId,
+        int quantity);
+
+    Task<Order?> DecreaseItemAsync(
+        int orderId,
+        int productId,
+        int quantity);
+
+    Task<Order?> ClearItemsAsync(
+        int orderId);
+
+    Task<Order?> PayOrderAsync(
+        int orderId);
+
+    Task<Order?> CancelOrderAsync(
+        int orderId);
+
+    Task<Order?> CompleteOrderAsync(
+        int orderId);
 }

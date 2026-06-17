@@ -1,3 +1,4 @@
+using SiLadhida.API.Data;
 using SiLadhida.API.Extensions;
 using SiLadhida.API.Middleware;
 
@@ -15,6 +16,15 @@ builder.Services
 
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db =
+        scope.ServiceProvider
+            .GetRequiredService<AppDbContext>();
+
+    await ProductSeeder.SeedAsync(db);
+}
 
 // Use application middleware
 app.UseMiddleware<ExceptionMiddleware>();

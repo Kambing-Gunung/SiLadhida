@@ -1,9 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SiLadhida.App.Models;
 
-public partial class OrderFormModel : ObservableObject
+public partial class OrderFormModel
+    : ObservableObject
 {
     [ObservableProperty]
     private string namaPemesan = string.Empty;
@@ -14,15 +15,13 @@ public partial class OrderFormModel : ObservableObject
     [ObservableProperty]
     private decimal totalHarga;
 
-    [ObservableProperty]
-    private List<OrderItem> items;
+    // [ObservableProperty]
+    // private ObservableCollection<OrderItem> items
+    //     = new();
 
     public bool IsValid()
     {
         return
-            !string.IsNullOrWhiteSpace(NamaPemesan)
-            && !string.IsNullOrWhiteSpace(StatusSekarang)
-            && TotalHarga > 0
-            && Items != null && Items.Count > 0;
+            !string.IsNullOrWhiteSpace(namaPemesan);
     }
 }

@@ -2,9 +2,10 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:SiLadhida.App.ViewModels"
-    
+    xmlns:model="using:SiLadhida.App.Models"
     xmlns:components="using:SiLadhida.App.Components"
-    x:Class="SiLadhida.App.Views.KasirView">
+    x:Class="SiLadhida.App.Views.KasirView"
+    x:DataType="vm:KasirViewModel">
 
     <!-- CONTENT -->
     <Grid Grid.Column="1">
@@ -26,12 +27,12 @@
 
             <StackPanel Margin="20" Spacing="20">
 
-                <ListBox Name="OrderListBox">
+                <ListBox ItemsSource="{Binding Orders}"
+                         SelectedItem="{Binding SelectedOrder}">
 
                     <ListBox.ItemTemplate>
 
-                        <DataTemplate
-                            x:DataType="vm:OrderViewModel">
+                        <DataTemplate x:DataType="model:Order">
 
                             <Border
                                 Background="#3E2723"
@@ -39,7 +40,7 @@
                                 Padding="15"
                                 Margin="0,0,0,10">
 
-                                <!-- <StackPanel Spacing="5">
+                                <StackPanel Spacing="5">
 
                                     <TextBlock
                                         Text="{Binding NamaPemesan}"
@@ -55,7 +56,7 @@
                                         Text="{Binding TotalHarga}"
                                         Foreground="#D7CCC8"/>
 
-                                </StackPanel> -->
+                                </StackPanel>
 
                             </Border>
 

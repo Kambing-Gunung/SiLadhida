@@ -1,11 +1,10 @@
 using SiLadhida.API.Auth;
 using SiLadhida.API.Data;
-using SiLadhida.API.Repositories.Implementations;
-using SiLadhida.API.Repositories.Interfaces;
+using SiLadhida.API.Repositories;
+using SiLadhida.Core.Interfaces;
 using SiLadhida.API.Services.Implementations;
 using SiLadhida.API.Services.Interfaces;
 using SiLadhida.API.Mappings;
-using SiLadhida.Core.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +18,12 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
+
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
-        services.AddScoped<IOrderService, Services.Implementations.OrderService>();
+
         services.AddScoped<IProductService, ProductService>();
-        services.AddScoped<ProductLookupService>();
-        services.AddScoped<Core.Services.OrderService>();
-        services.AddScoped<Factories.Interfaces.IOrderFactory, Factories.Implementations.OrderFactory>();
+        services.AddScoped<IOrderService, Services.Implementations.OrderService>();
 
         return services;
     }

@@ -93,9 +93,9 @@
 
                                         <Button
                                             Content="Edit"
-                                            Background="#6D4C41"
-                                            Command="{Binding $parent[UserControl].DataContext.UpdateOrderCommand}"
-                                            CommandParameter="{Binding}"/>
+                                            Background="#6D4C41"/>
+                                            <!-- Command="{Binding $parent[UserControl].DataContext.UpdateOrderCommand}"
+                                            CommandParameter="{Binding}"/> -->
 
                                         <Button
                                             Content="Delete"
