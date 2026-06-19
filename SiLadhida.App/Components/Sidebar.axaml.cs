@@ -18,41 +18,39 @@ public partial class Sidebar : UserControl
     private void Dashboard_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         SetActiveButton(DashboardButton);
-        App.Navigation.Navigate(new DashboardView());
+        App.Navigation.Navigate(new DashboardView(), "Dashboard");
     }
 
-    private void Produk_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void Product_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         SetActiveButton(ProdukButton);
-        App.Navigation.Navigate(new ProdukView());
+        App.Navigation.Navigate(new ProductView(), "Produk");
     }
 
-    private void Pesanan_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void Order_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         SetActiveButton(PesananButton);
-        App.Navigation.Navigate(new OrderView());
+        App.Navigation.Navigate(new OrderView(), "Pesanan");
     }
 
-    private void Kasir_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void Transaction_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        SetActiveButton(KasirButton);
-        App.Navigation.Navigate(new KasirView());
+        SetActiveButton(TransaksiButton);
+        App.Navigation.Navigate(new TransactionView(), "Transaksi");
     }
 
     private void Logout_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         SetActiveButton(LogoutButton);
-        App.Navigation.Navigate(new LoginView());
+        App.Navigation.Navigate(new LoginView(), "Dashboard");
     }
 
     private void SetActiveButton(Button button)
     {
-        if (_activeButton != null)
-        {
-            _activeButton.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x4E, 0x34, 0x2E));
-        }
+        _activeButton?.Classes.Remove("active");
 
-        button.Background = new SolidColorBrush(Color.FromArgb(0x25, 0x00, 0x00, 0x00));
+        button.Classes.Add("active");
+
         _activeButton = button;
     }
 }

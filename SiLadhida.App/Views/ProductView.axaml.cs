@@ -8,9 +8,9 @@ using Avalonia.Input;
 
 namespace SiLadhida.App.Views;
 
-public partial class ProdukView : UserControl
+public partial class ProductView : UserControl
 {
-    public ProdukView()
+    public ProductView()
     {
         InitializeComponent();
     }
@@ -39,7 +39,7 @@ public partial class ProdukView : UserControl
         if (result == null)
             return;
 
-        if (DataContext is ProdukViewModel vm)
+        if (DataContext is ProductViewModel vm)
         {
             var product = new Product
             {
@@ -75,7 +75,7 @@ public partial class ProdukView : UserControl
         if (!confirmed)
             return;
 
-        if (DataContext is ProdukViewModel vm)
+        if (DataContext is ProductViewModel vm)
         {
             await vm.DeleteProductAsync(product);
         }
@@ -111,7 +111,7 @@ public partial class ProdukView : UserControl
         if (result == null)
             return;
 
-        if (DataContext is ProdukViewModel vm)
+        if (DataContext is ProductViewModel vm)
         {
             product.Nama = result.Nama;
             product.Harga = result.Harga;

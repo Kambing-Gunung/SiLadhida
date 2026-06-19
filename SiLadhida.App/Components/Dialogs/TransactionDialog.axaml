@@ -1,0 +1,83 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:model="using:SiLadhida.App.Models"
+    x:Class="SiLadhida.App.Components.Dialogs.TransactionDialog"
+    x:DataType="model:Order"
+    Background="#3E2723">
+
+    <ScrollViewer>
+
+        <StackPanel Margin="20" Spacing="15">
+
+            <TextBlock
+                Text="Detail Transaksi"
+                FontSize="22"
+                FontWeight="Bold"
+                Foreground="White"/>
+
+            <TextBlock
+                Text="{Binding NamaPemesan}"
+                Foreground="White"
+                FontSize="16"/>
+
+            <TextBlock
+                Text="{Binding StatusSekarang}"
+                Foreground="#D7CCC8"/>
+
+            <TextBlock
+                Text="{Binding TotalHarga, StringFormat='Rp {0:N0}'}"
+                Foreground="White"
+                FontWeight="SemiBold"/>
+
+            <!-- ITEMS -->
+            <ItemsControl ItemsSource="{Binding Items}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="model:OrderItem">
+
+                        <Border
+                            BorderBrush="#5D4037"
+                            BorderThickness="0,0,0,1"
+                            Padding="0,10">
+
+                            <Grid ColumnDefinitions="*,Auto">
+
+                                <StackPanel>
+
+                                    <TextBlock
+                                        Text="{Binding NamaProduk}"
+                                        Foreground="White"/>
+
+                                    <TextBlock
+                                        Text="{Binding SubTotal, StringFormat='Rp {0:N0}'}"
+                                        Foreground="#D7CCC8"/>
+
+                                </StackPanel>
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Text="{Binding Quantity}"
+                                    Foreground="White"
+                                    VerticalAlignment="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+            <Button
+                Content="Tutup"
+                HorizontalAlignment="Center"
+                Width="120"
+                Click="Close_Click"/>
+
+        </StackPanel>
+
+    </ScrollViewer>
+
+</UserControl>

@@ -1,6 +1,3 @@
-
-
-
 using SiLadhida.Core.Enums;
 
 namespace SiLadhida.Core.StateMachines

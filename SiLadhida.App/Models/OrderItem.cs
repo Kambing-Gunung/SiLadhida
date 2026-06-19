@@ -6,6 +6,8 @@ namespace SiLadhida.App.Models
 
         public int ProductId { get; set; }
 
+        public string NamaProduk { get; set; } = string.Empty;
+
         public int Quantity { get; set; }
 
         public decimal Harga { get; set; }

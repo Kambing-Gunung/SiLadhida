@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SiLadhida.App.Models;
 
-public partial class OrderFormModel
-    : ObservableObject
+public partial class OrderFormModel : ObservableObject
 {
     [ObservableProperty]
     private string namaPemesan = string.Empty;
@@ -12,16 +12,17 @@ public partial class OrderFormModel
     [ObservableProperty]
     private string statusSekarang = string.Empty;
 
-    [ObservableProperty]
-    private decimal totalHarga;
+    public ObservableCollection<OrderItemFormModel> Items { get; } = new();
 
-    // [ObservableProperty]
-    // private ObservableCollection<OrderItem> items
-    //     = new();
+    public decimal TotalHarga => Items.Sum(x => x.SubTotal);
+
+    public void RefreshTotal()
+    {
+        OnPropertyChanged(nameof(TotalHarga));
+    }
 
     public bool IsValid()
     {
-        return
-            !string.IsNullOrWhiteSpace(namaPemesan);
+        return !string.IsNullOrWhiteSpace(NamaPemesan);
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Net.Http.Json;
 using SiLadhida.App.Models;
 
 namespace SiLadhida.App.Services;
@@ -9,16 +8,17 @@ public class ProductApiService : ApiService
 {
     public async Task<List<Product>> GetProductsAsync()
     {
-        var response = await HttpClient.GetFromJsonAsync<
-            ApiResponse<List<Product>>
-        >("api/products");
+        var response =
+            await GetAsync<ApiResponse<List<Product>>>(
+                "api/products"
+            );
 
-        return response?.Data ?? new List<Product>();
+        return response?.Data ?? new();
     }
 
     public async Task CreateProductAsync(Product product)
     {
-        await HttpClient.PostAsJsonAsync(
+        await PostAsync(
             "api/products",
             product
         );
@@ -26,7 +26,7 @@ public class ProductApiService : ApiService
 
     public async Task UpdateProductAsync(Product product)
     {
-        await HttpClient.PutAsJsonAsync(
+        await PutAsync(
             $"api/products/{product.Id}",
             product
         );
@@ -34,7 +34,7 @@ public class ProductApiService : ApiService
 
     public async Task DeleteProductAsync(int id)
     {
-        await HttpClient.DeleteAsync(
+        await DeleteAsync(
             $"api/products/{id}"
         );
     }

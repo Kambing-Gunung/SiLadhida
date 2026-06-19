@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:SiLadhida.App.ViewModels"
     xmlns:model="using:SiLadhida.App.Models"
-    xmlns:components="using:SiLadhida.App.Components"
     x:Class="SiLadhida.App.Views.OrderView"
     x:DataType="vm:OrderViewModel">
 
@@ -11,45 +10,41 @@
         <vm:OrderViewModel/>
     </UserControl.DataContext>
 
-    <!-- CONTENT -->
-    <Grid Grid.Column="1">
+    <Grid Classes="page">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <ScrollViewer>
 
-        <!-- TOPBAR -->
-        <components:Topbar Grid.Row="0">
-            <components:Topbar.DataContext>
-                <vm:TopbarViewModel Title="Daftar Pesanan"/>
-            </components:Topbar.DataContext>
-        </components:Topbar>
+            <StackPanel Classes="section">
 
-        <!-- MAIN CONTENT -->
-        <ScrollViewer Grid.Row="1">
+                <!-- TITLE -->
+                <TextBlock
+                    Classes="heading"
+                    Text="Pesanan"/>
 
-            <StackPanel Margin="20">
+                <!-- TOOLBAR -->
+                <StackPanel Orientation="Horizontal"
+                            Spacing="10">
+
+                    <TextBox
+                        Width="250"
+                        PlaceholderText="Nama Pemesan"
+                        Text="{Binding NamaPemesan}" />
+
+                    <Button
+                        Classes="primary"
+                        Content="+ Tambah Pesanan"
+                        Command="{Binding CreateOrderCommand}" />
+
+                </StackPanel>
 
                 <!-- LOADING -->
                 <TextBlock
                     Text="Loading orders..."
                     IsVisible="{Binding IsLoading}"
-                    HorizontalAlignment="Center"
-                    Margin="0,0,0,10"/>
-
-                <!-- BUTTON -->
-                <Button
-                    Content="+ Tambah Pesanan"
-                    Width="180"
-                    Height="40"
-                    Margin="0,0,0,20"
-                    Background="#6D4C41"
-                    Foreground="White"
-                    Click="AddOrder_Click"/>
+                    HorizontalAlignment="Center"/>
 
                 <!-- ORDER LIST -->
-                <ItemsControl ItemsSource="{Binding Orders}">
+                <ItemsControl ItemsSource="{Binding ActiveOrders}">
 
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -61,48 +56,55 @@
 
                         <DataTemplate x:DataType="model:Order">
 
-                            <Border
-                                Background="#3E2723"
-                                CornerRadius="10"
-                                Padding="15"
-                                Margin="0,0,0,10">
+                            <Border Classes="card" Margin="8">
 
-                                <StackPanel Spacing="10">
+                                <StackPanel Classes="section">
 
-                                    <!-- ORDER NAME -->
+                                    <!-- Nama -->
                                     <TextBlock
-                                        Text="{Binding NamaPemesan}"
-                                        FontSize="18"
-                                        FontWeight="Bold"
-                                        Foreground="White"/>
+                                        Classes="heading"
+                                        Text="{Binding NamaPemesan}"/>
 
-                                    <!-- ORDER STATUS -->
+                                    <!-- Status -->
                                     <TextBlock
                                         Text="{Binding StatusSekarang}"
-                                        Foreground="#D7CCC8"/>
+                                        Foreground="{Binding StatusClass}"
+                                        FontWeight="SemiBold"/>
 
-                                    <!-- ORDER TOTAL -->
+                                    <!-- Total -->
                                     <TextBlock
-                                        Text="{Binding TotalHarga, StringFormat='Total: Rp {0:N0}'}"
-                                        Foreground="#D7CCC8"/>
+                                        Classes="subtitle"
+                                        Text="{Binding TotalHarga, StringFormat='Total: Rp {0:N0}'}"/>
 
-                                    <!-- ACTIONS -->
-                                    <StackPanel
-                                        Orientation="Horizontal"
-                                        Spacing="10">
+                                    <!-- ACTION -->
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
 
                                         <Button
-                                            Content="Edit"
-                                            Background="#6D4C41"/>
-                                            <!-- Command="{Binding $parent[UserControl].DataContext.UpdateOrderCommand}"
-                                            CommandParameter="{Binding}"/> -->
+                                            Classes="icon-button"
+                                            Content="⚙"
+                                            Click="Manage_Click"
+                                            Tag="{Binding}"
+                                            IsEnabled="{Binding CanManage}" />
 
                                         <Button
-                                            Content="Delete"
-                                            Background="#B71C1C"
-                                            Foreground="White"
-                                            Click="Delete_Click"
-                                            Tag="{Binding}"/>
+                                            Classes="icon-button success"
+                                            Content="💳"
+                                            Command="{Binding $parent[UserControl].DataContext.PayOrderCommand}"
+                                            CommandParameter="{Binding}"
+                                            IsEnabled="{Binding CanPay}" />
+
+                                        <Button
+                                            Classes="icon-button danger"
+                                            Content="✖"
+                                            Command="{Binding $parent[UserControl].DataContext.CancelOrderCommand}"
+                                            CommandParameter="{Binding}"
+                                            IsEnabled="{Binding CanCancel}" />
+
+                                        <Button
+                                            Content="Selesai"
+                                            Command="{Binding $parent[UserControl].DataContext.CompleteOrderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            IsEnabled="{Binding CanComplete}" />
 
                                     </StackPanel>
 

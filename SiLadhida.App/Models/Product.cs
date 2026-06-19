@@ -9,4 +9,6 @@ public class Product
     public decimal Harga { get; set; }
 
     public int Stock { get; set; }
+
+    public bool IsSelected { get; set; }
 }

@@ -2,97 +2,88 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:SiLadhida.App.ViewModels"
-    xmlns:components="using:SiLadhida.App.Components"
+    x:DataType="vm:DashboardViewModel"
     x:Class="SiLadhida.App.Views.DashboardView">
 
-        <!-- CONTENT -->
-        <Grid Grid.Column="1">
+    <UserControl.DataContext>
+        <vm:DashboardViewModel/>
+    </UserControl.DataContext>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <Grid Classes="page">
 
-            <!-- TOPBAR -->
-             <components:Topbar Grid.Row="0">
-                <components:Topbar.DataContext>
-                    <vm:TopbarViewModel Title="Dashboard Admin"/>
-                </components:Topbar.DataContext>
-            </components:Topbar>
+        <StackPanel Classes="section">
 
-            <!-- MAIN CONTENT -->
+            <!-- Title -->
+            <TextBlock
+                Classes="heading"
+                Text="Dashboard"/>
 
-            <ScrollViewer Grid.Row="1">
+            <!-- Cards -->
+            <Grid
+                ColumnDefinitions="*,*,*"
+                ColumnSpacing="16">
 
-                <StackPanel Margin="20" Spacing="20">
+                <!-- Produk -->
+                <Border
+                    Classes="section-card"
+                    Grid.Column="0">
 
-                    <TextBlock
-                        Text="Selamat datang di SiLadhida Admin Panel"
-                        FontSize="30"
-                        FontWeight="Bold"/>
+                    <StackPanel Classes="section">
 
-                    <WrapPanel ItemWidth="250">
+                        <TextBlock
+                            Classes="label"
+                            Text="Produk"/>
 
-                        <!-- CARD -->
+                        <TextBlock
+                            Classes="title"
+                            Text="{Binding TotalProduk}"/>
 
-                        <Border
-                            Width="220"
-                            Height="120"
-                            Background="#4E342E"
-                            CornerRadius="12"
-                            Padding="20"
-                            Margin="10">
+                    </StackPanel>
 
-                            <StackPanel>
+                </Border>
 
-                                <TextBlock
-                                    Text="Total Produk"
-                                    Foreground="#D7CCC8"
-                                    FontSize="18"/>
+                <!-- Pesanan -->
+                <Border
+                    Classes="section-card"
+                    Grid.Column="1">
 
-                                <TextBlock
-                                    Text="2"
-                                    Foreground="#D7CCC8"
-                                    FontSize="40"
-                                    FontWeight="Bold"/>
+                    <StackPanel Classes="section">
 
-                            </StackPanel>
+                        <TextBlock
+                            Classes="label"
+                            Text="Pesanan"/>
 
-                        </Border>
+                        <TextBlock
+                            Classes="title"
+                            Text="{Binding TotalOrder}"/>
 
-                        <!-- CARD -->
+                    </StackPanel>
 
-                        <Border
-                            Width="220"
-                            Height="120"
-                            Background="#4E342E"
-                            CornerRadius="12"
-                            Padding="20"
-                            Margin="10">
+                </Border>
 
-                            <StackPanel>
+                <!-- Transaksi -->
+                <Border
+                    Classes="section-card"
+                    Grid.Column="2">
 
-                                <TextBlock
-                                    Text="Total Pesanan"
-                                    Foreground="#D7CCC8"
-                                    FontSize="18"/>
+                    <StackPanel Classes="section">
 
-                                <TextBlock
-                                    Text="10"
-                                    Foreground="#D7CCC8"
-                                    FontSize="40"
-                                    FontWeight="Bold"/>
+                        <TextBlock
+                            Classes="label"
+                            Text="Transaksi"/>
 
-                            </StackPanel>
+                        <TextBlock
+                            Classes="title"
+                            Text="{Binding TotalTransaksi}"/>
 
-                        </Border>
+                    </StackPanel>
 
-                    </WrapPanel>
+                </Border>
 
-                </StackPanel>
+            </Grid>
 
-            </ScrollViewer>
+        </StackPanel>
 
-        </Grid>
+    </Grid>
 
 </UserControl>

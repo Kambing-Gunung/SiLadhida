@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -19,30 +20,70 @@ public partial class LoginViewModel : ObservableObject
     [ObservableProperty]
     private string message = "";
 
+    [ObservableProperty]
+    private bool isPasswordVisible;
+
+    [ObservableProperty]
+    private bool isBusy;
+
     public LoginViewModel()
+        : this(new AuthService())
     {
-        _authService = new AuthService();
+    }
+
+    public LoginViewModel(AuthService authService)
+    {
+        _authService = authService;
     }
 
     [RelayCommand]
     private async Task Login()
     {
-        var success = await _authService.LoginAsync(
-            Username,
-            Password
-        );
+        if (IsBusy)
+            return;
 
-        if (success)
+        Message = "";
+
+        if (string.IsNullOrWhiteSpace(Username) ||
+            string.IsNullOrWhiteSpace(Password))
         {
-            Message = "Login berhasil";
+            Message = "Username dan Password wajib diisi.";
+            return;
+        }
 
-            App.Navigation.Navigate(
-                new DashboardView()
+        try
+        {
+            IsBusy = true;
+
+            var success = await _authService.LoginAsync(
+                Username,
+                Password
             );
+
+            if (success)
+            {
+                App.Navigation.Navigate(
+                    new DashboardView(), "Dashboard"
+                );
+
+                return;
+            }
+
+            Message = "Username atau Password salah.";
         }
-        else
+        catch (Exception)
         {
-            Message = "Login gagal";
+            Message = "Terjadi kesalahan saat login.";
         }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    private void TogglePassword()
+    {
+        IsPasswordVisible = !IsPasswordVisible;
     }
 }

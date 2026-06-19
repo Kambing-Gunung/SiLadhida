@@ -4,84 +4,182 @@
     xmlns:models="using:SiLadhida.App.Models"
     x:Class="SiLadhida.App.Components.Dialogs.OrderDialog"
     x:DataType="models:OrderFormModel"
-
     Background="#3E2723">
 
-    <StackPanel Margin="20" Spacing="10">
-        <TextBlock
-            Text="Tambah Pesanan"
-            Foreground="White"
-            FontSize="24"
-            FontWeight="SemiBold"
-            HorizontalAlignment="Center"/>
+    <ScrollViewer>
 
-        <Line
-            StartPoint="0,0"
-            EndPoint="300,0"
-            Stroke="White"
-            StrokeThickness="1"
-            HorizontalAlignment="Center"
-            Margin="0, 0, 0, 10"/>
+        <StackPanel
+            Margin="20"
+            Spacing="15">
 
-        <TextBlock
-            Text="Nama Pemesan"
-            Foreground="White"/>
-
-        <TextBox
-            Text="{Binding NamaPemesan}"
-            PlaceholderText="Masukkan nama pemesan"/>
-
-        <TextBlock
-            Text="Status Sekarang"
-            Foreground="White"/>
-
-        <TextBox
-            Text="{Binding StatusSekarang}"
-            PlaceholderText="Masukkan status sekarang"/>
-
-        <TextBlock
-            Text="Total Harga"
-            Foreground="White"/>
-
-        <TextBox
-            Text="{Binding TotalHarga}"
-            PlaceholderText="Masukkan total harga"/>
-
-        <!-- Item product masuk disini -->
-        <TextBlock
-            Text="Items"
-            Foreground="White"/>
-
-        <TextBox
-            Text="Ini isi Item"
-            PlaceholderText="Masukkan items"/>
-
-        <TextBlock
-            x:Name="ErrorText"
-            Foreground="Red"
-            IsVisible="False"/>
-
-        <StackPanel 
-        HorizontalAlignment="Center" 
-        Orientation="Horizontal"
-        Spacing="10"
-        Margin="0,30,0,0">
-
-            <Button
-                Content="Simpan"
-                HorizontalContentAlignment="Center"
-                Width="100"
+            <!-- HEADER -->
+            <TextBlock
+                Text="Kelola Pesanan"
                 Foreground="White"
-                Click="Save_Click"/>
-    
-            <Button
-                Content="Batal"
-                HorizontalContentAlignment="Center"
-                Width="100"
+                FontSize="24"
+                FontWeight="SemiBold"
+                HorizontalAlignment="Center"/>
+
+            <Border
+                Height="1"
+                Background="White"
+                Margin="0,0,0,10"/>
+
+            <!-- NAMA -->
+            <TextBlock
+                Text="Nama Pemesan"
+                Foreground="White"/>
+
+            <TextBox
+                Text="{Binding NamaPemesan}"
+                PlaceholderText="Masukkan nama pemesan"/>
+
+            <!-- STATUS -->
+            <TextBlock
+                Text="Status"
+                Foreground="White"/>
+
+            <TextBox
+                Text="{Binding StatusSekarang}"
+                IsReadOnly="True"/>
+
+            <!-- TOTAL -->
+            <TextBlock
+                Text="Total"
+                Foreground="White"/>
+
+            <TextBlock
+                Text="{Binding TotalHarga,
+                StringFormat='Rp {0:N0}'}"
                 Foreground="White"
-                Click="Cancel_Click"/>
+                FontSize="18"
+                FontWeight="SemiBold"/>
+
+            <!-- ITEMS -->
+            <TextBlock
+                Text="Items"
+                Foreground="White"
+                FontWeight="SemiBold"/>
+
+            <Border
+                BorderBrush="#6D4C41"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="10">
+
+                <ItemsControl
+                    ItemsSource="{Binding Items}">
+
+                    <ItemsControl.ItemTemplate>
+
+                        <DataTemplate
+                            x:DataType="models:OrderItemFormModel">
+
+                            <Border
+                                BorderBrush="#5D4037"
+                                BorderThickness="0,0,0,1"
+                                Padding="0,10">
+
+                                <Grid
+                                    ColumnDefinitions="*,Auto,Auto,Auto,Auto"
+                                    ColumnSpacing="10">
+
+                                    <!-- INFO PRODUK -->
+                                    <StackPanel>
+
+                                        <TextBlock
+                                            Text="{Binding NamaProduk}"
+                                            Foreground="White"
+                                            FontWeight="SemiBold"/>
+
+                                        <TextBlock
+                                            Text="{Binding SubTotal,
+                                            StringFormat='Rp {0:N0}'}"
+                                            Foreground="#D7CCC8"/>
+
+                                    </StackPanel>
+
+                                    <!-- MINUS -->
+                                    <Button
+                                        Grid.Column="1"
+                                        Content="-"
+                                        Width="35"
+                                        Height="35"
+                                        Command="{Binding IncreaseCommand}"
+                                        Tag="{Binding}" />
+
+                                    <!-- QTY -->
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Text="{Binding Quantity}"
+                                        Foreground="White"
+                                        VerticalAlignment="Center"
+                                        FontWeight="SemiBold"/>
+
+                                    <!-- PLUS -->
+                                    <Button
+                                        Grid.Column="3"
+                                        Content="+"
+                                        Width="35"
+                                        Height="35"
+                                        Command="{Binding IncreaseCommand}" 
+                                        Tag="{Binding}" />
+
+                                    <!-- DELETE -->
+                                    <Button
+                                        Grid.Column="4"
+                                        Content="🗑"
+                                        Width="35"
+                                        Height="35"
+                                        Command="{Binding RemoveCommand}" 
+                                        Tag="{Binding}" />
+
+                                </Grid>
+
+                            </Border>
+
+                        </DataTemplate>
+
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+
+            </Border>
+
+            <!-- ADD ITEM -->
+            <Button
+                Content="+ Tambah Item"
+                HorizontalAlignment="Left"
+                Background="#6D4C41"
+                Foreground="White"
+                Click="AddItem_Click"/>
+
+            <!-- ERROR -->
+            <StackPanel>
+
+                <TextBlock
+                    x:Name="ErrorText"
+                    Foreground="Red"
+                    IsVisible="False"/>
+
+                <!-- FOOTER -->
+                <StackPanel
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Spacing="10"
+                    Margin="0,20,0,0">
+
+                    <Button
+                        Content="Tutup"
+                        Width="120"
+                        Click="Close_Click"/>
+
+                </StackPanel>
+
+            </StackPanel>
+
         </StackPanel>
 
-    </StackPanel>
+    </ScrollViewer>
 
 </UserControl>

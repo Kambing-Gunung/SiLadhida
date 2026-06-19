@@ -4,59 +4,73 @@
     x:Class="SiLadhida.App.Components.Sidebar">
 
     <Border
-        Background="#3E2723"
-        Width="220">
+        Width="240"
+        Background="{DynamicResource CardBackgroundBrush}">
 
-        <StackPanel Margin="20" Spacing="10">
+        <Grid
+            RowDefinitions="Auto,*,Auto"
+            Margin="20">
 
-            <TextBlock
-                Text="SiLadhida"
-                FontSize="28"
-                FontWeight="Bold"
-                Foreground="White"
-                Margin="0,0,0,30"/>
+            <!-- Header -->
+            <StackPanel
+                Grid.Row="0"
+                Margin="20"
+                Classes="section">
 
-            <Button
-                Name="DashboardButton"
-                Content="Dashboard"
-                Click="Dashboard_Click"
-                Background="#4E342E"
-                Foreground="#D7CCC8"
-                Width="180"/>
+                <TextBlock
+                    Classes="heading"
+                    Text="☕ SiLadhida"/>
 
-            <Button
-                Name="ProdukButton"
-                Content="Produk"
-                Click="Produk_Click"
-                Background="#4E342E"
-                Foreground="#D7CCC8"
-                Width="180"/>
+                <TextBlock
+                    Classes="caption"
+                    Text="Sistem Informasi Kedai"/>
 
-            <Button
-                Name="PesananButton"
-                Content="Pesanan"
-                Click="Pesanan_Click"
-                Background="#4E342E"
-                Foreground="#D7CCC8"
-                Width="180"/>
+            </StackPanel>
 
-            <Button
-                Name="KasirButton"
-                Content="Kasir"
-                Click="Kasir_Click"
-                Background="#4E342E"
-                Foreground="#D7CCC8"
-                Width="180"/>
+            <!-- Menu -->
+            <StackPanel
+                Grid.Row="1"
+                Margin="0,24,0,0"
+                Classes="section">
 
-            <Button
-                Name="LogoutButton"
-                Content="Logout"
-                Click="Logout_Click"
-                Background="#4E342E"
-                Foreground="#D7CCC8"
-                Width="180"/>
+                <Button
+                    x:Name="DashboardButton"
+                    Classes="nav-button"
+                    Content="🏠 Dashboard"
+                    Click="Dashboard_Click"/>
 
-        </StackPanel>
+                <Button
+                    x:Name="ProdukButton"
+                    Classes="nav-button"
+                    Content="📦 Produk"
+                    Click="Product_Click"/>
+
+                <Button
+                    x:Name="PesananButton"
+                    Classes="nav-button"
+                    Content="🛒 Pesanan"
+                    Click="Order_Click"/>
+
+                <Button
+                    x:Name="TransaksiButton"
+                    Classes="nav-button"
+                    Content="💳 Transaksi"
+                    Click="Transaction_Click"/>
+
+            </StackPanel>
+
+            <!-- Footer -->
+            <Border
+                Grid.Row="2"
+                Padding="20">
+
+                <Button
+                    x:Name="LogoutButton"
+                    Classes="danger"
+                    Content="🚪 Logout"
+                    Click="Logout_Click"/>
+            </Border>
+        </Grid>
 
     </Border>
 

@@ -12,8 +12,8 @@ public class CreateOrderDtoValidator
             .NotEmpty()
             .WithMessage("Nama pemesan wajib diisi");
 
-        RuleFor(x => x.Items)
-            .NotEmpty()
-            .WithMessage("Pesanan minimal memiliki 1 item");
+        // RuleFor(x => x.Items)
+        //     .NotEmpty()
+        //     .WithMessage("Pesanan minimal memiliki 1 item");
     }
 }

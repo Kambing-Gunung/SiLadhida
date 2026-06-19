@@ -1,0 +1,60 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.ViewModels"
+    xmlns:model="using:SiLadhida.App.Models"
+    x:Class="SiLadhida.App.Views.TransactionView"
+    x:DataType="vm:TransactionViewModel">
+
+    <UserControl.DataContext>
+        <vm:TransactionViewModel/>
+    </UserControl.DataContext>
+
+    <ScrollViewer>
+        <StackPanel Margin="20" Spacing="15">
+
+            <TextBlock
+                Text="Riwayat Transaksi"
+                FontSize="22"
+                FontWeight="Bold"/>
+
+            <ItemsControl ItemsSource="{Binding Transactions}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="model:Order">
+
+                        <Border
+                            Background="#3E2723"
+                            CornerRadius="10"
+                            Padding="15"
+                            Margin="0,0,0,10"
+                            PointerPressed="OpenDetail_Click"
+                            Tag="{Binding}">
+
+                            <StackPanel Spacing="8">
+
+                                <TextBlock
+                                    Text="{Binding NamaPemesan}"
+                                    FontWeight="Bold"
+                                    Foreground="White"/>
+
+                                <TextBlock
+                                    Text="{Binding StatusSekarang}"
+                                    Foreground="#D7CCC8"/>
+
+                                <TextBlock
+                                    Text="{Binding TotalHarga, StringFormat='Rp {0:N0}'}"
+                                    Foreground="#D7CCC8"/>
+
+                            </StackPanel>
+
+                        </Border>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

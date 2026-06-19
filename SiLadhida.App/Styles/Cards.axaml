@@ -1,0 +1,21 @@
+<Styles
+    xmlns="https://github.com/avaloniaui">
+
+    <Style Selector="Border.card">
+
+        <Setter Property="Padding"
+                Value="24"/>
+
+        <Setter Property="CornerRadius"
+                Value="20"/>
+
+        <Setter Property="Background"
+                Value="{DynamicResource CardBackgroundBrush}" />
+
+    </Style>
+
+    <Style Selector="Border.section-card:pointerover">
+    <Setter Property="Opacity" Value="0.95"/>
+</Style>
+
+</Styles>

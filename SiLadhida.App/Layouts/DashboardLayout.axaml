@@ -7,7 +7,7 @@
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="240"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -15,11 +15,17 @@
         <components:Sidebar Grid.Column="0"/>
 
         <!-- Main Area -->
-        <Grid Grid.Column="1">
+        <Grid
+            Grid.Column="1"
+            RowDefinitions="Auto,*">
+
+            <!-- Topbar -->
+            <components:Topbar
+                Grid.Row="0"/>
 
             <!-- Dynamic Content -->
             <ContentControl
-                Name="DashboardContent"
+                x:Name="DashboardContent"
                 Grid.Row="1"/>
 
         </Grid>

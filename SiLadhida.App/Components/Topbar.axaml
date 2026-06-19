@@ -5,26 +5,17 @@
     x:Class="SiLadhida.App.Components.Topbar"
     x:DataType="vm:TopbarViewModel">
 
-
     <UserControl.DataContext>
         <vm:TopbarViewModel/>
     </UserControl.DataContext>
 
     <Border
-        Background="#5D4037"
-        BorderBrush="#E0C097"
-        BorderThickness="0,0,0,1">
+        Padding="24,20"
+        Background="{DynamicResource CardBackgroundBrush}">
 
-        <Grid Margin="20">
-
-            <TextBlock
-                Text="{Binding Title}"
-                Foreground="White"
-                FontSize="24"
-                FontWeight="SemiBold"
-                VerticalAlignment="Center"/>
-
-        </Grid>
+        <TextBlock
+            Classes="heading"
+            Text="{Binding Title}"/>
 
     </Border>
 

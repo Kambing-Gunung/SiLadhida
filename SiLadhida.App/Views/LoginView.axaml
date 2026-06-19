@@ -9,40 +9,93 @@
         <vm:LoginViewModel/>
     </Design.DataContext>
 
-    <Grid Background="#3E2723">
+    <Grid
+        Background="{DynamicResource PageBackgroundBrush}">
 
         <Border
-            Width="350"
-            Padding="30"
-            CornerRadius="15"
-            Background="#5D4037"
+            Width="400"
+            Classes="card"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
 
-            <StackPanel Spacing="15">
+            <StackPanel Classes="section">
 
                 <TextBlock
-                    Text="Login Admin"
-                    FontSize="28"
-                    Foreground="White"
+                    Text="☕"
+                    FontSize="40"
                     HorizontalAlignment="Center"/>
 
-                <TextBox
-                    Text="{Binding Username}"
-                    PlaceholderText="Username"/>
-
-                <TextBox
-                    Text="{Binding Password}"
-                    PasswordChar="*"
-                    PlaceholderText="Password"/>
-
-                <Button
-                    Content="Login"
-                    Command="{Binding LoginCommand}"/>
+                <TextBlock
+                    Classes="title"
+                    Text="SiLadhida"
+                    HorizontalAlignment="Center"/>
 
                 <TextBlock
+                    Classes="subtitle"
+                    Text="Sistem Informasi Kedai"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,12"/>
+
+                <StackPanel Classes="form-field">
+
+                    <TextBlock
+                        Classes="label"
+                        Text="Username"/>
+
+                    <TextBox
+                        x:Name="UsernameTextBox"
+                        Text="{Binding Username}"
+                        Watermark="Masukkan username"
+                        KeyDown="OnLoginKeyDown"/>
+
+                </StackPanel>
+
+                <StackPanel
+                    Classes="form-field">
+
+                    <TextBlock
+                        Classes="label"
+                        Text="Password"/>
+
+                    <Grid ColumnDefinitions="*,8,Auto">
+
+                        <Grid Grid.Column="0">
+
+                            <TextBox
+                                Text="{Binding Password}"
+                                PasswordChar="●"
+                                IsVisible="{Binding IsPasswordVisible,
+                                Converter={StaticResource BoolNegationConverter}}"
+                                KeyDown="OnLoginKeyDown"/>
+
+                            <TextBox
+                                Text="{Binding Password}"
+                                IsVisible="{Binding IsPasswordVisible}"
+                                KeyDown="OnLoginKeyDown"/>
+
+                        </Grid>
+
+                        <Button
+                            Grid.Column="2"
+                            Classes="icon-button"
+                            Content="👁"
+                            Command="{Binding TogglePasswordCommand}"/>
+
+                    </Grid>
+
+                </StackPanel>
+
+                <Button
+                    Classes="primary"
+                    Content="Login"
+                    Command="{Binding LoginCommand}"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource BoolNegationConverter}}"/>
+
+                <TextBlock
+                    Classes="error"
                     Text="{Binding Message}"
-                    Foreground="White"/>
+                    TextWrapping="Wrap"/>
 
             </StackPanel>
 

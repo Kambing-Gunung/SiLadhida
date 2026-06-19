@@ -1,0 +1,95 @@
+<Styles xmlns="https://github.com/avaloniaui">
+
+        <Style Selector="DataGrid">
+
+                <Setter Property="RowHeight" Value="48"/>
+                <Setter Property="ColumnHeaderHeight" Value="50"/>
+                <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+
+                <Setter Property="Background"
+                        Value="{DynamicResource CardBackgroundBrush}"/>
+
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource CoffeeAccentBrush}"/>
+
+                <Setter Property="BorderThickness"
+                        Value="1"/>
+
+        </Style>
+
+        <Style Selector="DataGridColumnHeader">
+
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Padding" Value="12,0"/>
+
+                <Setter Property="Background"
+                        Value="{DynamicResource PageBackgroundBrush}"/>
+
+                <Setter Property="Foreground"
+                        Value="{DynamicResource TextPrimaryBrush}"/>
+
+        </Style>
+
+        <Style Selector="DataGridRow">
+
+                <Setter Property="Background"
+                        Value="{DynamicResource CardBackgroundBrush}"/>
+
+                <Setter Property="Foreground"
+                        Value="{DynamicResource TextPrimaryBrush}"/>
+
+        </Style>
+
+        <Style Selector="DataGridRow:nth-child(even)">
+
+                <Setter Property="Background"
+                        Value="{DynamicResource PageBackgroundBrush}"/>
+
+        </Style>
+
+        <Style Selector="DataGridRow:pointerover">
+
+                <Setter Property="Background"
+                        Value="{DynamicResource CoffeeAccentBrush}"/>
+
+        </Style>
+
+        <Style Selector="DataGridRow:selected">
+
+                <Setter Property="Background"
+                        Value="{DynamicResource CoffeeSecondaryBrush}"/>
+
+                <Setter Property="Foreground"
+                        Value="White"/>
+
+        </Style>
+
+        <Style Selector="DataGridCell">
+
+                <Setter Property="Padding" Value="12,0"/>
+
+                <Setter Property="BorderThickness" Value="0"/>
+
+        </Style>
+
+        <Style Selector="DataGridCell">
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="TextBlock.status-pending">
+                <Setter Property="Foreground" Value="{DynamicResource StatusPendingBrush}"/>
+        </Style>
+
+        <Style Selector="TextBlock.status-ready">
+                <Setter Property="Foreground" Value="{DynamicResource StatusReadyBrush}"/>
+        </Style>
+
+        <Style Selector="TextBlock.status-done">
+                <Setter Property="Foreground" Value="{DynamicResource StatusDoneBrush}"/>
+        </Style>
+
+        <Style Selector="TextBlock.status-cancel">
+                <Setter Property="Foreground" Value="{DynamicResource StatusCancelBrush}"/>
+        </Style>
+
+</Styles>

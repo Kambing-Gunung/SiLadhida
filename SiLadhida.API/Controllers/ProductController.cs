@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using SiLadhida.API.Common;
 using SiLadhida.API.Services.Interfaces;
 using SiLadhida.API.DTOs;
@@ -22,6 +23,7 @@ public class ProductController : ControllerBase
     }
 
     // GET ALL
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -38,6 +40,7 @@ public class ProductController : ControllerBase
     }
 
     // GET BY ID
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -61,6 +64,7 @@ public class ProductController : ControllerBase
     }
 
     // CREATE
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
@@ -89,6 +93,7 @@ public class ProductController : ControllerBase
     }
 
     // UPDATE
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(
         int id,
@@ -114,6 +119,7 @@ public class ProductController : ControllerBase
     }
 
     // DELETE
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

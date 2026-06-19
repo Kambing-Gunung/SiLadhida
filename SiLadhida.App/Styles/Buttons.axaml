@@ -1,0 +1,152 @@
+<Styles
+        xmlns="https://github.com/avaloniaui">
+
+        <!-- Default Button -->
+        <Style Selector="Button">
+
+                <Setter Property="Height"
+                        Value="44"/>
+
+                <Setter Property="MinWidth"
+                        Value="100"/>
+
+                <Setter Property="Padding"
+                        Value="16,8"/>
+
+                <Setter Property="CornerRadius"
+                        Value="12"/>
+
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Center"/>
+
+                <Setter Property="VerticalContentAlignment"
+                        Value="Center"/>
+
+        </Style>
+
+        <!-- Primary Button -->
+        <Style Selector="Button.primary">
+
+                <Setter Property="Background"
+                        Value="{DynamicResource CoffeePrimaryBrush}"/>
+
+                <Setter Property="Foreground"
+                        Value="White"/>
+
+        </Style>
+
+        <!-- Secondary Button -->
+        <Style Selector="Button.secondary">
+
+                <Setter Property="Background"
+                        Value="{DynamicResource CoffeeAccentBrush}"/>
+
+                <Setter Property="Foreground"
+                        Value="{DynamicResource TextPrimaryBrush}"/>
+
+        </Style>
+
+        <!-- Danger Button -->
+        <Style Selector="Button.danger">
+
+                <Setter Property="Background"
+                        Value="IndianRed"/>
+
+                <Setter Property="Foreground"
+                        Value="White"/>
+
+        </Style>
+
+        <!-- Sidebar Navigation Button -->
+        <Style Selector="Button.nav-button">
+
+                <Setter Property="HorizontalAlignment"
+                        Value="Stretch"/>
+
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Left"/>
+
+                <Setter Property="Padding"
+                        Value="20,14"/>
+
+                <Setter Property="Background"
+                        Value="Transparent"/>
+
+                <Setter Property="BorderThickness"
+                        Value="0"/>
+
+        </Style>
+
+        <Style Selector="Button.nav-button:pointerover">
+
+                <Setter Property="Background"
+                        Value="{DynamicResource CoffeeAccentBrush}" />
+
+        </Style>
+
+        <Style Selector="Button.nav-button.active">
+
+                <Setter Property="BorderThickness"
+                        Value="4,0,0,0"/>
+
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource CoffeePrimaryBrush}"/>
+
+                <Setter Property="FontWeight"
+                        Value="SemiBold"/>
+
+        </Style>
+
+        <!-- Hover Danger -->
+        <Style Selector="Button.danger:pointerover">
+
+                <Setter Property="Opacity"
+                        Value="0.90"/>
+
+        </Style>
+
+        <!-- Icon Button -->
+        <Style Selector="Button.icon-button">
+
+                <Setter Property="Width"
+                        Value="44"/>
+
+                <Setter Property="MinWidth"
+                        Value="44"/>
+
+                <Setter Property="Height"
+                        Value="44"/>
+
+                <Setter Property="Padding"
+                        Value="0"/>
+
+                <Setter Property="FontSize"
+                        Value="16"/>
+
+        </Style>
+
+        <!-- Hover Primary -->
+        <Style Selector="Button.primary:pointerover">
+
+                <Setter Property="Opacity"
+                        Value="0.90"/>
+
+        </Style>
+
+        <!-- Hover Secondary -->
+        <Style Selector="Button.secondary:pointerover">
+
+                <Setter Property="Opacity"
+                        Value="0.90"/>
+
+        </Style>
+
+        <!-- Hover Icon -->
+        <Style Selector="Button.icon-button:pointerover">
+
+                <Setter Property="Opacity"
+                        Value="0.85"/>
+
+        </Style>
+
+</Styles>

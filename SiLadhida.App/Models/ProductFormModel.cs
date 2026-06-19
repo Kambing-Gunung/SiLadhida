@@ -5,6 +5,9 @@ namespace SiLadhida.App.Models;
 public partial class ProductFormModel : ObservableObject
 {
     [ObservableProperty]
+    private Product? selectedProduct;
+
+    [ObservableProperty]
     private string nama = string.Empty;
 
     [ObservableProperty]
@@ -13,11 +16,13 @@ public partial class ProductFormModel : ObservableObject
     [ObservableProperty]
     private int stock;
 
+    [ObservableProperty]
+    private int quantity = 1;
+
     public bool IsValid()
     {
         return
-            !string.IsNullOrWhiteSpace(Nama)
-            && Harga > 0
-            && Stock >= 0;
+            selectedProduct != null
+            && quantity > 0;
     }
 }

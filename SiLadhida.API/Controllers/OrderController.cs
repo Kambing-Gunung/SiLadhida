@@ -67,6 +67,20 @@ public class OrderController : ControllerBase
     }
 
     [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateOrderDto dto)
+    {
+        var order = await _service.CreateAsync(dto.NamaPemesan);
+
+        return Ok(
+            ApiResponse<object>.SuccessResponse(
+                order,
+                "Order berhasil dibuat"
+            )
+        );
+    }
+
+    [Authorize]
     [HttpDelete("{id}/items/{productId}")]
     public async Task<IActionResult> RemoveItem(int id, int productId)
     {
@@ -81,11 +95,12 @@ public class OrderController : ControllerBase
         return Ok(order);
     }
 
+    [Authorize]
     [HttpPut("{id}/items/{productId}/increase")]
     public async Task<IActionResult> IncreaseItem(
-        int id,
-        int productId,
-        UpdateItemQuantityDto dto)
+            int id,
+            int productId,
+            UpdateItemQuantityDto dto)
     {
         var order =
             await _service.IncreaseItemAsync(
@@ -99,6 +114,7 @@ public class OrderController : ControllerBase
         return Ok(order);
     }
 
+    [Authorize]
     [HttpPut("{id}/items/{productId}/decrease")]
     public async Task<IActionResult> DecreaseItem(
         int id,
@@ -117,6 +133,7 @@ public class OrderController : ControllerBase
         return Ok(order);
     }
 
+    [Authorize]
     [HttpDelete("{id}/items")]
     public async Task<IActionResult> ClearItems(int id)
     {
@@ -129,6 +146,7 @@ public class OrderController : ControllerBase
         return Ok(order);
     }
 
+    [Authorize]
     [HttpPut("{id}/pay")]
     public async Task<IActionResult> Pay(int id)
     {
@@ -141,6 +159,7 @@ public class OrderController : ControllerBase
         return Ok(order);
     }
 
+    [Authorize]
     [HttpPut("{id}/cancel")]
     public async Task<IActionResult> Cancel(int id)
     {
@@ -153,6 +172,7 @@ public class OrderController : ControllerBase
         return Ok(order);
     }
 
+    [Authorize]
     [HttpPut("{id}/complete")]
     public async Task<IActionResult> Complete(int id)
     {
