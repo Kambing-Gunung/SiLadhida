@@ -11,7 +11,7 @@ namespace SiLadhida.Tests.Services
 
         public PesananServiceTests()
         {
-            _service = new PesananService();
+            _service = new OrderService();
         }
 
         [Fact]

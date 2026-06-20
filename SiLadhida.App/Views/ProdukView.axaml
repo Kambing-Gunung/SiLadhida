@@ -11,34 +11,28 @@
         <vm:ProdukViewModel/>
     </UserControl.DataContext>
 
-    <!-- CONTENT -->
-
     <Grid Grid.Column="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- TOPBAR -->
         <components:Topbar Grid.Row="0">
             <components:Topbar.DataContext>
                 <vm:TopbarViewModel Title="Manajemen Produk"/>
             </components:Topbar.DataContext>
         </components:Topbar>
 
-        <!-- MAIN CONTENT -->
         <ScrollViewer Grid.Row="1">
 
             <StackPanel Margin="20">
 
-                <!-- LOADING -->
                 <TextBlock
                     Text="Loading products..."
                     IsVisible="{Binding IsLoading}"
                     HorizontalAlignment="Center"
                     Margin="0,0,0,10"/>
 
-                <!-- BUTTON -->
                 <Button
                     Content="+ Tambah Produk"
                     Width="180"
@@ -48,7 +42,6 @@
                     Foreground="White"
                     Click="AddProduct_Click"/>
 
-                <!-- PRODUCT LIST -->
                 <ItemsControl ItemsSource="{Binding Products}">
 
                     <ItemsControl.ItemsPanel>
@@ -70,24 +63,20 @@
 
                                 <StackPanel Spacing="10">
 
-                                    <!-- PRODUCT NAME -->
                                     <TextBlock
                                         Text="{Binding Nama}"
                                         FontSize="20"
                                         FontWeight="Bold"
                                         Foreground="White"/>
 
-                                    <!-- PRICE -->
                                     <TextBlock
                                         Text="{Binding Harga, StringFormat='Rp {0:N0}'}"
                                         Foreground="#D7CCC8"/>
 
-                                    <!-- STOCK -->
                                     <TextBlock
                                         Text="{Binding Stock, StringFormat='Stock: {0}'}"
                                         Foreground="#D7CCC8"/>
 
-                                    <!-- ACTION BUTTONS -->
                                     <StackPanel
                                         Orientation="Horizontal"
                                         Spacing="10">
@@ -95,8 +84,8 @@
                                         <Button
                                             Content="Edit"
                                             Background="#8D6E63"
-                                            Command="{Binding $parent[UserControl].DataContext.UpdateProductCommand}"
-                                            CommandParameter="{Binding}" />
+                                            Click="Edit_Click"
+                                            Tag="{Binding}" />
 
                                         <Button
                                             Content="Delete"

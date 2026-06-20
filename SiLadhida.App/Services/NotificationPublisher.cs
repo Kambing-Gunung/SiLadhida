@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SiLadhida.App.Services
 {
@@ -24,5 +25,20 @@ namespace SiLadhida.App.Services
                 observer.UpdateNotification(message);
             }
         }
+
+        public event Action<string>? OnSuccess;
+
+        public event Action<string>? OnError;
+
+        public void ShowSuccess(string message)
+        {
+            OnSuccess?.Invoke(message);
+        }
+
+        public void ShowError(string message)
+        {
+            OnError?.Invoke(message);
+        }
     }
+
 }
