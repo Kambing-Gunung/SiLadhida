@@ -1,5 +1,4 @@
 using System;
-using SiLadhida.Core.Validators;
 
 namespace SiLadhida.Core.Entities
 {
@@ -12,9 +11,14 @@ namespace SiLadhida.Core.Entities
 
         private Product(string nama, decimal harga, int stock)
         {
-            ProductValidator.ValidateNama(nama);
-            ProductValidator.ValidateHarga(harga);
-            ProductValidator.ValidateStock(stock);
+            if (string.IsNullOrWhiteSpace(nama))
+                throw new ArgumentException("Nama tidak boleh kosong.");
+
+            if (harga < 0)
+                throw new ArgumentException("Harga tidak boleh negatif.");
+
+            if (stock < 0)
+                throw new ArgumentException("Stock tidak boleh negatif.");
 
             Nama = nama.Trim();
             Harga = harga;
@@ -26,31 +30,38 @@ namespace SiLadhida.Core.Entities
 
         public void Rename(string namaBaru)
         {
-            ProductValidator.ValidateNama(namaBaru);
+            if (string.IsNullOrWhiteSpace(namaBaru))
+                throw new ArgumentException("Nama tidak boleh kosong.");
+
             Nama = namaBaru.Trim();
         }
 
         public void UpdatePrice(decimal hargaBaru)
         {
-            ProductValidator.ValidateHarga(hargaBaru);
+            if (hargaBaru < 0)
+                throw new ArgumentException("Harga tidak boleh negatif.");
             Harga = hargaBaru;
         }
 
         public void SetStock(int stockBaru)
         {
-            ProductValidator.ValidateStock(stockBaru);
+            if (stockBaru < 0)
+                throw new ArgumentException("Stock tidak boleh negatif.");
             Stock = stockBaru;
         }
 
         public void IncreaseStock(int quantity)
         {
-            ProductValidator.EnsurePositiveQuantity(quantity);
+            if (quantity <= 0)
+                throw new ArgumentException("Quantity harus lebih dari 0.");
+
             Stock += quantity;
         }
 
         public void DecreaseStock(int quantity)
         {
-            ProductValidator.EnsureAvailableStock(Stock, quantity);
+            if (Stock < quantity)
+                throw new InvalidOperationException("Stock tidak mencukupi.");
 
             Stock -= quantity;
         }

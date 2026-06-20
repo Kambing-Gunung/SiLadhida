@@ -1,6 +1,6 @@
 using SiLadhida.Core.Enums;
 using SiLadhida.Core.StateMachines;
-using SiLadhida.Core.Validators;
+using SiLadhida.Core.Exceptions;
 
 namespace SiLadhida.Core.Entities;
 
@@ -22,15 +22,13 @@ public class Order
 
     public static Order Create(string namaPemesan)
     {
-        OrderValidator.ValidateNamaPemesan(namaPemesan);
-
+        ValidateNama(namaPemesan);
         return new Order(namaPemesan);
     }
 
     public void Rename(string namaBaru)
     {
-        OrderValidator.ValidateNamaPemesan(namaBaru);
-
+        ValidateNama(namaBaru);
         NamaPemesan = namaBaru.Trim();
     }
 
@@ -54,8 +52,8 @@ public class Order
         EnsureEditable();
 
         var item = Items.FirstOrDefault(x => x.ProductId == productId) ??
-            throw new InvalidOperationException("Item tidak ditemukan.");
-            
+            throw new BusinessException("Item tidak ditemukan.");
+
         Items.Remove(item);
     }
 
@@ -71,7 +69,7 @@ public class Order
         EnsureEditable();
 
         var item = Items.FirstOrDefault(x => x.ProductId == productId) ??
-            throw new InvalidOperationException("Item tidak ditemukan.");
+            throw new BusinessException("Item tidak ditemukan.");
 
         item.IncreaseQuantity(quantity);
     }
@@ -81,7 +79,7 @@ public class Order
         EnsureEditable();
 
         var item = Items.FirstOrDefault(x => x.ProductId == productId) ??
-            throw new InvalidOperationException("Item tidak ditemukan.");
+            throw new BusinessException("Item tidak ditemukan.");
 
         item.DecreaseQuantity(quantity);
 
@@ -117,8 +115,14 @@ public class Order
     private void Transition(StateTrigger trigger)
     {
         if (!OrderStateMachine.CanTransition(StatusSekarang, trigger))
-            throw new InvalidOperationException("Transisi status tidak valid.");
+            throw new BusinessException("Transisi status tidak valid.");
 
         StatusSekarang = OrderStateMachine.GetNext(StatusSekarang, trigger);
+    }
+
+    private static void ValidateNama(string nama)
+    {
+        if (string.IsNullOrWhiteSpace(nama))
+            throw new BusinessException("Nama pemesan tidak boleh kosong.");
     }
 }

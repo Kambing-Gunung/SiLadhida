@@ -1,12 +1,10 @@
 using System.Net;
 using System.Text.Json;
 using SiLadhida.API.Common;
+using SiLadhida.Core.Exceptions;
 
 namespace SiLadhida.API.Middleware;
 
-/// <summary>
-/// Middleware for handling global exceptions and converting them to standardized API responses
-/// </summary>
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
@@ -20,40 +18,39 @@ public class ExceptionMiddleware
         _logger = logger;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task Invoke(HttpContext context)
     {
         try
         {
             await _next(context);
         }
-        catch (ArgumentNullException ex)
+        catch (NotFoundException ex)
         {
-            _logger.LogError(ex, "ArgumentNullException occurred: {Message}", ex.Message);
-            await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);
+            _logger.LogWarning(ex, "NotFound: {Message}", ex.Message);
+            await HandleException(context, HttpStatusCode.NotFound, ex.Message);
         }
-        catch (InvalidOperationException ex)
+        catch (BusinessException ex)
         {
-            _logger.LogError(ex, "InvalidOperationException occurred: {Message}", ex.Message);
-            await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);
+            _logger.LogWarning(ex, "Business Error: {Message}", ex.Message);
+            await HandleException(context, HttpStatusCode.BadRequest, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Unhandled exception occurred: {Message}", ex.Message);
-            await HandleExceptionAsync(context, ex, HttpStatusCode.InternalServerError);
+            _logger.LogError(ex, "Unhandled Exception");
+            await HandleException(context, HttpStatusCode.InternalServerError, "Terjadi kesalahan pada server");
         }
     }
 
-    private static Task HandleExceptionAsync(
+    private static async Task HandleException(
         HttpContext context,
-        Exception exception,
-        HttpStatusCode statusCode)
+        HttpStatusCode statusCode,
+        string message)
     {
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)statusCode;
 
-        var response = ApiResponse<string>.ErrorResponse(exception.Message);
-        var json = JsonSerializer.Serialize(response);
+        var response = ApiResponse<object>.ErrorResponse(message);
 
-        return context.Response.WriteAsync(json);
+        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 }

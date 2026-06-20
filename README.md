@@ -1,69 +1,178 @@
-# SiLadhida
+# ☕ SiLadhida
 
-Solusi `SiLadhida` adalah sebuah aplikasi .NET 8 yang terdiri dari:
-- `SiLadhida.API`: backend REST API dengan ASP.NET Core, Entity Framework Core, dan JWT authentication.
-- `SiLadhida.App`: aplikasi desktop UI menggunakan Avalonia.
-- `SiLadhida.Core`: library domain bersama untuk entitas, enums, dan layanan umum.
-- `SiLadhida.Tests`: proyek unit test.
+## 📌 Overview
 
-## Struktur Proyek
+**SiLadhida** adalah aplikasi manajemen kedai kopi yang mendukung:
 
-### Root
-- `SiLadhida.slnx`: solusi utama yang menggabungkan semua proyek.
-- `README.md`: dokumentasi ringkas dan gambaran arsitektur.
+* Manajemen produk
+* Pemesanan (order)
+* Transaksi kasir
+* Role-based access (Admin & Kasir)
 
-### SiLadhida.API
-- `Program.cs`: entry point aplikasi API.
-- `appsettings.json` / `appsettings.Development.json`: konfigurasi aplikasi dan koneksi database.
-- `Auth/`: model user dan layanan autentikasi.
-- `Common/`: kelas utilitas untuk respons API umum.
-- `Controllers/`: endpoint HTTP untuk autentikasi, produk, order, lookup, dan lain-lain.
-- `Data/`: `AppDbContext` dan konfigurasi Entity Framework Core.
-- `DTOs/`: objek transfer data untuk input dan output API.
-- `Extensions/`: ekstensi untuk servis, middleware, dan otentikasi.
-- `Mappings/`: profil AutoMapper untuk konversi antar model dan DTO.
-- `Middleware/`: middleware custom, termasuk penanganan exception.
-- `Repositories/`: implementasi dan interface repositori untuk akses data.
-- `Services/`: logika bisnis dan layanan aplikasi.
-- `Validators/`: validasi input menggunakan FluentValidation.
-- `Migrations/`: migrasi database Entity Framework Core.
+Project ini dibangun menggunakan arsitektur **Clean Architecture** dengan pemisahan layer yang jelas.
 
-### SiLadhida.App
-- `App.axaml` / `App.axaml.cs`: inisialisasi aplikasi Avalonia.
-- `MainWindow.axaml` / `MainWindow.axaml.cs`: jendela utama aplikasi.
-- `Assets/`: gambar, ikon, dan aset statis.
-- `Components/`: komponen UI kembali pakai seperti kartu, sidebar, topbar.
-- `Controls/`: kontrol khusus untuk UI.
-- `Helpers/`: utilitas client-side dan helper UI.
-- `Layouts/`: tata letak atau kontrol layout.
-- `Models/`: model data lokal untuk UI dan mapping ke API.
-- `Resources/`: sumber daya aplikasi seperti ikon atau file data.
-- `Services/`: layanan komunikasi API dan logika panggilan HTTP.
-- `Styles/`, `Themes/`: definisi tema, styling, dan resource Avalonia.
-- `ViewModels/`: pola MVVM untuk data binding dan logika tampilan.
-- `Views/`: halaman dan tampilan UI.
+---
 
-### SiLadhida.Core
-- `SiLadhida.Core.csproj`: library shared untuk semua proyek.
-- `Configs/`: konfigurasi umum yang dibagikan.
-- `Entities/`: kelas entitas domain.
-- `Enums/`: tipe enum bersama.
-- `Services/`: layanan domain reusable.
-- `StateMachines/`: logika status atau state machine jika digunakan.
+## 🏗️ Architecture
 
-### SiLadhida.Tests
-- `SiLadhida.Tests.csproj`: proyek unit test.
-- `UnitTest1.cs`: contoh tes unit.
-- `Services/`: tes untuk layanan aplikasi.
+```
+SiLadhida
+│
+├── SiLadhida.Core          → Domain & Business Rules
+├── SiLadhida.Application   → Use Cases / Services
+├── SiLadhida.Infrastructure → Database & Repository
+└── SiLadhida.API           → HTTP API (Entry Point)
+```
 
-## Cara Menjalankan
+### 🔄 Flow
 
-1. Buka solusi `SiLadhida.slnx` di Visual Studio atau JetBrains Rider.
-2. Jalankan `SiLadhida.API` untuk memulai backend.
-3. Jalankan `SiLadhida.App` untuk membuka aplikasi desktop.
-4. Gunakan `dotnet test` pada proyek `SiLadhida.Tests` untuk menjalankan unit test.
+```
+Client → API → Application → Core → Infrastructure → Database
+```
 
-## Catatan
+---
 
-- Output build diabaikan (`bin/` dan `obj/`).
-- Struktur folder mengikuti pemisahan tanggung jawab antara API, UI, shared core, dan test.
+## 🧱 Tech Stack
+
+### Backend
+
+* .NET 8
+* ASP.NET Core Web API
+* Entity Framework Core
+* MySQL (Pomelo)
+
+### Auth
+
+* JWT Authentication
+* Role-based Authorization
+
+### Validation & Mapping
+
+* FluentValidation
+* AutoMapper
+
+### UI (Desktop)
+
+* Avalonia UI
+
+---
+
+## 🔐 Roles
+
+| Role  | Akses                                 |
+| ----- | ------------------------------------- |
+| Admin | Full access (CRUD produk, order, dll) |
+| Kasir | Order & transaksi saja                |
+
+---
+
+## 🚀 Features
+
+### ✅ Product
+
+* Create, Read, Update, Delete
+* Validasi domain
+
+### ✅ Order
+
+* Create order
+* Add item
+* Update quantity
+* State machine:
+
+  * MenungguPembayaran
+  * SiapDiambil
+  * Selesai
+  * Dibatalkan
+
+### ✅ Auth
+
+* Login JWT
+* Role-based access
+
+### ✅ Error Handling
+
+* Global Exception Middleware
+* Standard API Response
+
+---
+
+## 📦 API Response Format
+
+```json
+{
+  "success": true,
+  "message": "string",
+  "data": {}
+}
+```
+
+---
+
+## ⚙️ Setup & Run
+
+### 1. Clone project
+
+```bash
+git clone <https://github.com/Kambing-Gunung/SiLadhida>
+```
+
+### 2. Setup database
+
+* Pastikan MySQL aktif
+* Update connection string di:
+
+```bash
+SiLadhida.API/appsettings.json
+```
+
+---
+
+### 3. Migration
+
+```bash
+dotnet ef database update \
+--project SiLadhida.Infrastructure \
+--startup-project SiLadhida.API
+```
+
+---
+
+### 4. Run API
+
+```bash
+cd SiLadhida.API
+dotnet run
+```
+
+API akan berjalan di:
+
+```
+http://localhost:5135
+```
+
+---
+
+## 🔑 Default User (Seeder)
+
+| Username | Password | Role  |
+| -------- | -------- | ----- |
+| admin    | admin123 | Admin |
+| kasir    | kasir123 | Kasir |
+
+---
+
+## 🧠 Design Principles
+
+* Clean Architecture
+* Separation of Concerns
+* Domain-driven design (basic)
+* Dependency Inversion
+
+---
+
+## 📌 Notes
+
+* Business logic hanya ada di **Core & Application**
+* API hanya sebagai **entry point**
+* Infrastructure bisa diganti tanpa ubah domain

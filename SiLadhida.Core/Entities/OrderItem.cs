@@ -1,5 +1,5 @@
 using System;
-using SiLadhida.Core.Validators;
+using SiLadhida.Core.Exceptions;
 
 namespace SiLadhida.Core.Entities
 {
@@ -14,9 +14,14 @@ namespace SiLadhida.Core.Entities
 
         private OrderItem(int productId, int quantity, decimal harga)
         {
-            OrderItemValidator.ValidateProductId(productId);
-            OrderItemValidator.EnsurePositiveQuantity(quantity);
-            OrderItemValidator.ValidateHarga(harga);
+            if (productId <= 0)
+                throw new BusinessException("ProductId tidak valid.");
+
+            if (quantity <= 0)
+                throw new BusinessException("Quantity harus lebih dari 0.");
+
+            if (harga < 0)
+                throw new BusinessException("Harga tidak boleh negatif.");
 
             ProductId = productId;
             Quantity = quantity;
@@ -28,15 +33,23 @@ namespace SiLadhida.Core.Entities
 
         public void IncreaseQuantity(int quantity)
         {
-            OrderItemValidator.EnsurePositiveQuantity(quantity);
+            if (quantity <= 0)
+                throw new BusinessException("Quantity harus lebih dari 0.");
+
+            Quantity += quantity;
 
             Quantity += quantity;
         }
 
         public void DecreaseQuantity(int quantity)
         {
-            OrderItemValidator.EnsurePositiveQuantity(quantity);
-            OrderItemValidator.EnsureAvailableQuantity(Quantity, quantity);
+            if (quantity <= 0)
+                throw new BusinessException("Quantity harus lebih dari 0.");
+
+            if (Quantity < quantity)
+                throw new InvalidOperationException("Quantity tidak mencukupi.");
+
+            Quantity -= quantity;
 
             Quantity -= quantity;
         }

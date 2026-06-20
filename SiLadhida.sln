@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiLadhida.API", "SiLadhida.API\SiLadhida.API.csproj", "{62215B0D-BF9E-4463-8FE4-4E80890FC33C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiLadhida.App", "SiLadhida.App\SiLadhida.App.csproj", "{827ECF98-D151-4A5D-81F0-4E977CA3B533}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiLadhida.Core", "SiLadhida.Core\SiLadhida.Core.csproj", "{E46DE05C-7044-4AE5-AE2B-5AE8EBA4D7C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiLadhida.Tests", "SiLadhida.Tests\SiLadhida.Tests.csproj", "{D438C630-5143-4489-9D7A-F3D5731BCAAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiLadhida.Application", "SiLadhida.Application\SiLadhida.Application.csproj", "{9ECB12BC-E4D4-4C1E-8E72-9FF7CE1500B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiLadhida.Infrastructure", "SiLadhida.Infrastructure\SiLadhida.Infrastructure.csproj", "{2752CF1A-CCC7-4571-BA9D-905B349714C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62215B0D-BF9E-4463-8FE4-4E80890FC33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62215B0D-BF9E-4463-8FE4-4E80890FC33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62215B0D-BF9E-4463-8FE4-4E80890FC33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62215B0D-BF9E-4463-8FE4-4E80890FC33C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{827ECF98-D151-4A5D-81F0-4E977CA3B533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{827ECF98-D151-4A5D-81F0-4E977CA3B533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{827ECF98-D151-4A5D-81F0-4E977CA3B533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{827ECF98-D151-4A5D-81F0-4E977CA3B533}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E46DE05C-7044-4AE5-AE2B-5AE8EBA4D7C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E46DE05C-7044-4AE5-AE2B-5AE8EBA4D7C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E46DE05C-7044-4AE5-AE2B-5AE8EBA4D7C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E46DE05C-7044-4AE5-AE2B-5AE8EBA4D7C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D438C630-5143-4489-9D7A-F3D5731BCAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D438C630-5143-4489-9D7A-F3D5731BCAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D438C630-5143-4489-9D7A-F3D5731BCAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D438C630-5143-4489-9D7A-F3D5731BCAAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ECB12BC-E4D4-4C1E-8E72-9FF7CE1500B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ECB12BC-E4D4-4C1E-8E72-9FF7CE1500B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ECB12BC-E4D4-4C1E-8E72-9FF7CE1500B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ECB12BC-E4D4-4C1E-8E72-9FF7CE1500B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2752CF1A-CCC7-4571-BA9D-905B349714C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2752CF1A-CCC7-4571-BA9D-905B349714C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2752CF1A-CCC7-4571-BA9D-905B349714C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2752CF1A-CCC7-4571-BA9D-905B349714C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using SiLadhida.API.Common;
-using SiLadhida.API.Services.Interfaces;
+using SiLadhida.Application.Interfaces;
 using SiLadhida.API.DTOs;
-using SiLadhida.Core.Entities;
+using SiLadhida.API.DTOs.Responses;
+using AutoMapper;
 
 namespace SiLadhida.API.Controllers;
 
@@ -12,133 +13,95 @@ namespace SiLadhida.API.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductService _service;
-    private readonly ILogger<ProductController> _logger;
+    private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
     public ProductController(
         IProductService service,
+        IMapper mapper,
         ILogger<ProductController> logger)
     {
         _service = service;
+        _mapper = mapper;
         _logger = logger;
     }
 
-    // GET ALL
-    [Authorize]
+    [Authorize(Roles = $"{Roles.Admin}, {Roles.Kasir}")]
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        _logger.LogInformation("Fetching all products");
+        _logger.LogInformation("Get all products by {User}", User.Identity?.Name);
 
-        var data = await _service.GetAllAsync();
+        var products = await _service.GetAllAsync();
+        var result = _mapper.Map<List<ProductResponseDto>>(products);
 
-        return Ok(
-            ApiResponse<object>.SuccessResponse(
-                data,
-                "Berhasil mengambil data produk"
-            )
-        );
+        return Ok(ApiResponse<object>.SuccessResponse(
+            result,
+            "Berhasil mengambil data produk"
+        ));
     }
 
-    // GET BY ID
-    [Authorize]
+    [Authorize(Roles = $"{Roles.Admin}, {Roles.Kasir}")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var data = await _service.GetByIdAsync(id);
+        _logger.LogInformation("Get product: Id={Id}, User={User}",
+            id, User.Identity?.Name);
 
-        if (data == null)
-        {
-            return NotFound(
-                ApiResponse<object>.ErrorResponse(
-                    "Produk tidak ditemukan"
-                )
-            );
-        }
+        var product = await _service.GetByIdAsync(id);
+        var result = _mapper.Map<ProductResponseDto>(product);
 
-        return Ok(
-            ApiResponse<object>.SuccessResponse(
-                data,
-                "Berhasil mengambil produk"
-            )
-        );
+        return Ok(ApiResponse<object>.SuccessResponse(
+            result,
+            "Berhasil mengambil produk"
+        ));
     }
 
-    // CREATE
-    [Authorize]
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
+    public async Task<IActionResult> Create(CreateProductDto dto)
     {
-        if (dto == null)
-        {
-            return BadRequest(
-                ApiResponse<object>.ErrorResponse(
-                    "Data produk tidak valid"
-                )
-            );
-        }
+        _logger.LogInformation("Create Product: {Nama}, Harga={Harga}, Stock={Stock}, User={User}",
+            dto.Nama, dto.Harga, dto.Stock, User.Identity?.Name);
 
-        _logger.LogInformation(
-            "Creating new product: {ProductName}",
-            dto.Nama
-        );
+        var product = await _service.CreateAsync(dto.Nama, dto.Harga, dto.Stock);
+        var result = _mapper.Map<ProductResponseDto>(product);
 
-        var result = await _service.CreateAsync(dto.Nama, dto.Harga, dto.Stock);
-
-        return Ok(
-            ApiResponse<object>.SuccessResponse(
-                result,
-                "Produk berhasil dibuat"
-            )
-        );
+        return Ok(ApiResponse<object>.SuccessResponse(
+            result,
+            "Produk berhasil dibuat"
+        ));
     }
 
-    // UPDATE
-    [Authorize]
+    [Authorize(Roles = Roles.Admin)]
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(
-        int id,
-        [FromBody] UpdateProductDto dto)
+    public async Task<IActionResult> Update(int id, UpdateProductDto dto)
     {
-        var result = await _service.UpdateAsync(id, dto.Nama, dto.Harga, dto.Stock);
+        _logger.LogInformation("Update Product: Id={Id}, Nama={Nama}, User={User}",
+            id, dto.Nama, User.Identity?.Name);
 
-        if (result == null)
-        {
-            return NotFound(
-                ApiResponse<object>.ErrorResponse(
-                    "Produk tidak ditemukan"
-                )
-            );
-        }
+        var product = await _service.UpdateAsync(id, dto.Nama, dto.Harga, dto.Stock);
+        var result = _mapper.Map<ProductResponseDto>(product);
 
-        return Ok(
-            ApiResponse<object>.SuccessResponse(
-                result,
-                "Produk berhasil diperbarui"
-            )
-        );
+        return Ok(ApiResponse<object>.SuccessResponse(
+            result,
+            "Produk berhasil diperbarui"
+        ));
     }
 
-    // DELETE
-    [Authorize]
+    [Authorize(Roles = Roles.Admin)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _service.DeleteAsync(id);
+        _logger.LogWarning("Delete Product: Id={Id}, User={User}",
+            id, User.Identity?.Name);
 
-        if (!result)
-        {
-            return NotFound(
-                ApiResponse<object>.ErrorResponse(
-                    "Produk tidak ditemukan"
-                )
-            );
-        }
+        await _service.DeleteAsync(id);
 
-        return Ok(
-            ApiResponse<object>.SuccessResponse(
-                null,
-                "Produk berhasil dihapus"
-            )
-        );
+        return Ok(ApiResponse<object>.SuccessResponse(
+            null,
+            "Produk berhasil dihapus"
+        ));
     }
+
 }
