@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SiLadhida.App.Models;
 using SiLadhida.App.Models.Requests;
+using System.Net.Http.Json;
 
 namespace SiLadhida.App.Services;
 
@@ -14,6 +15,11 @@ public class OrderApiService : ApiService
             await GetAsync<ApiResponse<List<Order>>>(
                 "api/orders"
             );
+
+        if (response != null && response.Data != null)
+        {
+            return response.Data;
+        }
 
         return response?.Data ?? new();
     }
@@ -28,12 +34,15 @@ public class OrderApiService : ApiService
         return response?.Data;
     }
 
-    public async Task CreateOrderAsync(CreateOrderRequest request)
+    public async Task<Order?> CreateOrderAsync(CreateOrderRequest request)
     {
-        await PostAsync(
-            "api/orders",
+        var response = await PostAsync(
+            "api/orders", 
             request
         );
+        var result = await response.Content.ReadFromJsonAsync<ApiResponse<Order>>(JsonOptions);
+
+        return result?.Data;
     }
 
     public async Task AddItemAsync(
@@ -104,4 +113,13 @@ public class OrderApiService : ApiService
             $"api/orders/{orderId}/complete"
         );
     }
+    
+    // cancel order / menghapus order
+    public async Task DeletedOrderAsync(int orderId)
+    {
+        await DeleteAsync(
+            $"api/orders/{orderId}"
+        );
+    }
+
 }

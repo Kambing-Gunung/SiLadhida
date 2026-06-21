@@ -11,5 +11,7 @@ namespace SiLadhida.Core.Interfaces
         Task AddAsync(Order order);
 
         Task SaveChangesAsync();
+
+        void Delete(Order order);
     }
 }

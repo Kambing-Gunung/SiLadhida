@@ -42,6 +42,13 @@ namespace SiLadhida.Infrastructure.Repositories
             await _context.Orders.AddAsync(order);
         }
 
+        public void Delete(Order order)
+        {
+            ArgumentNullException.ThrowIfNull(order);
+            _logger.LogInformation("Menghapus order {OrderId} dari database", order.Id);
+            _context.Orders.Remove(order);
+        }
+
         public async Task SaveChangesAsync()
         {
             _logger.LogInformation("Saving changes to database");

@@ -42,13 +42,13 @@ public partial class DashboardViewModel : ObservableObject
             var products = await _productService.GetProductsAsync();
             var orders = await _orderService.GetOrdersAsync();
 
-            totalProduk = products.Count;
+            TotalProduk = products.Count;
 
-            totalOrder = orders.Count(o =>
+            TotalOrder = orders.Count(o =>
                 o.StatusSekarang == StateOrder.MenungguPembayaran ||
                 o.StatusSekarang == StateOrder.SiapDiambil);
 
-            totalTransaksi = orders.Count(o =>
+            TotalTransaksi = orders.Count(o =>
                 o.StatusSekarang == StateOrder.Selesai);
 
         }
