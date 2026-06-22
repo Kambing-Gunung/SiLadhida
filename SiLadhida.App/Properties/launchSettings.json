@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "SiLadhida.App": {
+      "commandName": "Project",
+      "workingDirectory": ".",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

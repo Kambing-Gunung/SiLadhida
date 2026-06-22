@@ -1,0 +1,31 @@
+<UserControl
+    x:Class="SiLadhida.App.Layouts.AppLayout"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shell="using:SiLadhida.App.Components.Shell"
+    x:CompileBindings="False">
+
+    <Grid> 
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Sidebar  -->
+        <shell:Sidebar Grid.Column="0" />
+
+        <!--  Main Area  -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+
+            <!--  Topbar  -->
+            <shell:Topbar Grid.Row="0" />
+
+            <!--  Dynamic Content  -->
+            <ContentControl Grid.Row="1" Content="{Binding CurrentContent}" />
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

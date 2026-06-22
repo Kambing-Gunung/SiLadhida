@@ -1,16 +1,14 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using SiLadhida.App.Services;
+using SiLadhida.App.Services.App;
 
 namespace SiLadhida.App;
 
 public partial class App : Application
 {
-    public static NavigationService Navigation { get; } = new NavigationService();
-    public static NotificationService Notification { get; } = new NotificationService();
-    public static Window? MainWindow { get; private set; }
+    public static ServiceLocator Services { get; private set; } = null!;
 
     public override void Initialize()
     {
@@ -19,10 +17,19 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        // 🔥 INIT SERVICES
+        Services = new ServiceLocator();
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            MainWindow = new MainWindow();
-            desktop.MainWindow = MainWindow;
+            // 🔥 SET ROOT WINDOW
+            desktop.MainWindow = new MainWindow
+            {
+                DataContext = Services.Navigation
+            };
+
+            // 🔥 START FROM LOGIN
+            Services.Navigation.NavigateToLogin();
         }
 
         base.OnFrameworkInitializationCompleted();

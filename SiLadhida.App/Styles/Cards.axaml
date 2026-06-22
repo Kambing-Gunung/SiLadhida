@@ -1,21 +1,32 @@
-<Styles
-    xmlns="https://github.com/avaloniaui">
+<Styles xmlns="https://github.com/avaloniaui">
 
-    <Style Selector="Border.card">
+        <Style Selector="Border.card">
 
-        <Setter Property="Padding"
-                Value="24"/>
+                <Setter Property="Padding" Value="24" />
 
-        <Setter Property="CornerRadius"
-                Value="20"/>
+                <Setter Property="CornerRadius" Value="20" />
 
-        <Setter Property="Background"
-                Value="{DynamicResource CardBackgroundBrush}" />
+                <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
 
-    </Style>
+        </Style>
 
-    <Style Selector="Border.section-card:pointerover">
-    <Setter Property="Opacity" Value="0.95"/>
-</Style>
+        <Style Selector="Border.section-card:pointerover">
+                <Setter Property="Opacity" Value="0.95" />
+        </Style>
+
+        <!--  🔥 STATUS DONE  -->
+        <Style Selector="Border.status-done">
+                <Setter Property="Background" Value="Green" />
+        </Style>
+
+        <!--  🔥 STATUS CANCEL  -->
+        <Style Selector="Border.status-cancel">
+                <Setter Property="Background" Value="IndianRed" />
+        </Style>
+
+        <!--  READY (kalau mau dipakai di tempat lain)  -->
+        <Style Selector="Border.status-ready">
+                <Setter Property="Background" Value="Orange" />
+        </Style>
 
 </Styles>

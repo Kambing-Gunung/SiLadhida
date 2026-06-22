@@ -1,0 +1,38 @@
+<dialogs:BaseDialog
+    x:Class="SiLadhida.App.Features.Order.ProductPickerDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dialogs="using:SiLadhida.App.Components.Dialogs"
+    xmlns:vm="using:SiLadhida.App.Features.Order"
+    x:DataType="vm:ProductPickerViewModel">
+
+    <StackPanel Classes="section" Spacing="12">
+
+        <TextBlock Classes="heading" Text="Pilih Produk"/>
+
+        <DataGrid
+            x:Name="Grid"
+            ItemsSource="{Binding Products}"
+            AutoGenerateColumns="False"
+            SelectionMode="Extended"
+            Height="350"
+            SelectionChanged="OnSelectionChanged">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nama" Binding="{Binding Nama}" />
+                <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" />
+                <DataGridTextColumn Header="Harga" Binding="{Binding Harga}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right">
+
+            <Button Content="Batal" Command="{Binding CancelCommand}" />
+            <Button Content="Tambah" Command="{Binding SubmitCommand}" />
+
+        </StackPanel>
+
+    </StackPanel>
+
+</dialogs:BaseDialog>

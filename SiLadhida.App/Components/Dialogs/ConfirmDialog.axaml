@@ -1,0 +1,37 @@
+<UserControl
+    x:Class="SiLadhida.App.Components.Dialogs.ConfirmDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dialogs="using:SiLadhida.App.Components.Dialogs"
+    x:DataType="dialogs:ConfirmDialog">
+
+    <StackPanel Classes="section" Spacing="12">
+
+        <TextBlock Classes="heading" Text="Konfirmasi" />
+
+        <TextBlock
+            Classes="subtitle"
+            Text="{Binding Message}"
+            TextWrapping="Wrap" />
+
+        <StackPanel
+            HorizontalAlignment="Right"
+            Classes="actions"
+            Orientation="Horizontal"
+            Spacing="8">
+
+            <Button
+                Classes="secondary"
+                Click="Cancel_Click"
+                Content="Batal" />
+
+            <Button
+                Classes="danger"
+                Click="Confirm_Click"
+                Content="Hapus" />
+
+        </StackPanel>
+
+    </StackPanel>
+
+</UserControl>

@@ -15,10 +15,6 @@
                 <Setter Property="VerticalContentAlignment"
                         Value="Center"/>
 
-        </Style>
-
-        <Style Selector="TextBox">
-
                 <Setter Property="Background"
                         Value="{DynamicResource CardBackgroundBrush}" />
 

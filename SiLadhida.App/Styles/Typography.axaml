@@ -1,94 +1,91 @@
-<Styles
-    xmlns="https://github.com/avaloniaui">
+<Styles xmlns="https://github.com/avaloniaui">
 
-    <!-- Main Page Title -->
-    <Style Selector="TextBlock.title">
+        <!--  Main Page Title  -->
+        <Style Selector="TextBlock.title">
 
-        <Setter Property="FontSize"
-                Value="30"/>
+                <Setter Property="FontSize" Value="30" />
 
-        <Setter Property="FontWeight"
-                Value="Bold"/>
+                <Setter Property="FontWeight" Value="Bold" />
 
-        <Setter Property="Foreground"
-                Value="{DynamicResource TextPrimaryBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
 
-    </Style>
+        </Style>
 
-    <!-- Subtitle -->
-    <Style Selector="TextBlock.subtitle">
+        <!--  Subtitle  -->
+        <Style Selector="TextBlock.subtitle">
 
-        <Setter Property="FontSize"
-                Value="15"/>
+                <Setter Property="FontSize" Value="15" />
 
-        <Setter Property="Foreground"
-                Value="{DynamicResource TextSecondaryBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
 
-        <Setter Property="Margin"
-                Value="0,0,0,6"/>
+                <Setter Property="Margin" Value="0,0,0,6" />
 
-    </Style>
+        </Style>
 
-    <!-- Section Header -->
-    <Style Selector="TextBlock.heading">
+        <!--  Section Header  -->
+        <Style Selector="TextBlock.heading">
 
-        <Setter Property="FontSize"
-                Value="22"/>
+                <Setter Property="FontSize" Value="22" />
 
-        <Setter Property="FontWeight"
-                Value="SemiBold"/>
+                <Setter Property="FontWeight" Value="SemiBold" />
 
-        <Setter Property="Foreground"
-                Value="{DynamicResource TextPrimaryBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
 
-        <Setter Property="Margin"
-                Value="0,0,0,12"/>
+                <Setter Property="Margin" Value="0,0,0,12" />
 
-    </Style>
+        </Style>
 
-    <!-- Label -->
-    <Style Selector="TextBlock.label">
+        <!--  Label  -->
+        <Style Selector="TextBlock.label">
 
-        <Setter Property="FontSize"
-                Value="14"/>
+                <Setter Property="FontSize" Value="14" />
 
-        <Setter Property="FontWeight"
-                Value="Medium"/>
+                <Setter Property="FontWeight" Value="Medium" />
 
-        <Setter Property="Foreground"
-                Value="{DynamicResource TextPrimaryBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
 
-        <Setter Property="Margin"
-                Value="0,0,0,4"/>
+                <Setter Property="Margin" Value="0,0,0,4" />
 
-    </Style>
+        </Style>
 
-    <!-- Caption -->
-    <Style Selector="TextBlock.caption">
+        <!--  Caption  -->
+        <Style Selector="TextBlock.caption">
 
-        <Setter Property="FontSize"
-                Value="12"/>
+                <Setter Property="FontSize" Value="12" />
 
-        <Setter Property="Foreground"
-                Value="{DynamicResource TextSecondaryBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
 
-    </Style>
+        </Style>
 
-    <!-- Error Text -->
-    <Style Selector="TextBlock.error">
+        <!--  Error Text  -->
+        <Style Selector="TextBlock.error">
 
-        <Setter Property="FontSize"
-                Value="13"/>
+                <Setter Property="FontSize" Value="13" />
 
-        <Setter Property="Foreground"
-                Value="IndianRed" />
+                <Setter Property="Foreground" Value="IndianRed" />
 
-        <Setter Property="Margin"
-                Value="0,8,0,0"/>
+                <Setter Property="Margin" Value="0,8,0,0" />
 
-        <Setter Property="TextWrapping"
-                Value="Wrap"/>
+                <Setter Property="TextWrapping" Value="Wrap" />
 
-    </Style>
+        </Style>
+
+        <!--  🔥 DASHBOARD NUMBER  -->
+        <Style Selector="TextBlock.dashboard-number">
+                <Setter Property="FontSize" Value="28" />
+                <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <!--  🔥 DASHBOARD CARD  -->
+        <Style Selector="Border.dashboard-card">
+                <Setter Property="Padding" Value="16" />
+                <Setter Property="CornerRadius" Value="16" />
+        </Style>
+
+        <!--  🔥 RECENT ITEM  -->
+        <Style Selector="Border.recent-item">
+                <Setter Property="Padding" Value="12" />
+                <Setter Property="CornerRadius" Value="12" />
+        </Style>
 
 </Styles>

@@ -1,0 +1,121 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.ViewModels"
+    xmlns:components="using:SiLadhida.App.Components"
+    xmlns:dg="using:Avalonia.Controls"
+    xmlns:model="using:SiLadhida.App.Models"
+    x:DataType="vm:ProductViewModel"
+    x:Class="SiLadhida.App.Views.ProductView">
+
+    <UserControl.DataContext>
+        <vm:ProductViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Classes="page" RowDefinitions="Auto,Auto,Auto,*">
+
+        <!-- TITLE -->
+        <TextBlock
+            Grid.Row="0"
+            Classes="heading"
+            Text="Produk"/>
+
+        <!-- TOOLBAR -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+
+            <components:SearchBox
+                Text="{Binding SearchText, Mode=TwoWay}"
+                Placeholder="Cari produk..."/>
+
+            <Button
+                Grid.Column="1"
+                Classes="primary"
+                Content="+ Tambah Produk"
+                Click="AddProduct_Click"/>
+
+        </Grid>
+
+        <!-- LOADING -->
+        <TextBlock
+            Grid.Row="2"
+            Text="Memuat produk..."
+            IsVisible="{Binding IsLoading}"
+            HorizontalAlignment="Center"/>
+
+        <!-- CONTENT -->
+        <Grid Grid.Row="3">
+
+            <!-- EMPTY -->
+            <components:EmptyState
+                IsVisible="{Binding HasProducts, Converter={StaticResource InverseBoolConverter}}"
+                Title="Belum Ada Produk"
+                Description="Silakan tambahkan produk baru."/>
+
+            <!-- DATAGRID -->
+            <dg:DataGrid
+                ItemsSource="{Binding FilteredProducts}"
+                IsVisible="{Binding HasProducts}"
+                AutoGenerateColumns="False"
+                CanUserResizeColumns="True"
+                CanUserSortColumns="True"
+                SelectionMode="Single">
+
+                <dg:DataGrid.Columns>
+
+                    <dg:DataGridTemplateColumn Header="Nama" SortMemberPath="Nama">
+                        <dg:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="model:Product">
+                                <TextBlock Text="{Binding Nama}"/>
+                            </DataTemplate>
+                        </dg:DataGridTemplateColumn.CellTemplate>
+                    </dg:DataGridTemplateColumn>
+
+                    <dg:DataGridTemplateColumn Header="Harga" SortMemberPath="Harga">
+                        <dg:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="model:Product">
+                                <TextBlock Text="{Binding Harga, Converter={StaticResource CurrencyConverter}}"/>
+                            </DataTemplate>
+                        </dg:DataGridTemplateColumn.CellTemplate>
+                    </dg:DataGridTemplateColumn>
+
+                    <dg:DataGridTemplateColumn Header="Stock" SortMemberPath="Stock">
+                        <dg:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="model:Product">
+                                <TextBlock Text="{Binding Stock}"/>
+                            </DataTemplate>
+                        </dg:DataGridTemplateColumn.CellTemplate>
+                    </dg:DataGridTemplateColumn>
+
+                    <dg:DataGridTemplateColumn Header="Aksi">
+                        <dg:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="model:Product">
+
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+
+                                    <Button
+                                        Classes="icon-button"
+                                        Content="✏"
+                                        Click="Edit_Click"
+                                        Tag="{Binding}" />
+
+                                    <Button
+                                        Classes="icon-button danger"
+                                        Content="🗑"
+                                        Click="Delete_Click"
+                                        CommandParameter="{Binding}" />
+
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </dg:DataGridTemplateColumn.CellTemplate>
+                    </dg:DataGridTemplateColumn>
+
+                </dg:DataGrid.Columns>
+
+            </dg:DataGrid>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

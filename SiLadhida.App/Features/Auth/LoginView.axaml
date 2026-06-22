@@ -1,0 +1,80 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.Features.Auth"
+    x:Class="SiLadhida.App.Features.Auth.LoginView"
+    x:DataType="vm:LoginViewModel">
+
+    <Design.DataContext>
+        <vm:LoginViewModel/>
+    </Design.DataContext>
+
+    <Grid Background="{DynamicResource PageBackgroundBrush}">
+
+        <Border
+            Width="400"
+            Classes="card"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <StackPanel Classes="section">
+
+                <TextBlock
+                    Text="☕"
+                    FontSize="40"
+                    HorizontalAlignment="Center"/>
+
+                <TextBlock
+                    Classes="title"
+                    Text="SiLadhida"
+                    HorizontalAlignment="Center"/>
+
+                <TextBlock
+                    Classes="subtitle"
+                    Text="Sistem Informasi Kedai"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,12"/>
+
+                <!-- Username -->
+                <StackPanel Classes="form-field">
+
+                    <TextBlock Classes="label" Text="Username"/>
+
+                    <TextBox
+                        Text="{Binding Username}"
+                        PlaceholderText="Masukkan username"/>
+                        
+                    </StackPanel>
+                    
+                    <!-- Password -->
+                    <StackPanel Classes="form-field">
+                        
+                        <TextBlock Classes="label" Text="Password"/>
+                        
+                        <TextBox
+                        Text="{Binding Password}"
+                        PasswordChar="●"
+                        PlaceholderText="Masukkan password"/>
+
+                </StackPanel>
+
+                <!-- Button -->
+                <Button
+                    Classes="primary"
+                    Content="Login"
+                    Command="{Binding LoginCommand}"
+                    HorizontalAlignment="Center"/>
+
+                <!-- Error -->
+                <TextBlock
+                    Classes="error"
+                    Text="{Binding Message}"
+                    TextWrapping="Wrap"/>
+
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+
+</UserControl>

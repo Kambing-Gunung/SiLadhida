@@ -1,6 +1,6 @@
 using Avalonia.Controls;
-using SiLadhida.App.Views;
-using System.Threading.Tasks;
+using SiLadhida.App.Features.Auth;
+using SiLadhida.App.Services.App;
 
 namespace SiLadhida.App;
 
@@ -10,37 +10,23 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        var layout = new DashboardLayout();
+        DataContext = App.Services.Navigation;
 
-        MainContent.Content = layout;
+        // App.Services.Notification.OnSuccess += ShowToast;
+        // App.Services.Notification.OnError += ShowToast;
 
-        App.Navigation.OnViewChanged += view =>
-        {
-            if (view is LoginView)
-            {
-                MainContent.Content = view;
-            }
-            else
-            {
-                layout.SetContent(view);
-                MainContent.Content = layout;
-            }
-        };
-
-        App.Notification.OnSuccess += ShowToast;
-        App.Notification.OnError += ShowToast;
-
-        MainContent.Content = new LoginView();
+        // 🔥 Initial Page
+        App.Services.Navigation.NavigateToLogin();
     }
 
-    private async void ShowToast(string message)
-    {
-        ToastText.Text = message;
+    // private async void ShowToast(string message)
+    // {
+    //     ToastText.Text = message;
 
-        ToastBorder.IsVisible = true;
+    //     ToastBorder.IsVisible = true;
 
-        await Task.Delay(2500);
+    //     await Task.Delay(2500);
 
-        ToastBorder.IsVisible = false;
-    }
+    //     ToastBorder.IsVisible = false;
+    // }
 }

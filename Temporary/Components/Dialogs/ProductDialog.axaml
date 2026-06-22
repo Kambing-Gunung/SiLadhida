@@ -1,0 +1,69 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:SiLadhida.App.Models"
+    x:Class="SiLadhida.App.Components.Dialogs.ProductDialog"
+    x:DataType="models:ProductFormModel">
+
+    <Border Classes="card"
+            Width="350"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+        <StackPanel Classes="section">
+
+            <!-- TITLE -->
+            <TextBlock
+                Classes="heading"
+                Text="{Binding Title}"/>
+
+            <!-- NAMA -->
+            <StackPanel Classes="form-field">
+                <TextBlock Classes="label" Text="Nama Produk"/>
+                <TextBox
+                    Text="{Binding Nama}"
+                    PlaceholderText="Masukkan nama produk"/>
+            </StackPanel>
+
+            <!-- HARGA -->
+            <StackPanel Classes="form-field">
+                <TextBlock Classes="label" Text="Harga"/>
+                <TextBox
+                    Text="{Binding Harga}"
+                    PlaceholderText="Masukkan harga"/>
+            </StackPanel>
+
+            <!-- STOCK -->
+            <StackPanel Classes="form-field">
+                <TextBlock Classes="label" Text="Stock"/>
+                <TextBox
+                    Text="{Binding Stock}"
+                    PlaceholderText="Masukkan stock"/>
+            </StackPanel>
+
+            <!-- ERROR -->
+            <TextBlock
+                Classes="error"
+                Text="{Binding ErrorMessage}"
+                IsVisible="{Binding HasError}"/>
+
+            <!-- ACTION -->
+            <StackPanel Classes="actions">
+
+                <Button
+                    Classes="secondary"
+                    Content="Batal"
+                    Click="Cancel_Click"/>
+
+                <Button
+                    Classes="primary"
+                    Content="Simpan"
+                    Click="Save_Click"/>
+
+            </StackPanel>
+
+        </StackPanel>
+
+    </Border>
+
+</UserControl>

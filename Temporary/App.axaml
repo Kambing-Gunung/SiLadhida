@@ -1,0 +1,65 @@
+<Application
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="using:SiLadhida.App.Converters"
+    xmlns:vm="using:SiLadhida.App.ViewModels"
+    xmlns:views="using:SiLadhida.App.Views"
+    x:Class="SiLadhida.App.App"
+    RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+
+        <DataTemplate DataType="vm:LoginViewModel">
+            <views:LoginView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:DashboardViewModel">
+            <views:DashboardView/>
+        </DataTemplate>
+
+    </Application.DataTemplates>
+
+    <Application.Styles>
+
+        <FluentTheme />
+
+        <!-- TAMBAHKAN INI -->
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+
+        <!-- TAMBAHKAN INI -->
+        <StyleInclude Source="avares://SiLadhida.App/Styles/DataGrid.axaml"/>
+
+        <!-- Styles kamu -->
+        <StyleInclude Source="avares://SiLadhida.App/Styles/Buttons.axaml"/>
+        <StyleInclude Source="avares://SiLadhida.App/Styles/TextBoxes.axaml"/>
+        <StyleInclude Source="avares://SiLadhida.App/Styles/Cards.axaml"/>
+        <StyleInclude Source="avares://SiLadhida.App/Styles/Typography.axaml"/>
+        <StyleInclude Source="avares://SiLadhida.App/Styles/Layouts.axaml"/>
+
+    </Application.Styles>
+
+    <Application.Resources>
+
+        <ResourceDictionary>
+
+            <conv:ZeroToBoolConverter x:Key="ZeroToBoolConverter"/>
+            <conv:ZeroToBoolConverter x:Key="GreaterThanZeroConverter"/>
+            <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <conv:BoolNegationConverter x:Key="BoolNegationConverter"/>
+            <conv:CurrencyConverter x:Key="CurrencyConverter"/>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <MergeResourceInclude
+                    Source="avares://SiLadhida.App/Styles/Colors.axaml"/>
+
+                <MergeResourceInclude
+                    Source="avares://SiLadhida.App/Styles/Metrics.axaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+
+</Application>

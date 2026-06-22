@@ -1,0 +1,47 @@
+<Window
+    x:Class="SiLadhida.App.Components.Dialogs.BaseDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Width="400"
+    Background="Transparent"
+    SizeToContent="WidthAndHeight"
+    WindowDecorations="None"
+    WindowStartupLocation="CenterOwner">
+
+    <Grid>
+
+        <!--  🔥 OVERLAY  -->
+        <Border
+            x:Name="Overlay"
+            Opacity="0"
+            PointerPressed="Overlay_Click" />
+
+        <!--  🔥 CARD  -->
+        <Border
+            x:Name="DialogCard"
+            MinWidth="400"
+            MaxWidth="600"
+            Padding="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{DynamicResource CardBackgroundBrush}"
+            BorderBrush="#DDDDDD"
+            BorderThickness="1"
+            Classes="card"
+            CornerRadius="12"
+            Opacity="0"
+            RenderTransformOrigin="0.5,0.5">
+
+            <Border.RenderTransform>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+            </Border.RenderTransform>
+
+            <ScrollViewer MaxHeight="600">
+                <ContentPresenter x:Name="DialogContent" />
+            </ScrollViewer>
+
+        </Border>
+
+    </Grid>
+
+</Window>

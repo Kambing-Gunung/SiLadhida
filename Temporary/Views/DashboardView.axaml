@@ -1,0 +1,94 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.ViewModels"
+    x:DataType="vm:DashboardViewModel"
+    x:Class="SiLadhida.App.Views.DashboardView">
+
+    <UserControl.DataContext>
+        <vm:DashboardViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Classes="page">
+
+        <StackPanel Classes="section">
+            
+            <TextBlock
+                Text="Loading..."
+                IsVisible="{Binding IsLoading}"
+                HorizontalAlignment="Center"/>
+
+            <!-- Title -->
+            <TextBlock
+                Classes="heading"
+                Text="Dashboard"/>
+
+            <!-- Cards -->
+            <Grid
+                ColumnDefinitions="*,*,*"
+                ColumnSpacing="16">
+
+                <!-- Produk -->
+                <Border
+                    Classes="section-card"
+                    Grid.Column="0">
+
+                    <StackPanel Classes="section">
+
+                        <TextBlock
+                            Classes="label"
+                            Text="Produk"/>
+
+                        <TextBlock
+                            Classes="title"
+                            Text="{Binding TotalProduk}"/>
+
+                    </StackPanel>
+
+                </Border>
+
+                <!-- Pesanan -->
+                <Border
+                    Classes="section-card"
+                    Grid.Column="1">
+
+                    <StackPanel Classes="section">
+
+                        <TextBlock
+                            Classes="label"
+                            Text="Pesanan"/>
+
+                        <TextBlock
+                            Classes="title"
+                            Text="{Binding TotalOrder}"/>
+
+                    </StackPanel>
+
+                </Border>
+
+                <!-- Transaksi -->
+                <Border
+                    Classes="section-card"
+                    Grid.Column="2">
+
+                    <StackPanel Classes="section">
+
+                        <TextBlock
+                            Classes="label"
+                            Text="Transaksi"/>
+
+                        <TextBlock
+                            Classes="title"
+                            Text="{Binding TotalTransaksi}"/>
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>

@@ -37,8 +37,6 @@ namespace SiLadhida.Core.Entities
                 throw new BusinessException("Quantity harus lebih dari 0.");
 
             Quantity += quantity;
-
-            Quantity += quantity;
         }
 
         public void DecreaseQuantity(int quantity)
@@ -48,8 +46,6 @@ namespace SiLadhida.Core.Entities
 
             if (Quantity < quantity)
                 throw new InvalidOperationException("Quantity tidak mencukupi.");
-
-            Quantity -= quantity;
 
             Quantity -= quantity;
         }

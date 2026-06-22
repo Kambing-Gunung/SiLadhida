@@ -1,0 +1,44 @@
+<dialogs:BaseDialog
+    x:Class="SiLadhida.App.Features.Product.ProductDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dialogs="using:SiLadhida.App.Components.Dialogs"
+    xmlns:model="using:SiLadhida.App.Features.Product"
+    x:DataType="model:ProductFormModel">
+
+    <StackPanel Classes="section">
+
+        <TextBlock Classes="heading" Text="{Binding Title}" />
+
+        <StackPanel Classes="form-field">
+            <TextBlock Classes="label" Text="Nama" />
+            <TextBox Text="{Binding Nama}" />
+        </StackPanel>
+
+        <StackPanel Classes="form-field">
+            <TextBlock Classes="label" Text="Harga" />
+            <TextBox Text="{Binding Harga}" />
+        </StackPanel>
+
+        <StackPanel Classes="form-field">
+            <TextBlock Classes="label" Text="Stock" />
+            <TextBox Text="{Binding Stock}" />
+        </StackPanel>
+
+        <StackPanel Classes="actions">
+
+            <Button
+                Classes="secondary"
+                Click="Cancel_Click"
+                Content="Batal" />
+
+            <Button
+                Classes="primary"
+                Click="Save_Click"
+                Content="Simpan" />
+
+        </StackPanel>
+
+    </StackPanel>
+
+</dialogs:BaseDialog>

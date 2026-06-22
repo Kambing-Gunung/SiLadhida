@@ -1,152 +1,85 @@
-<Styles
-        xmlns="https://github.com/avaloniaui">
+<Styles xmlns="https://github.com/avaloniaui">
 
-        <!-- Default Button -->
-        <Style Selector="Button">
+    <!--  🔥 BASE BUTTON  -->
+    <Style Selector="Button">
+        <Setter Property="Height" Value="44" />
+        <Setter Property="MinWidth" Value="100" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
 
-                <Setter Property="Height"
-                        Value="44"/>
+        <!--  🔥 INTERACTION BASE  -->
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <ScaleTransform ScaleX="1" ScaleY="1" />
+        </Setter>
 
-                <Setter Property="MinWidth"
-                        Value="100"/>
+        <Setter Property="Opacity" Value="1" />
 
-                <Setter Property="Padding"
-                        Value="16,8"/>
-
-                <Setter Property="CornerRadius"
-                        Value="12"/>
-
-                <Setter Property="HorizontalContentAlignment"
-                        Value="Center"/>
-
-                <Setter Property="VerticalContentAlignment"
-                        Value="Center"/>
-
+        <!--  HOVER  -->
+        <Style Selector="^:pointerover">
+            <Setter Property="Opacity" Value="0.9" />
         </Style>
 
-        <!-- Primary Button -->
-        <Style Selector="Button.primary">
-
-                <Setter Property="Background"
-                        Value="{DynamicResource CoffeePrimaryBrush}"/>
-
-                <Setter Property="Foreground"
-                        Value="White"/>
-
+        <!--  PRESSED  -->
+        <Style Selector="^:pressed">
+            <Setter Property="Opacity" Value="0.8" />
+            <Setter Property="RenderTransform">
+                <ScaleTransform ScaleX="0.97" ScaleY="0.97" />
+            </Setter>
         </Style>
 
-        <!-- Secondary Button -->
-        <Style Selector="Button.secondary">
-
-                <Setter Property="Background"
-                        Value="{DynamicResource CoffeeAccentBrush}"/>
-
-                <Setter Property="Foreground"
-                        Value="{DynamicResource TextPrimaryBrush}"/>
-
+        <!--  DISABLED  -->
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
         </Style>
+    </Style>
 
-        <!-- Danger Button -->
-        <Style Selector="Button.danger">
+    <!--  🔥 PRIMARY  -->
+    <Style Selector="Button.primary">
+        <Setter Property="Background" Value="{DynamicResource CoffeePrimaryBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
 
-                <Setter Property="Background"
-                        Value="IndianRed"/>
+    <!--  🔥 SECONDARY  -->
+    <Style Selector="Button.secondary">
+        <Setter Property="Background" Value="{DynamicResource CoffeeAccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+    </Style>
 
-                <Setter Property="Foreground"
-                        Value="White"/>
+    <!--  🔥 DANGER  -->
+    <Style Selector="Button.danger">
+        <Setter Property="Background" Value="IndianRed" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
 
-        </Style>
+    <!--  🔥 NAV BUTTON  -->
+    <Style Selector="Button.nav-button">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Padding" Value="20,14" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
 
-        <!-- Sidebar Navigation Button -->
-        <Style Selector="Button.nav-button">
+    <Style Selector="Button.nav-button:pointerover">
+        <Setter Property="Background" Value="{DynamicResource CoffeeAccentBrush}" />
+    </Style>
 
-                <Setter Property="HorizontalAlignment"
-                        Value="Stretch"/>
+    <Style Selector="Button.nav-button.active">
+        <Setter Property="BorderThickness" Value="4,0,0,0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CoffeePrimaryBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
 
-                <Setter Property="HorizontalContentAlignment"
-                        Value="Left"/>
-
-                <Setter Property="Padding"
-                        Value="20,14"/>
-
-                <Setter Property="Background"
-                        Value="Transparent"/>
-
-                <Setter Property="BorderThickness"
-                        Value="0"/>
-
-        </Style>
-
-        <Style Selector="Button.nav-button:pointerover">
-
-                <Setter Property="Background"
-                        Value="{DynamicResource CoffeeAccentBrush}" />
-
-        </Style>
-
-        <Style Selector="Button.nav-button.active">
-
-                <Setter Property="BorderThickness"
-                        Value="4,0,0,0"/>
-
-                <Setter Property="BorderBrush"
-                        Value="{DynamicResource CoffeePrimaryBrush}"/>
-
-                <Setter Property="FontWeight"
-                        Value="SemiBold"/>
-
-        </Style>
-
-        <!-- Hover Danger -->
-        <Style Selector="Button.danger:pointerover">
-
-                <Setter Property="Opacity"
-                        Value="0.90"/>
-
-        </Style>
-
-        <!-- Icon Button -->
-        <Style Selector="Button.icon-button">
-
-                <Setter Property="Width"
-                        Value="44"/>
-
-                <Setter Property="MinWidth"
-                        Value="44"/>
-
-                <Setter Property="Height"
-                        Value="44"/>
-
-                <Setter Property="Padding"
-                        Value="0"/>
-
-                <Setter Property="FontSize"
-                        Value="16"/>
-
-        </Style>
-
-        <!-- Hover Primary -->
-        <Style Selector="Button.primary:pointerover">
-
-                <Setter Property="Opacity"
-                        Value="0.90"/>
-
-        </Style>
-
-        <!-- Hover Secondary -->
-        <Style Selector="Button.secondary:pointerover">
-
-                <Setter Property="Opacity"
-                        Value="0.90"/>
-
-        </Style>
-
-        <!-- Hover Icon -->
-        <Style Selector="Button.icon-button:pointerover">
-
-                <Setter Property="Opacity"
-                        Value="0.85"/>
-
-        </Style>
+    <!--  🔥 ICON BUTTON  -->
+    <Style Selector="Button.icon-button">
+        <Setter Property="Width" Value="44" />
+        <Setter Property="MinWidth" Value="44" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
 
 </Styles>
