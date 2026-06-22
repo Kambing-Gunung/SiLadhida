@@ -1,14 +1,9 @@
 using SiLadhida.API.Auth;
-using SiLadhida.API.Data;
-using SiLadhida.API.Repositories.Implementations;
-using SiLadhida.API.Repositories.Interfaces;
-using SiLadhida.API.Services.Implementations;
-using SiLadhida.API.Services.Interfaces;
+using SiLadhida.Application.Services;
+using SiLadhida.Application.Interfaces;
 using SiLadhida.API.Mappings;
-using SiLadhida.Core.Services;
-using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
+using FluentValidation;
 using System.Text.Json.Serialization;
 
 namespace SiLadhida.API.Extensions;
@@ -19,25 +14,9 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IOrderRepository, OrderRepository>();
-        services.AddScoped<IOrderService, Services.Implementations.OrderService>();
+
         services.AddScoped<IProductService, ProductService>();
-        services.AddScoped<ProductLookupService>();
-        services.AddScoped<Core.Services.OrderService>();
-        services.AddScoped<Factories.Interfaces.IOrderFactory, Factories.Implementations.OrderFactory>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddApplicationDatabase(
-        this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseMySql(
-                configuration.GetConnectionString("Default"),
-                ServerVersion.AutoDetect(configuration.GetConnectionString("Default"))
-            ));
+        services.AddScoped<IOrderService, OrderService>();
 
         return services;
     }

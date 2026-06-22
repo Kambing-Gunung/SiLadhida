@@ -1,10 +1,81 @@
-<Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="SiLadhida.App.App"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+<Application
+    x:Class="SiLadhida.App.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:auth="using:SiLadhida.App.Features.Auth"
+    xmlns:converters="using:SiLadhida.App.Components.Converters"
+    xmlns:dashboard="using:SiLadhida.App.Features.Dashboard"
+    xmlns:order="using:SiLadhida.App.Features.Order"
+    xmlns:product="using:SiLadhida.App.Features.Product"
+    xmlns:transaction="using:SiLadhida.App.Features.Transaction"
+    RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+
+        <DataTemplate DataType="auth:LoginViewModel">
+            <auth:LoginView />
+        </DataTemplate>
+
+        <DataTemplate DataType="dashboard:DashboardViewModel">
+            <dashboard:DashboardView />
+        </DataTemplate>
+
+        <DataTemplate DataType="product:ProductViewModel">
+            <product:ProductView />
+        </DataTemplate>
+
+        <DataTemplate DataType="order:OrderViewModel">
+            <order:OrderView />
+        </DataTemplate>
+
+        <DataTemplate DataType="transaction:TransactionViewModel">
+            <transaction:TransactionView />
+        </DataTemplate>
+
+    </Application.DataTemplates>
 
     <Application.Styles>
+
         <FluentTheme />
+
+        <!--  DataGrid (optional, aman)  -->
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+
+        <!--  🔥 DESIGN SYSTEM  -->
+        <StyleInclude Source="avares://SiLadhida.App/Styles/Buttons.axaml" />
+        <StyleInclude Source="avares://SiLadhida.App/Styles/TextBoxes.axaml" />
+        <StyleInclude Source="avares://SiLadhida.App/Styles/Cards.axaml" />
+        <StyleInclude Source="avares://SiLadhida.App/Styles/Typography.axaml" />
+        <StyleInclude Source="avares://SiLadhida.App/Styles/Layouts.axaml" />
+
     </Application.Styles>
+
+    <Application.Resources>
+
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <converters:ZeroToBoolConverter x:Key="ZeroToBoolConverter" />
+            <converters:CurrencyConverter x:Key="CurrencyConverter" />
+            <converters:AndConverter x:Key="AndConverter" />
+            <converters:LoadingOpacityConverter x:Key="LoadingOpacityConverter" />
+            <converters:IsDoneConverter x:Key="IsDoneConverter" />
+            <converters:IsCancelConverter x:Key="IsCancelConverter" />
+            <converters:StatusToClassConverter x:Key="StatusToClassConverter"/>
+
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <!--  🔥 COLOR SYSTEM  -->
+                <MergeResourceInclude Source="avares://SiLadhida.App/Styles/Colors.axaml" />
+
+                <!--  🔥 SPACING / SIZE  -->
+                <MergeResourceInclude Source="avares://SiLadhida.App/Styles/Metrics.axaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+
 </Application>

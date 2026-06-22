@@ -1,0 +1,22 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.Components.Shell"
+    x:Class="SiLadhida.App.Components.Shell.Topbar"
+    x:DataType="vm:TopbarViewModel">
+
+    <UserControl.DataContext>
+        <vm:TopbarViewModel/>
+    </UserControl.DataContext>
+
+    <Border
+        Padding="24,20"
+        Background="{DynamicResource CardBackgroundBrush}">
+
+        <TextBlock
+            Classes="heading"
+            Text="{Binding Title}"/>
+
+    </Border>
+
+</UserControl>

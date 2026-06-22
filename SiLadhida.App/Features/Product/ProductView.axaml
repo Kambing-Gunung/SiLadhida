@@ -1,0 +1,108 @@
+<UserControl
+    x:Class="SiLadhida.App.Features.Product.ProductView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dg="using:Avalonia.Controls"
+    xmlns:feedback="using:SiLadhida.App.Components.Feedback"
+    xmlns:inputs="using:SiLadhida.App.Components.Inputs"
+    xmlns:model="using:SiLadhida.App.Features.Product"
+    xmlns:vm="using:SiLadhida.App.Features.Product"
+    x:Name="Root"
+    x:DataType="vm:ProductViewModel">
+
+    <Grid Classes="page" RowDefinitions="Auto,Auto,Auto,*">
+
+        <!--  TITLE  -->
+        <TextBlock
+            Grid.Row="0"
+            Classes="heading"
+            Text="Produk" />
+
+        <!--  TOOLBAR  -->
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="*,Auto"
+            ColumnSpacing="12">
+
+            <inputs:SearchBox
+                IsEnabled="{Binding DataContext.IsLoading, ElementName=Root, Converter={StaticResource InverseBoolConverter}}"
+                Placeholder="Cari produk..."
+                Text="{Binding SearchText, Mode=TwoWay}" />
+
+            <Button
+                Grid.Column="1"
+                Classes="primary"
+                Command="{Binding OpenCreateDialogCommand}"
+                Content="+ Tambah Produk"
+                IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}" />
+
+        </Grid>
+
+        <!--  LOADING  -->
+        <TextBlock
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            IsVisible="{Binding IsLoading}"
+            Text="Memuat produk..." />
+
+        <!--  CONTENT  -->
+        <Grid Grid.Row="3">
+
+            <!--  EMPTY  -->
+            <feedback:EmptyState
+                Title="Belum Ada Produk"
+                Description="Silakan tambahkan produk baru."
+                IsVisible="{Binding HasProducts, Converter={StaticResource InverseBoolConverter}}" />
+
+            <!--  DATAGRID  -->
+            <dg:DataGrid
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                IsVisible="{Binding HasProducts}"
+                ItemsSource="{Binding FilteredProducts}"
+                Opacity="{Binding IsLoading, Converter={StaticResource LoadingOpacityConverter}}"
+                SelectionMode="Single">
+
+                <dg:DataGrid.Columns>
+
+                    <dg:DataGridTextColumn Binding="{Binding Nama}" Header="Nama" />
+
+                    <dg:DataGridTextColumn Binding="{Binding Harga}" Header="Harga" />
+
+                    <dg:DataGridTextColumn Binding="{Binding Stock}" Header="Stock" />
+
+                    <dg:DataGridTemplateColumn Header="Aksi">
+                        <dg:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="model:Product">
+
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+
+                                    <Button
+                                        Classes="icon-button"
+                                        Command="{Binding DataContext.OpenEditDialogCommand, ElementName=Root}"
+                                        CommandParameter="{Binding}"
+                                        Content="✏"
+                                        IsEnabled="{Binding DataContext.IsLoading, ElementName=Root, Converter={StaticResource InverseBoolConverter}}" />
+
+                                    <Button
+                                        Classes="icon-button danger"
+                                        Command="{Binding DataContext.DeleteProductCommand, ElementName=Root}"
+                                        CommandParameter="{Binding}"
+                                        Content="🗑"
+                                        IsEnabled="{Binding DataContext.IsLoading, ElementName=Root, Converter={StaticResource InverseBoolConverter}}" />
+
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </dg:DataGridTemplateColumn.CellTemplate>
+                    </dg:DataGridTemplateColumn>
+
+                </dg:DataGrid.Columns>
+
+            </dg:DataGrid>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

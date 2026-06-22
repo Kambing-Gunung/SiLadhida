@@ -1,21 +1,53 @@
-using System.Text.Json.Serialization;
+using System;
+using SiLadhida.Core.Exceptions;
 
-namespace SiLadhida.Core.Entities;
-
-public class OrderItem
+namespace SiLadhida.Core.Entities
 {
-    public int Id { get; set; }
+    public class OrderItem
+    {
+        public int Id { get; private set; }
+        public int OrderId { get; private set; }
+        public int ProductId { get; private set; }
+        public int Quantity { get; private set; }
+        public decimal Harga { get; private set; }
+        public decimal SubTotal => Quantity * Harga;
 
-    public int OrderId { get; set; }
+        private OrderItem(int productId, int quantity, decimal harga)
+        {
+            if (productId <= 0)
+                throw new BusinessException("ProductId tidak valid.");
 
-    [JsonIgnore]
-    public Order? Order { get; set; }
+            if (quantity <= 0)
+                throw new BusinessException("Quantity harus lebih dari 0.");
 
-    public int ProductId { get; set; }
-    
-    public Product? Product { get; set; }
+            if (harga < 0)
+                throw new BusinessException("Harga tidak boleh negatif.");
 
-    public int Quantity { get; set; }
+            ProductId = productId;
+            Quantity = quantity;
+            Harga = harga;
+        }
 
-    public decimal Harga { get; set; }
+        public static OrderItem Create(int productId, int quantity, decimal harga)
+            => new OrderItem(productId, quantity, harga);
+
+        public void IncreaseQuantity(int quantity)
+        {
+            if (quantity <= 0)
+                throw new BusinessException("Quantity harus lebih dari 0.");
+
+            Quantity += quantity;
+        }
+
+        public void DecreaseQuantity(int quantity)
+        {
+            if (quantity <= 0)
+                throw new BusinessException("Quantity harus lebih dari 0.");
+
+            if (Quantity < quantity)
+                throw new InvalidOperationException("Quantity tidak mencukupi.");
+
+            Quantity -= quantity;
+        }
+    }
 }

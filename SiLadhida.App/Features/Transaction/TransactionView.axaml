@@ -1,0 +1,50 @@
+<UserControl
+    x:Class="SiLadhida.App.Features.Transaction.TransactionView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:inputs="using:SiLadhida.App.Components.Inputs"
+    xmlns:model="using:SiLadhida.App.Features.Order"
+    xmlns:vm="using:SiLadhida.App.Features.Transaction"
+    x:Name="Root"
+    x:DataType="vm:TransactionViewModel">
+
+    <Grid Classes="page" RowDefinitions="Auto,Auto,*">
+
+        <StackPanel Classes="section" Spacing="12">
+
+            <!--  🔥 TITLE  -->
+            <TextBlock Classes="heading" Text="Riwayat Transaksi" />
+
+            <!--  🔥 SEARCH  -->
+            <inputs:SearchBox Placeholder="Cari nama pemesan..." Text="{Binding SearchText, Mode=TwoWay}" />
+
+            <!--  🔥 TABLE  -->
+            <DataGrid
+                AutoGenerateColumns="False"
+                Classes="card"
+                GridLinesVisibility="None"
+                HeadersVisibility="Column"
+                IsReadOnly="True"
+                ItemsSource="{Binding Transactions}"
+                RowHeight="50">
+
+                <DataGrid.Columns>
+
+                    <!--  Nama  -->
+                    <DataGridTextColumn Binding="{Binding NamaPemesan}" Header="Nama Pemesan" />
+
+                    <!--  Status  -->
+                    <DataGridTextColumn Binding="{Binding StatusSekarang}" Header="Status" />
+
+                    <!--  Total  -->
+                    <DataGridTextColumn Binding="{Binding TotalHarga, StringFormat='Rp {0:N0}'}" Header="Total" />
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>

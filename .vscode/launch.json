@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": ".NET Launch (Avalonia)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/SiLadhida.App/bin/Debug/net8.0/SiLadhida.App.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/SiLadhida.App",
+      "stopAtEntry": false
+    },
+    {
+      "name": ".NET Launch (API)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/SiLadhida.API/bin/Debug/net8.0/SiLadhida.API.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/SiLadhida.API",
+      "stopAtEntry": false
+    }
+  ]
+}
