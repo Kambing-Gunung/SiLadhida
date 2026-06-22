@@ -3,6 +3,7 @@ using SiLadhida.Core.Enums;
 using SiLadhida.Application.Interfaces;
 using SiLadhida.Core.Interfaces;
 using SiLadhida.Core.Exceptions;
+using SiLadhida.Application.Payments;
 
 namespace SiLadhida.Application.Services;
 
@@ -135,33 +136,33 @@ public class OrderService : IOrderService
         return order;
     }
 
-    public async Task<Order> PayAsync(int orderId)
-    {
-        var order = await GetOrderOrThrow(orderId);
+    // public async Task<Order> PayAsync(int orderId)
+    // {
+    //     var order = await GetOrderOrThrow(orderId);
 
-        var productIds = order.Items.Select(x => x.ProductId).Distinct().ToList();
-        var products = await _productRepository.GetByIdsAsync(productIds);
+    //     var productIds = order.Items.Select(x => x.ProductId).Distinct().ToList();
+    //     var products = await _productRepository.GetByIdsAsync(productIds);
 
-        foreach (var item in order.Items)
-        {
-            var product = products.FirstOrDefault(p => p.Id == item.ProductId)
-                ?? throw new NotFoundException($"Product {item.ProductId} tidak ditemukan");
+    //     foreach (var item in order.Items)
+    //     {
+    //         var product = products.FirstOrDefault(p => p.Id == item.ProductId)
+    //             ?? throw new NotFoundException($"Product {item.ProductId} tidak ditemukan");
 
-            EnsureStock(product, item.Quantity);
-        }
+    //         EnsureStock(product, item.Quantity);
+    //     }
 
-        foreach (var item in order.Items)
-        {
-            var product = products.First(p => p.Id == item.ProductId);
-            product.DecreaseStock(item.Quantity);
-        }
+    //     foreach (var item in order.Items)
+    //     {
+    //         var product = products.First(p => p.Id == item.ProductId);
+    //         product.DecreaseStock(item.Quantity);
+    //     }
 
-        order.Pay();
+    //     order.Pay();
 
-        await _orderRepository.SaveChangesAsync();
+    //     await _orderRepository.SaveChangesAsync();
 
-        return order;
-    }
+    //     return order;
+    // }
 
     public async Task<Order> CancelAsync(int orderId)
     {
@@ -183,6 +184,21 @@ public class OrderService : IOrderService
         await _orderRepository.SaveChangesAsync();
 
         return order;
+    }
+
+    // Masih Coba2
+    public async Task<Order> PayAsync(int orderId, string method)
+    {
+        PaymentFactory factory = method switch
+        {
+            "cash" => new PaymentOfflineFactory(),
+            "qris" => new PaymentOnlineFactory(),
+            _ => throw new Exception("Metode pembayaran tidak valid")
+        };
+
+        var payment = factory.CreatePay();
+
+        return await payment.Payment(orderId, this);
     }
 
     // ================= HELPER =================

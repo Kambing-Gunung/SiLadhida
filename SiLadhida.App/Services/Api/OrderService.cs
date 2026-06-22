@@ -64,7 +64,6 @@ public class OrderService
         return res?.Data;
     }
 
-    // 🔥 WRAPPER (UI FRIENDLY)
     public Task<Order?> PayAsync(int id)
         => UpdateStatusAsync(id, StateTrigger.PembayaranDikonfirmasi);
 

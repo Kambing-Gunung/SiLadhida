@@ -127,4 +127,16 @@ public class OrderController : ControllerBase
         ));
     }
 
+    [HttpPost("{id}/pay")]
+    public async Task<IActionResult> Pay(int id, [FromQuery] string method)
+    {
+        var order = await _service.PayAsync(id, method);
+
+        var result = _mapper.Map<OrderResponseDto>(order);
+
+        return Ok(ApiResponse<object>.SuccessResponse(
+            result,
+            "Pembayaran berhasil"
+        ));
+    }
 }

@@ -17,7 +17,7 @@ public interface IOrderService
     Task<Order> RemoveItemAsync(int orderId, int productId);
     Task<Order> ResetItemsAsync(int orderId);
 
-    Task<Order> PayAsync(int orderId);
+    Task<Order> PayAsync(int orderId, string method);
     Task<Order> CancelAsync(int orderId);
     Task<Order> CompleteAsync(int orderId);
 }
