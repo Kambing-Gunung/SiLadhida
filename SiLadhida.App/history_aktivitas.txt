@@ -1,3 +1,0 @@
-[22/06/2026 17:46:29] Aktivitas: [Error] Gagal memuat data produk: Response status code does not indicate success: 500 (Internal Server Error).
-[22/06/2026 17:47:33] Aktivitas: [Error] Gagal memuat data produk: Response status code does not indicate success: 500 (Internal Server Error).
-[22/06/2026 17:47:33] Aktivitas: [Sukses] Produk 'bolu' berhasil ditambahkan ke dalam sistem.

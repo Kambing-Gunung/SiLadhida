@@ -7,7 +7,7 @@ namespace SiLadhida.App.Components.Converters;
 
 public class StatusToClassConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is StateOrder status)
         {
@@ -24,6 +24,6 @@ public class StatusToClassConverter : IValueConverter
         return "";
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotImplementedException();
 }

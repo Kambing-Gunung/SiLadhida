@@ -1,178 +1,148 @@
 # ☕ SiLadhida
 
-## 📌 Overview
-
-**SiLadhida** adalah aplikasi manajemen kedai kopi yang mendukung:
-
-* Manajemen produk
-* Pemesanan (order)
-* Transaksi kasir
-* Role-based access (Admin & Kasir)
-
-Project ini dibangun menggunakan arsitektur **Clean Architecture** dengan pemisahan layer yang jelas.
+**SiLadhida** adalah aplikasi manajemen kedai/kafe berbasis **.NET & Avalonia UI** yang dirancang untuk mengelola produk, pesanan, dan transaksi secara terstruktur menggunakan pendekatan **layered architecture**.
 
 ---
 
-## 🏗️ Architecture
+## 🚀 Fitur Utama
+
+* 📦 Manajemen Produk
+* 🧾 Manajemen Pesanan (Order)
+* 💳 Proses Pembayaran
+* 📊 Dashboard Ringkasan
+* 🧮 Riwayat Transaksi
+* 🎯 Status Order berbasis State Machine
+
+---
+
+## 🧱 Arsitektur Project
+
+Project ini menggunakan pendekatan **Layered Architecture** dengan pembagian sebagai berikut:
 
 ```
 SiLadhida
 │
-├── SiLadhida.Core          → Domain & Business Rules
-├── SiLadhida.Application   → Use Cases / Services
-├── SiLadhida.Infrastructure → Database & Repository
-└── SiLadhida.API           → HTTP API (Entry Point)
-```
-
-### 🔄 Flow
-
-```
-Client → API → Application → Core → Infrastructure → Database
+├── SiLadhida.App           → UI (Avalonia)
+├── SiLadhida.API           → Web API (Controller)
+├── SiLadhida.Application   → Business Logic
+├── SiLadhida.Core          → Domain & Entity
+├── SiLadhida.Infrastructure → Data Access & External Service
 ```
 
 ---
 
-## 🧱 Tech Stack
+## 🔄 Alur Data
 
-### Backend
+```
+UI (App)
+   ↓
+App Service (HTTP Client)
+   ↓
+API Controller
+   ↓
+Application Service
+   ↓
+Domain (Core)
+   ↓
+Database (Infrastructure)
+```
+
+---
+
+## 🧠 Design Pattern yang Digunakan
+
+* MVVM (Model-View-ViewModel)
+* Service Layer Pattern
+* State Machine Pattern (Order Status)
+* Command Pattern (RelayCommand)
+* Separation of Concerns
+
+---
+
+## ⚙️ Teknologi
 
 * .NET 8
-* ASP.NET Core Web API
-* Entity Framework Core
-* MySQL (Pomelo)
-
-### Auth
-
-* JWT Authentication
-* Role-based Authorization
-
-### Validation & Mapping
-
-* FluentValidation
-* AutoMapper
-
-### UI (Desktop)
-
 * Avalonia UI
+* CommunityToolkit.Mvvm
+* REST API
+* JSON Serialization
 
 ---
 
-## 🔐 Roles
+## 📌 Status Order
 
-| Role  | Akses                                 |
-| ----- | ------------------------------------- |
-| Admin | Full access (CRUD produk, order, dll) |
-| Kasir | Order & transaksi saja                |
+Menggunakan State Machine:
 
----
-
-## 🚀 Features
-
-### ✅ Product
-
-* Create, Read, Update, Delete
-* Validasi domain
-
-### ✅ Order
-
-* Create order
-* Add item
-* Update quantity
-* State machine:
-
-  * MenungguPembayaran
-  * SiapDiambil
-  * Selesai
-  * Dibatalkan
-
-### ✅ Auth
-
-* Login JWT
-* Role-based access
-
-### ✅ Error Handling
-
-* Global Exception Middleware
-* Standard API Response
-
----
-
-## 📦 API Response Format
-
-```json
-{
-  "success": true,
-  "message": "string",
-  "data": {}
-}
+```
+MenungguPembayaran → SiapDiambil → Selesai
+                 ↘ Dibatalkan
 ```
 
 ---
 
-## ⚙️ Setup & Run
+## 📷 Tampilan Utama
 
-### 1. Clone project
-
-```bash
-git clone <https://github.com/Kambing-Gunung/SiLadhida>
-```
-
-### 2. Setup database
-
-* Pastikan MySQL aktif
-* Update connection string di:
-
-```bash
-SiLadhida.API/appsettings.json
-```
+* Dashboard
+* Order Management
+* Product Management
+* Transaction History
 
 ---
 
-### 3. Migration
+## 🛠️ Cara Menjalankan
 
-```bash
-dotnet ef database update \
---project SiLadhida.Infrastructure \
---startup-project SiLadhida.API
-```
-
----
-
-### 4. Run API
+### 1. Jalankan API
 
 ```bash
 cd SiLadhida.API
 dotnet run
 ```
 
-API akan berjalan di:
+### 2. Jalankan App
+
+```bash
+cd SiLadhida.App
+dotnet run
+```
+
+---
+
+## 📦 Struktur Folder (Ringkas)
 
 ```
-http://localhost:5135
+Features/
+    Order/
+    Product/
+    Transaction/
+Components/
+    Dialogs/
+    Inputs/
+Services/
+Core/
 ```
 
 ---
 
-## 🔑 Default User (Seeder)
+## 🎯 Tujuan Project
 
-| Username | Password | Role  |
-| -------- | -------- | ----- |
-| admin    | admin123 | Admin |
-| kasir    | kasir123 | Kasir |
+Project ini dibuat untuk:
 
----
-
-## 🧠 Design Principles
-
-* Clean Architecture
-* Separation of Concerns
-* Domain-driven design (basic)
-* Dependency Inversion
+* Menerapkan konsep Clean Architecture
+* Membangun aplikasi desktop modern
+* Memahami pemisahan antara UI, Business Logic, dan Domain
+* Menjadi portfolio aplikasi real-world
 
 ---
 
-## 📌 Notes
+## 🚧 Pengembangan Selanjutnya
 
-* Business logic hanya ada di **Core & Application**
-* API hanya sebagai **entry point**
-* Infrastructure bisa diganti tanpa ubah domain
+* 📈 Dashboard Chart
+* 🔄 Real-time Update
+* 🧠 State Management Improvement
+* 📱 Cross-platform expansion
+
+---
+
+## 📄 License
+
+Project ini digunakan untuk pembelajaran dan pengembangan pribadi.

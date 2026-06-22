@@ -1,8 +1,0 @@
-Primary    : #6D4C41   (Brown 500)
-Secondary  : #8D6E63   (Brown 300)
-Surface    : #FFFFFF
-Background : #F5F3F1
-Accent     : #D7CCC8
-Text Dark  : #2D2D2D
-Text Light : #FFFFFF
-Border     : #E0E0E0
