@@ -7,7 +7,7 @@ namespace SiLadhida.App.Services.Api;
 
 public class AuthService
 {
-    private readonly ApiClient _client;
+    private readonly ApiClient _client = ApiClient.Instance;
     private readonly AuthSession _session;
 
     public AuthService(ApiClient client, AuthSession session)

@@ -1,5 +1,4 @@
 using Avalonia.Data.Converters;
-using SiLadhida.Core.Enums;
 using System;
 using System.Globalization;
 
@@ -9,19 +8,29 @@ public class StatusToClassConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is StateOrder status)
+        Console.WriteLine("=== CONVERTER CALLED ===");
+
+        if (value == null)
         {
-            return status switch
-            {
-                StateOrder.MenungguPembayaran => "status-pending",
-                StateOrder.SiapDiambil => "status-ready",
-                StateOrder.Selesai => "status-done",
-                StateOrder.Dibatalkan => "status-cancel",
-                _ => ""
-            };
+            Console.WriteLine("Value NULL");
+            return "";
         }
 
-        return "";
+        Console.WriteLine($"Value masuk: {value}");
+
+        var result = value.ToString() switch
+        {
+            "MenungguPembayaran" => "status-pending",
+            "SiapDiambil" => "status-ready",
+            "Selesai" => "status-done",
+            "Dibatalkan" => "status-cancel",
+            _ => ""
+        };
+
+        Console.WriteLine($"Class hasil: {result}");
+        Console.WriteLine("========================");
+
+        return result;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

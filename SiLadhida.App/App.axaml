@@ -62,6 +62,7 @@
             <converters:IsDoneConverter x:Key="IsDoneConverter" />
             <converters:IsCancelConverter x:Key="IsCancelConverter" />
             <converters:StatusToClassConverter x:Key="StatusToClassConverter"/>
+            <converters:StatusToBrushConverter x:Key="StatusToBrushConverter"/>
 
 
             <ResourceDictionary.MergedDictionaries>

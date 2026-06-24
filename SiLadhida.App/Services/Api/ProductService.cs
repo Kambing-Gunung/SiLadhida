@@ -8,12 +8,7 @@ namespace SiLadhida.App.Services.Api;
 
 public class ProductService
 {
-    private readonly ApiClient _client;
-
-    public ProductService(ApiClient client)
-    {
-        _client = client;
-    }
+    private readonly ApiClient _client = ApiClient.Instance;
 
     public async Task<List<Product>> GetProductsAsync()
     {
