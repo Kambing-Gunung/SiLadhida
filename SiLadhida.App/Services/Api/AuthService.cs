@@ -22,7 +22,6 @@ public class AuthService
             "api/auth/login",
             new { username, password });
 
-
         if (response?.Data == null)
             return false;
 

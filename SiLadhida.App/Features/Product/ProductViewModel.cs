@@ -149,7 +149,7 @@ public partial class ProductViewModel : ObservableObject
             // 🔥 TRIGGER UI
             OnPropertyChanged(nameof(FilteredProducts));
 
-            App.Services.Notification.ShowSuccess("Produk berhasil diperbarui");
+            App.Services.NotificationPublisher.Notify("Produk berhasil diperbarui");
         }
         catch (Exception ex)
         {

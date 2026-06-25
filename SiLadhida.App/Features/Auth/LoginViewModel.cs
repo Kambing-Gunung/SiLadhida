@@ -44,6 +44,7 @@ public partial class LoginViewModel : ObservableObject
             string.IsNullOrWhiteSpace(Password))
         {
             Message = "Username dan Password wajib diisi.";
+
             return;
         }
 

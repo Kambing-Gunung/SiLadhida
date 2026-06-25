@@ -14,7 +14,6 @@ public class ApiClient
     private readonly HttpClient _http;
     private AuthSession? _session;
 
-    // SINGLETON INSTANCE
     private static ApiClient? _instance;
 
     public static ApiClient Instance
@@ -28,7 +27,6 @@ public class ApiClient
         }
     }
 
-    // PRIVATE CONSTRUCTOR
     private ApiClient()
     {
         _http = new HttpClient
@@ -37,7 +35,6 @@ public class ApiClient
         };
     }
 
-    // SET SESSION (inject manual)
     public void SetSession(AuthSession session)
     {
         _session = session;
