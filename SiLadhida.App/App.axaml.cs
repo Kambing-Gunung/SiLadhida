@@ -19,7 +19,7 @@ public partial class App : Application
     {
         // 🔥 INIT SERVICES
         Services = new ServiceLocator();
-        Notification.Subscribe(Logger);
+        Services.Initialize();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

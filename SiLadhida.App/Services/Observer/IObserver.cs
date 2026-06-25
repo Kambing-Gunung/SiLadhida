@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SiLadhida.App.Services
+namespace SiLadhida.App.Services.Observer
 {
-    internal class ExternalSpeechApi
+    public interface IObserver
     {
+        void UpdateNotification(string message);
     }
 }

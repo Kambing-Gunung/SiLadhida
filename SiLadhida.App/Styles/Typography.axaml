@@ -88,4 +88,21 @@
                 <Setter Property="CornerRadius" Value="12" />
         </Style>
 
+        <!-- Status -->
+        <Style Selector="TextBox[Tag='status-pending']">
+                <Setter Property="Background" Value="{DynamicResource StatusPendingBrush}" />
+        </Style>
+
+        <Style Selector="TextBox[Tag='status-ready']">
+                <Setter Property="Background" Value="{DynamicResource StatusReadyBrush}" />
+        </Style>
+
+        <Style Selector="TextBox[Tag='status-done']">
+                <Setter Property="Background" Value="{DynamicResource StatusDoneBrush}" />
+        </Style>
+
+        <Style Selector="TextBox[Tag='status-cancel']">
+                <Setter Property="Background" Value="{DynamicResource StatusCancelBrush}" />
+        </Style>
+
 </Styles>

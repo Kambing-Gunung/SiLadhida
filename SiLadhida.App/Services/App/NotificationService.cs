@@ -1,9 +1,10 @@
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using SiLadhida.App.Services.Observer;
+using System.Threading.Tasks;
 
 namespace SiLadhida.App.Services.App;
 
-public partial class NotificationService : ObservableObject
+public partial class NotificationService : ObservableObject, IObserver
 {
     [ObservableProperty]
     private string message = "";
@@ -13,6 +14,16 @@ public partial class NotificationService : ObservableObject
 
     [ObservableProperty]
     private bool isError;
+
+    public async void UpdateNotification(string message)
+    {
+        Message = message;
+        IsVisible = true;
+
+        await Task.Delay(2500);
+
+        IsVisible = false;
+    }
 
     public async void ShowSuccess(string message)
     {

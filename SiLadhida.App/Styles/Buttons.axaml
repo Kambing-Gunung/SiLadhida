@@ -82,4 +82,35 @@
         <Setter Property="FontSize" Value="16" />
     </Style>
 
+    <!--  🔥 BASE STATUS PILL  -->
+    <Style Selector="Button.status-pill">
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <!--  🔥 VARIANTS  -->
+    <Style Selector="Button.status-pill.status-pending">
+        <Setter Property="Background" Value="{DynamicResource StatusPendingBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="Button.status-pill.status-ready">
+        <Setter Property="Background" Value="{DynamicResource StatusReadyBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="Button.status-pill.status-done">
+        <Setter Property="Background" Value="{DynamicResource StatusDoneBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="Button.status-pill.status-cancel">
+        <Setter Property="Background" Value="{DynamicResource StatusCancelBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
 </Styles>

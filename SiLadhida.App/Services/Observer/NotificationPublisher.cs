@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace SiLadhida.App.Services
+namespace SiLadhida.App.Services.Observer
 {
     public class NotificationPublisher
     {
@@ -8,6 +9,8 @@ namespace SiLadhida.App.Services
 
         public void Subscribe(IObserver observer)
         {
+            Console.WriteLine("Observer subscribed: " + observer.GetType().Name);
+
             if (!_observers.Contains(observer))
                 _observers.Add(observer);
         }
@@ -19,6 +22,8 @@ namespace SiLadhida.App.Services
 
         public void Notify(string message)
         {
+            Console.WriteLine("Notify called: " + message);
+
             foreach (var observer in _observers)
             {
                 observer.UpdateNotification(message);

@@ -12,31 +12,73 @@ namespace SiLadhida.App.Core.Api;
 public class ApiClient
 {
     private readonly HttpClient _http;
-    private readonly AuthSession _session;
+    private AuthSession? _session;
 
-    public ApiClient(AuthSession session)
+    private static ApiClient? _instance;
+
+    public static ApiClient Instance
     {
-        _session = session;
+        get
+        {
+            if (_instance == null)
+                _instance = new ApiClient();
 
+            return _instance;
+        }
+    }
+
+    private ApiClient()
+    {
         _http = new HttpClient
         {
             BaseAddress = new Uri("http://localhost:5135/")
         };
     }
 
+    public void SetSession(AuthSession session)
+    {
+        _session = session;
+    }
+
     private void AttachToken()
     {
         _http.DefaultRequestHeaders.Authorization = null;
 
-        if (_session.IsAuthenticated)
+        if (_session != null && _session.IsAuthenticated)
         {
             _http.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", _session.Token);
         }
     }
 
-    // 🔥 CORE METHOD (INI KUNCI)
-    private async Task<T?> SendAsync<T>(HttpMethod method, string url, object? data = null)
+    public async Task<T?> GetAsync<T>(string url)
+    {
+        AttachToken();
+
+        var response = await _http.GetAsync(url);
+        var json = await response.Content.ReadAsStringAsync();
+
+        HandleError(response, json);
+
+        return Deserialize<T>(json);
+    }
+
+    public async Task<T?> PostAsync<T>(string url, object data)
+    {
+        AttachToken();
+
+        var json = JsonSerializer.Serialize(data);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await _http.PostAsync(url, content);
+        var result = await response.Content.ReadAsStringAsync();
+
+        HandleError(response, result);
+
+        return Deserialize<T>(result);
+    }
+
+    public async Task<T?> PutAsync<T>(string url, object? data = null)
     {
         AttachToken();
 
@@ -48,7 +90,27 @@ public class ApiClient
             content = new StringContent(json, Encoding.UTF8, "application/json");
         }
 
-        var request = new HttpRequestMessage(method, url)
+        var response = await _http.PutAsync(url, content);
+        var result = await response.Content.ReadAsStringAsync();
+
+        HandleError(response, result);
+
+        return Deserialize<T>(result);
+    }
+
+    public async Task<T?> PatchAsync<T>(string url, object? data = null)
+    {
+        AttachToken();
+
+        HttpContent? content = null;
+
+        if (data != null)
+        {
+            var json = JsonSerializer.Serialize(data);
+            content = new StringContent(json, Encoding.UTF8, "application/json");
+        }
+
+        var request = new HttpRequestMessage(HttpMethod.Patch, url)
         {
             Content = content
         };
@@ -61,22 +123,14 @@ public class ApiClient
         return Deserialize<T>(result);
     }
 
-    // 🔥 PUBLIC METHODS
-    public Task<T?> GetAsync<T>(string url) 
-        => SendAsync<T>(HttpMethod.Get, url);
-
-    public Task<T?> PostAsync<T>(string url, object data)
-        => SendAsync<T>(HttpMethod.Post, url, data);
-
-    public Task<T?> PutAsync<T>(string url, object? data = null)
-        => SendAsync<T>(HttpMethod.Put, url, data);
-
-    public Task<T?> PatchAsync<T>(string url, object data)
-        => SendAsync<T>(HttpMethod.Patch, url, data);
-
     public async Task DeleteAsync(string url)
     {
-        await SendAsync<object>(HttpMethod.Delete, url);
+        AttachToken();
+
+        var response = await _http.DeleteAsync(url);
+        var result = await response.Content.ReadAsStringAsync();
+
+        HandleError(response, result);
     }
 
     private static T? Deserialize<T>(string json)
@@ -98,6 +152,11 @@ public class ApiClient
 
         var message = $"API Error ({(int)response.StatusCode})";
 
+        if (!string.IsNullOrWhiteSpace(content))
+        {
+            message += $": {content}";
+        }
+
         try
         {
             var api = JsonSerializer.Deserialize<ApiResponse<object>>(content,
@@ -110,8 +169,7 @@ public class ApiClient
         }
         catch
         {
-            if (!string.IsNullOrWhiteSpace(content))
-                message += $": {content}";
+            // ignore
         }
 
         throw new Exception(message);

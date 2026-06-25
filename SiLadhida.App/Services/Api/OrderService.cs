@@ -10,12 +10,7 @@ namespace SiLadhida.App.Services.Api;
 
 public class OrderService
 {
-    private readonly ApiClient _client;
-
-    public OrderService(ApiClient client)
-    {
-        _client = client;
-    }
+    private readonly ApiClient _client = ApiClient.Instance;
 
     public async Task<List<Order>> GetOrdersAsync()
     {
@@ -54,7 +49,6 @@ public class OrderService
         return res?.Data;
     }
 
-    // 🔥 CORE STATUS METHOD
     public async Task<Order?> UpdateStatusAsync(int orderId, StateTrigger trigger)
     {
         var res = await _client.PatchAsync<ApiResponse<Order>>(
