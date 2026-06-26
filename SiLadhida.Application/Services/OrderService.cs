@@ -185,6 +185,16 @@ public class OrderService : IOrderService
         return order;
     }
 
+    public async Task DeleteAsync(int id)
+    {
+        // Mencari data atau mengembalikan error NotFound
+        var order = await GetOrderOrThrow(id);
+        
+        _orderRepository.Delete(order);
+
+        await _orderRepository.SaveChangesAsync();
+    }
+
     // ================= HELPER =================
 
     private async Task<Order> GetOrderOrThrow(int id)

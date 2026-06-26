@@ -20,4 +20,5 @@ public interface IOrderService
     Task<Order> PayAsync(int orderId);
     Task<Order> CancelAsync(int orderId);
     Task<Order> CompleteAsync(int orderId);
+    Task DeleteAsync(int id);
 }

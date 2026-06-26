@@ -6,8 +6,8 @@ using SiLadhida.API.DTOs;
 using SiLadhida.API.DTOs.Responses;
 using SiLadhida.API.FactoryMethod.Factory;
 using SiLadhida.API.FactoryMethod.Product;
-using SiLadhida.Application.Interfaces;
 using SiLadhida.Core.Enums;
+using SiLadhida.Application.Interfaces;
 
 namespace SiLadhida.API.Controllers;
 
@@ -18,6 +18,9 @@ public class OrderController : ControllerBase
     private readonly IOrderService _service;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
+
+    IPay pay;
+    PaymentFactory paymentFactory;
 
     public OrderController(
         IOrderService service,
@@ -118,8 +121,8 @@ public class OrderController : ControllerBase
             "Update Status: OrderId={OrderId}, Trigger={Trigger}, User={User}",
             id, StateTrigger.PembayaranDikonfirmasi, User.Identity?.Name);
 
-        PaymentFactory paymentFactory = new PaymentOfflineFactory();
-        IPay pay = paymentFactory.CreatePay();
+        paymentFactory = new PaymentOfflineFactory();
+        pay = paymentFactory.CreatePay();
 
         var order = await pay.Payment(id, StateTrigger.PembayaranDikonfirmasi, _service);
         var result = _mapper.Map<OrderResponseDto>(order);
@@ -130,7 +133,6 @@ public class OrderController : ControllerBase
         ));
     }
 
-
     [Authorize(Roles = $"{Roles.Admin}, {Roles.Kasir}")]
     [HttpPatch("{id}/qrispayment")]
     public async Task<IActionResult> QrisPayment(int id)
@@ -139,8 +141,8 @@ public class OrderController : ControllerBase
             "Update Status: OrderId={OrderId}, Trigger={Trigger}, User={User}",
             id, StateTrigger.PembayaranDikonfirmasi, User.Identity?.Name);
 
-        PaymentFactory paymentFactory = new PaymentOnlineFactory();
-        IPay pay = paymentFactory.CreatePay();
+        paymentFactory = new PaymentOnlineFactory();
+        pay = paymentFactory.CreatePay();
 
         var order = await pay.Payment(id, StateTrigger.PembayaranDikonfirmasi, _service);
         var result = _mapper.Map<OrderResponseDto>(order);
@@ -170,4 +172,22 @@ public class OrderController : ControllerBase
             "Quantity item berhasil diperbarui"
         ));
     }
+
+    [Authorize(Roles = $"{Roles.Admin}, {Roles.Kasir}")]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        _logger.LogInformation(
+            "Delete Order: OrderId={OrderId}, User={User}",
+            id, User.Identity?.Name);
+
+        await _service.DeleteAsync(id);
+
+        // Mengembalikan response sukses tanpa data spesifik
+        return Ok(ApiResponse<object>.SuccessResponse(
+            null,
+            "Data pesanan berhasil dihapus secara permanen"
+        ));
+    }
+
 }
