@@ -1,8 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SiLadhida.App.Components.Dialogs;
-using SiLadhida.App.Services.Api;
 using SiLadhida.Core.Enums;
+using SiLadhida.App.Shared.Requests;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,42 +12,31 @@ namespace SiLadhida.App.Features.Order;
 
 public partial class OrderViewModel : ObservableObject
 {
-    private readonly OrderService _service;
-
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ActiveOrders))]
+    [NotifyPropertyChangedFor(nameof(CompletedOrders))]
     private ObservableCollection<Order> orders = new();
-
-    [ObservableProperty]
-    private string namaPemesan = string.Empty;
-
-    [ObservableProperty]
-    private string searchText = string.Empty;
 
     [ObservableProperty]
     private bool isLoading;
 
-    [ObservableProperty]
-    private bool isBusy = false;
-
     public OrderViewModel()
     {
-        _service = App.Services.OrderService;
-
         _ = LoadOrdersAsync();
     }
 
-    // 🔥 LOAD DATA
+    [RelayCommand]
     public async Task LoadOrdersAsync()
     {
         try
         {
             IsLoading = true;
+            var rawData = await App.Services.OrderService.GetOrdersAsync();
 
-            var data = await _service.GetOrdersAsync();
+            // 1. Filter awal: Buang pesanan yang Dibatalkan agar benar-benar hilang dari UI
+            var validData = rawData?.Where(o => o.StatusSekarang != StateOrder.Dibatalkan).ToList();
 
-            Orders = new ObservableCollection<Order>(data ?? []);
-
-            OnPropertyChanged(nameof(ActiveOrders));
+            Orders = new ObservableCollection<Order>(validData ?? []);
         }
         catch (Exception ex)
         {
@@ -60,183 +48,125 @@ public partial class OrderViewModel : ObservableObject
         }
     }
 
-    // 🔥 FILTER + SEARCH
-    public IEnumerable<Order> ActiveOrders =>
-        Orders
-            .Where(o =>
-                o.StatusSekarang == StateOrder.MenungguPembayaran ||
-                o.StatusSekarang == StateOrder.SiapDiambil)
-            .Where(o =>
-                string.IsNullOrWhiteSpace(SearchText) ||
-                o.NamaPemesan.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+    // 2. Pesanan Aktif: Tampilkan semua pesanan selama statusnya BUKAN Selesai
+    public IEnumerable<Order> ActiveOrders => Orders.Where(o => 
+        o.StatusSekarang != StateOrder.Selesai);
 
-    partial void OnSearchTextChanged(string value)
-    {
-        OnPropertyChanged(nameof(ActiveOrders));
-    }
+    // 3. Riwayat Selesai: Tampilkan HANYA pesanan yang statusnya Selesai
+    public IEnumerable<Order> CompletedOrders => Orders.Where(o => 
+        o.StatusSekarang == StateOrder.Selesai);
 
-    partial void OnOrdersChanged(ObservableCollection<Order> value)
-    {
-        OnPropertyChanged(nameof(ActiveOrders));
-    }
-
-    // 🔥 CREATE ORDER
     [RelayCommand]
-    private async Task CreateOrderAsync()
+    private async Task OpenCreateOrderDialogAsync()
     {
-        if (string.IsNullOrWhiteSpace(NamaPemesan))
+        var desktop = Avalonia.Application.Current?.ApplicationLifetime as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime;
+
+        if (desktop?.MainWindow != null)
         {
-            App.Services.Notification.ShowError("Nama pemesan wajib diisi.");
-            return;
-        }
+            var dialog = new CreateOrderDialog(); // Memanggil dialog form pesanan
+            var result = await dialog.ShowDialog<bool>(desktop.MainWindow);
 
-        if (IsBusy) return;
-
-        try
-        {
-            IsBusy = true;
-
-            App.Services.Loading.Show("Membuat pesanan...");
-
-            await _service.CreateOrderAsync(new Shared.Requests.CreateOrderRequest
+            if (result)
             {
-                NamaPemesan = NamaPemesan
-            });
+                try
+                {
+                    App.Services.Loading.Show("Menyimpan pesanan...");
 
-            NamaPemesan = string.Empty;
+                    // 1. Tembak API untuk membuat Pesanan Baru (Hanya mengirim Nama Pemesan)
+                    var request = new CreateOrderRequest { NamaPemesan = dialog.NewOrderName };
+                    var createdOrder = await App.Services.OrderService.CreateOrderAsync(request);
 
-            await LoadOrdersAsync();
+                    if (createdOrder != null)
+                    {
+                        // 2. Ambil produk yang dicentang di form dialog
+                        var selectedItems = dialog.ProductList.Where(p => p.IsSelected).ToList();
 
-            App.Services.Notification.ShowSuccess("Order berhasil dibuat");
-        }
-        catch (Exception ex)
-        {
-            App.Services.Notification.ShowError(ex.Message);
-        }
-        finally
-        {
-            App.Services.Loading.Hide();
-            IsBusy = false;
-        }
-    }
+                        // 3. Tembak API AddItem untuk masing-masing produk ke OrderId yang baru dibuat
+                        foreach (var item in selectedItems)
+                        {
+                            var addItemReq = new AddOrderItemRequest 
+                            { 
+                                ProductId = item.ProductId, 
+                                Quantity = item.Quantity 
+                            };
+                            
+                            // Memasukkan item yang akan memicu backend menghitung ulang TotalHarga
+                            await App.Services.OrderService.AddItemAsync(createdOrder.Id, addItemReq);
+                        }
 
-    [RelayCommand]
-    private async Task OpenManageDialogAsync(Order order)
-    {
-        if (order == null || IsBusy)
-            return;
+                        App.Services.Notification.ShowSuccess("Pesanan berhasil dibuat!");
+                    }
 
-        try
-        {
-            IsBusy = true;
-
-            var content = new OrderDialog(order);
-
-            var dialog = new BaseDialog();
-
-            // 🔥 INJECT DIALOG KE CONTENT
-            content.AttachDialog(dialog);
-
-            dialog.SetContent(content);
-
-            await App.Services.Dialog.ShowAsync<object?>(dialog);
-
-            await LoadOrdersAsync();
-        }
-        catch (Exception ex)
-        {
-            App.Services.Notification.ShowError(ex.Message);
-        }
-        finally
-        {
-            IsBusy = false;
+                    // 4. Perbarui UI Halaman Utama agar pesanan muncul dengan TotalHarga yang sudah dihitung backend
+                    await LoadOrdersAsync();
+                }
+                catch (Exception ex)
+                {
+                    App.Services.Notification.ShowError("Gagal membuat pesanan: " + ex.Message);
+                }
+                finally
+                {
+                    App.Services.Loading.Hide();
+                }
+            }
         }
     }
 
-    // 🔥 PAY
     [RelayCommand]
     private async Task PayOrderAsync(Order order)
     {
-        if (order == null || IsBusy) return;
-
+        if (order == null) return;
         try
         {
-            IsBusy = true;
-
             App.Services.Loading.Show("Memproses pembayaran...");
-
-            await _service.PayAsync(order.Id);
-
+            await App.Services.OrderService.PayAsync(order.Id);
             await LoadOrdersAsync();
-
             App.Services.Notification.ShowSuccess("Pembayaran berhasil");
         }
         catch (Exception ex)
         {
             App.Services.Notification.ShowError(ex.Message);
         }
-        finally
-        {
-            App.Services.Loading.Hide();
-            IsBusy = false;
-        }
+        finally { App.Services.Loading.Hide(); }
     }
 
-    // 🔥 CANCEL
     [RelayCommand]
     private async Task CancelOrderAsync(Order order)
     {
-        if (order == null || IsBusy) return;
-
+        if (order == null) return;
         try
         {
-            IsBusy = true;
-
-            App.Services.Loading.Show("Membatalkan pesanan...");
-
-            await _service.CancelAsync(order.Id);
-
+            await App.Services.OrderService.CancelAsync(order.Id);
             await LoadOrdersAsync();
-
             App.Services.Notification.ShowSuccess("Order dibatalkan");
         }
         catch (Exception ex)
         {
             App.Services.Notification.ShowError(ex.Message);
         }
-        finally
-        {
-            App.Services.Loading.Hide();
-            IsBusy = false;
-        }
     }
 
-    // 🔥 COMPLETE
     [RelayCommand]
     private async Task CompleteOrderAsync(Order order)
     {
-        if (order == null || IsBusy) return;
-
+        if (order == null) return;
         try
         {
-            IsBusy = true;
-
-            App.Services.Loading.Show("Menyelesaikan pesanan...");
-
-            await _service.CompleteAsync(order.Id);
-
+            await App.Services.OrderService.CompleteAsync(order.Id);
             await LoadOrdersAsync();
-
             App.Services.Notification.ShowSuccess("Pesanan selesai");
         }
         catch (Exception ex)
         {
             App.Services.Notification.ShowError(ex.Message);
         }
-        finally
-        {
-            App.Services.Loading.Hide();
-            IsBusy = false;
-        }
     }
+
+    // public IEnumerable<Order> ActiveOrders => Orders.Where(o =>
+    //     o.StatusSekarang == StateOrder.MenungguPembayaran ||
+    //     o.StatusSekarang == StateOrder.SiapDiambil);
+
+    // public IEnumerable<Order> CompletedOrders => Orders.Where(o =>
+    //     o.StatusSekarang == StateOrder.Selesai ||
+    //     o.StatusSekarang == StateOrder.Dibatalkan);
 }

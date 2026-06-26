@@ -106,12 +106,20 @@ public partial class ProductViewModel : ObservableObject
             var created = await _service.CreateProductAsync(newProduct);
 
             // 🔥 REAL-TIME ADD
-            Products.Add(created);
+           if (created != null)
+            {
+                // 🔥 REAL-TIME ADD
+                Products.Add(created);
 
-            OnPropertyChanged(nameof(FilteredProducts));
-            OnPropertyChanged(nameof(HasProducts));
+                OnPropertyChanged(nameof(FilteredProducts));
+                OnPropertyChanged(nameof(HasProducts));
 
-            App.Services.Notification.ShowSuccess("Produk berhasil ditambahkan");
+                App.Services.Notification.ShowSuccess("Produk berhasil ditambahkan");
+            }
+            else
+            {
+                App.Services.Notification.ShowError("Gagal menambahkan produk: Respons kosong dari server.");
+            }
         }
         catch (Exception ex)
         {

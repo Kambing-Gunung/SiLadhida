@@ -1,133 +1,85 @@
 <UserControl
-    x:Class="SiLadhida.App.Features.Order.OrderView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:inputs="using:SiLadhida.App.Components.Inputs"
-    xmlns:model="using:SiLadhida.App.Features.Order"
     xmlns:vm="using:SiLadhida.App.Features.Order"
-    x:Name="Root"
+    xmlns:model="using:SiLadhida.App.Features.Order"
+    x:Class="SiLadhida.App.Features.Order.OrderView"
     x:DataType="vm:OrderViewModel">
 
-    <Grid Classes="page" RowDefinitions="Auto,Auto,Auto,*">
-
+    <Grid Classes="page">
         <ScrollViewer>
+            <StackPanel Classes="section" Spacing="15">
 
-            <StackPanel Classes="section" Spacing="12">
+                <TextBlock Classes="heading" Text="Pesanan"/>
 
-                <!--  🔥 TITLE  -->
-                <TextBlock
-                    Grid.Row="0"
-                    Classes="heading"
-                    Text="Pesanan" />
-
-                <!--  🔥 TOOLBAR  -->
-                <Grid
-                    Grid.Row="1"
-                    ColumnDefinitions="*,Auto,Auto"
-                    ColumnSpacing="12">
-
-                    <inputs:SearchBox
-                        IsEnabled="{Binding DataContext.IsLoading, ElementName=Root, Converter={StaticResource InverseBoolConverter}}"
-                        Placeholder="Cari produk..."
-                        Text="{Binding SearchText, Mode=TwoWay}" />
-
-                    <TextBox
-                        Grid.Column="1"
-                        Width="200"
-                        PlaceholderText="Nama Pemesan"
-                        Text="{Binding NamaPemesan}" />
-
+                <StackPanel Orientation="Horizontal" Spacing="10">
                     <Button
-                        Grid.Column="2"
                         Classes="primary"
-                        Command="{Binding CreateOrderCommand}"
-                        Content="+ Tambah Pesanan" />
+                        Content="+ Buat Pesanan Baru"
+                        Command="{Binding OpenCreateOrderDialogCommand}" />
+                </StackPanel>
 
-                </Grid>
-
-                <!--  🔥 LOADING  -->
                 <TextBlock
-                    Grid.Row="3"
-                    HorizontalAlignment="Center"
+                    Text="Loading orders..."
                     IsVisible="{Binding IsLoading}"
-                    Text="Loading pesanan..." />
+                    HorizontalAlignment="Center"
+                    Margin="0,10"/>
 
-                <!--  🔥 LIST  -->
-                <DataGrid
-                    Grid.Row="3"
-                    AutoGenerateColumns="False"
-                    GridLinesVisibility="None"
-                    HeadersVisibility="Column"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding ActiveOrders}"
-                    RowHeight="50">
-
-                    <DataGrid.Columns>
-
-                        <!--  🔥 Nama  -->
-                        <DataGridTextColumn Binding="{Binding NamaPemesan}" Header="Nama Pemesan" />
-
-                        <!--  🔥 Status  -->
-                        <DataGridTextColumn Binding="{Binding StatusSekarang}" Header="Status" />
-
-                        <!--  🔥 Total  -->
-                        <DataGridTextColumn Binding="{Binding TotalHarga, StringFormat='Rp {0:N0}'}" Header="Total" />
-
-                        <!--  🔥 Action  -->
-                        <DataGridTemplateColumn Header="Aksi">
-
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="model:Order">
-
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-
-                                        <!--  ⚙  -->
-                                        <Button
-                                            Classes="icon-button"
-                                            Command="{Binding DataContext.OpenManageDialogCommand, ElementName=Root}"
-                                            CommandParameter="{Binding}"
-                                            Content="⚙"
-                                            IsEnabled="{Binding CanManage}" />
-
-                                        <!--  💳  -->
-                                        <Button
-                                            Classes="icon-button success"
-                                            Command="{Binding DataContext.PayOrderCommand, ElementName=Root}"
-                                            CommandParameter="{Binding}"
-                                            Content="💳"
-                                            IsEnabled="{Binding CanPay}" />
-
-                                        <!--  ✖  -->
-                                        <Button
-                                            Classes="icon-button danger"
-                                            Command="{Binding DataContext.CancelOrderCommand, ElementName=Root}"
-                                            CommandParameter="{Binding}"
-                                            Content="✖"
-                                            IsEnabled="{Binding CanCancel}" />
-
-                                        <!--  ✔  -->
-                                        <Button
-                                            Classes="icon-button"
-                                            Command="{Binding DataContext.CompleteOrderCommand, ElementName=Root}"
-                                            CommandParameter="{Binding}"
-                                            Content="✔"
-                                            IsEnabled="{Binding CanComplete}" />
-
+                <TextBlock Text="Pesanan Aktif" FontWeight="Bold" FontSize="16" Margin="0,10,0,0"/>
+                <ItemsControl ItemsSource="{Binding ActiveOrders}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="model:Order">
+                            <Border Classes="card" Margin="8">
+                                <StackPanel Classes="section">
+                                    <TextBlock Classes="heading" Text="{Binding NamaPemesan}"/>
+                                    <TextBlock Text="{Binding StatusSekarang}" FontWeight="SemiBold"/>
+                                    <TextBlock Classes="subtitle" Text="{Binding TotalHarga, StringFormat='Total: Rp {0:N0}'}"/>
+                                    
+                                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,10,0,0">
+                                        <Button Classes="icon-button" Content="⚙" Click="Manage_Click" Tag="{Binding}" IsEnabled="{Binding CanManage}" />
+                                        <Button Classes="icon-button success" Content="💳" Command="{Binding $parent[UserControl].((vm:OrderViewModel)DataContext).PayOrderCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CanPay}" />
+                                        <Button Classes="icon-button danger" Content="✖" Command="{Binding $parent[UserControl].((vm:OrderViewModel)DataContext).CancelOrderCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CanCancel}" ToolTip.Tip="Batalkan Pesanan" /> 
+                                        <Button Content="Selesai" Command="{Binding $parent[UserControl].((vm:OrderViewModel)DataContext).CompleteOrderCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CanComplete}" />
                                     </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
+                <Separator Background="#DDDDDD" Height="1" Margin="0,15"/>
 
-                        </DataGridTemplateColumn>
-
-                    </DataGrid.Columns>
-
-                </DataGrid>
+                <TextBlock Text="Riwayat Pesanan (Selesai)" FontWeight="Bold" FontSize="16"/>
+                    <ItemsControl ItemsSource="{Binding CompletedOrders}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="model:Order">
+                                
+                                <Border Classes="card" Margin="8" Background="#F0FFF0" BorderBrush="#A5D6A7" BorderThickness="2" CornerRadius="6">
+                                    <StackPanel Classes="section">
+                                        
+                                        <TextBlock Classes="heading" Text="{Binding NamaPemesan}" Foreground="#1B5E20" FontSize="18" />
+                                        
+                                        <TextBlock Text="{Binding StatusSekarang}" Foreground="#2E7D32" FontWeight="ExtraBold" Margin="0,4,0,0"/>
+                                        <TextBlock Classes="subtitle" Text="{Binding TotalHarga, StringFormat='Total: Rp {0:N0}'}" Foreground="#555555" Margin="0,4,0,0"/>
+                                        
+                                    </StackPanel>
+                                </Border>
+                                
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
             </StackPanel>
-
         </ScrollViewer>
-
     </Grid>
-
 </UserControl>

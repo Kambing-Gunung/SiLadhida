@@ -36,25 +36,32 @@ public partial class DashboardViewModel : ObservableObject
 
     private async Task LoadAsync()
     {
-        var orders = await _orderService.GetOrdersAsync();
+        // 1. Ambil data mentah dari API
+        var rawOrders = await _orderService.GetOrdersAsync();
 
-        if (orders == null) return;
+        if (rawOrders == null) return;
 
-        TotalOrders = orders.Count;
+        // 2. Filter data: Buang pesanan yang statusnya Dibatalkan (atau Dihapus)
+        // Gunakan .ToList() agar hasil filter ini tersimpan rapi sebagai List
+        var validOrders = rawOrders.Where(o => o.StatusSekarang != StateOrder.Dibatalkan).ToList();
 
-        ActiveOrders = orders.Count(o =>
+        // 3. Gunakan 'validOrders' untuk SEMUA perhitungan di bawah ini, bukan data mentahnya
+
+        TotalOrders = validOrders.Count;
+
+        ActiveOrders = validOrders.Count(o =>
             o.StatusSekarang == StateOrder.MenungguPembayaran ||
             o.StatusSekarang == StateOrder.SiapDiambil);
 
-        CompletedOrders = orders.Count(o =>
+        CompletedOrders = validOrders.Count(o =>
             o.StatusSekarang == StateOrder.Selesai);
 
-        TotalRevenue = orders
+        TotalRevenue = validOrders
             .Where(o => o.StatusSekarang == StateOrder.Selesai)
             .Sum(o => o.TotalHarga);
 
         RecentOrders = new ObservableCollection<OrderEntity>(
-            orders
+            validOrders
                 .OrderByDescending(o => o.Id)
                 .Take(5));
     }

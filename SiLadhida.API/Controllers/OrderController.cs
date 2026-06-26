@@ -1,10 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using SiLadhida.API.DTOs;
-using SiLadhida.API.Common;
-using SiLadhida.Application.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SiLadhida.API.Common;
+using SiLadhida.API.DTOs;
 using SiLadhida.API.DTOs.Responses;
+using SiLadhida.API.FactoryMethod.Factory;
+using SiLadhida.API.FactoryMethod.Product;
+using SiLadhida.Application.Interfaces;
+using SiLadhida.Core.Enums;
 
 namespace SiLadhida.API.Controllers;
 
@@ -99,6 +102,47 @@ public class OrderController : ControllerBase
             id, dto.Trigger, User.Identity?.Name);
 
         var order = await _service.UpdateStatusAsync(id, dto.Trigger);
+        var result = _mapper.Map<OrderResponseDto>(order);
+
+        return Ok(ApiResponse<object>.SuccessResponse(
+            result,
+            "Status order berhasil diperbarui"
+        ));
+    }
+
+    [Authorize(Roles = $"{Roles.Admin}, {Roles.Kasir}")]
+    [HttpPatch("{id}/cashpayment")]
+    public async Task<IActionResult> CashPayment(int id)
+    {
+        _logger.LogInformation(
+            "Update Status: OrderId={OrderId}, Trigger={Trigger}, User={User}",
+            id, StateTrigger.PembayaranDikonfirmasi, User.Identity?.Name);
+
+        PaymentFactory paymentFactory = new PaymentOfflineFactory();
+        IPay pay = paymentFactory.CreatePay();
+
+        var order = await pay.Payment(id, StateTrigger.PembayaranDikonfirmasi, _service);
+        var result = _mapper.Map<OrderResponseDto>(order);
+
+        return Ok(ApiResponse<object>.SuccessResponse(
+            result,
+            "Status order berhasil diperbarui"
+        ));
+    }
+
+
+    [Authorize(Roles = $"{Roles.Admin}, {Roles.Kasir}")]
+    [HttpPatch("{id}/qrispayment")]
+    public async Task<IActionResult> QrisPayment(int id)
+    {
+        _logger.LogInformation(
+            "Update Status: OrderId={OrderId}, Trigger={Trigger}, User={User}",
+            id, StateTrigger.PembayaranDikonfirmasi, User.Identity?.Name);
+
+        PaymentFactory paymentFactory = new PaymentOnlineFactory();
+        IPay pay = paymentFactory.CreatePay();
+
+        var order = await pay.Payment(id, StateTrigger.PembayaranDikonfirmasi, _service);
         var result = _mapper.Map<OrderResponseDto>(order);
 
         return Ok(ApiResponse<object>.SuccessResponse(
