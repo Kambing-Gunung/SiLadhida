@@ -67,7 +67,7 @@
 
                     <dg:DataGridTextColumn Binding="{Binding Nama}" Header="Nama" />
 
-                    <dg:DataGridTextColumn Binding="{Binding Harga}" Header="Harga" />
+                    <dg:DataGridTextColumn Binding="{Binding Harga, StringFormat='Rp {0:N0}'}" Header="Harga" />
 
                     <dg:DataGridTextColumn Binding="{Binding Stock}" Header="Stock" />
 

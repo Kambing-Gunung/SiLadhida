@@ -8,49 +8,37 @@ namespace SiLadhida.App.Services;
 
 public class ServiceLocator
 {
-    // Core
-    public AuthSession AuthSession { get; private set; } = null!;
-    public ApiClient ApiClient { get; private set; } = null!;
+    public AuthSession AuthSession { get; private set; }
+    public ApiClient ApiClient { get; private set; } 
 
-    // API
-    public AuthService AuthService { get; private set; } = null!;
-    public ProductService ProductService { get; private set; } = null!;
-    public OrderService OrderService { get; private set; } = null!;
+    public AuthService AuthService { get; private set; } 
+    public ProductService ProductService { get; private set; } 
+    public OrderService OrderService { get; private set; } 
 
-    // App
-    public DialogService Dialog { get; private set; } = null!;
-    public LoadingService Loading { get; private set; } = null!;
-    public NavigationService Navigation { get; private set; } = null!;
-    public NotificationService Notification { get; private set; } = null!;
+    public NavigationService Navigation { get; private set; } 
+    public NotificationService Notification { get; private set; } 
+    public LoadingService Loading { get; private set; } 
+    public DialogService Dialog { get; private set; } 
 
-    // Observer
-    public NotificationPublisher NotificationPublisher { get; private set; } = null!; // Observer
+    public NotificationPublisher NotificationPublisher { get; private set; } 
 
-    public void Initialize()
+    public ServiceLocator()
     {
-        // Core
-        AuthSession = new AuthSession();
-
+        AuthSession = AuthSession.Instance;
         ApiClient = ApiClient.Instance;
-        ApiClient.SetSession(AuthSession);
 
-        // API
-        AuthService = new AuthService(ApiClient, AuthSession);
-        ProductService = new();
-        OrderService = new();
+        AuthService = AuthService.Instance;
+        ProductService = ProductService.Instance;
+        OrderService = OrderService.Instance;
 
-        // App
-        Dialog = new DialogService();
-        Loading = new LoadingService();
-        Navigation = new NavigationService();
-        Notification = new NotificationService();
+        Navigation = NavigationService.Instance;
+        Notification = NotificationService.Instance;
+        Loading = LoadingService.Instance;
+        Dialog = DialogService.Instance;
 
-        // Observer
-        NotificationPublisher = new NotificationPublisher(); // Observer utama
-
-        var logger = new SystemLogger(); // Logger
+        NotificationPublisher = new NotificationPublisher(); 
+        var logger = new SystemLogger(); 
         NotificationPublisher.Subscribe(logger);
-
-        NotificationPublisher.Subscribe(Notification); // Integrasi ke UI/Toast
+        NotificationPublisher.Subscribe(Notification); 
     }
 }

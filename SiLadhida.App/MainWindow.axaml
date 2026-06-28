@@ -10,10 +10,8 @@
 
     <Grid>
 
-        <!--  🔥 MAIN CONTENT  -->
         <ContentControl Content="{Binding CurrentView}" />
 
-        <!--  🔥 TOAST  -->
         <Border
             Margin="20"
             Padding="16"
@@ -27,7 +25,6 @@
 
         </Border>
 
-        <!--  🔥 LOADING OVERLAY  -->
         <Border Background="#80000000" IsVisible="{Binding Source={x:Static app:App.Services}, Path=Loading.IsLoading}">
 
             <StackPanel
@@ -43,9 +40,6 @@
                     Text="{Binding Source={x:Static app:App.Services}, Path=Loading.Message}" />
 
             </StackPanel>
-
         </Border>
-
     </Grid>
-
 </Window>

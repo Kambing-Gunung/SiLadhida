@@ -39,7 +39,6 @@ public partial class TransactionViewModel : ObservableObject
             string.IsNullOrWhiteSpace(SearchText) ||
             o.NamaPemesan.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 
-    // 🔥 LOAD DATA
     public async Task LoadTransactionsAsync()
     {
         try
