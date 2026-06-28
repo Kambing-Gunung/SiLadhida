@@ -8,10 +8,21 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Order, CreateOrderResponseDto>()
+        // Product
+        CreateMap<Product, ProductResponseDto>();
+
+        // Order Item
+        CreateMap<OrderItem, OrderItemResponseDto>();
+
+        // Order
+        CreateMap<Order, OrderResponseDto>()
             .ForMember(
                 dest => dest.Status,
                 opt => opt.MapFrom(src => src.StatusSekarang.ToString())
+            )
+            .ForMember(
+                dest => dest.Items,
+                opt => opt.MapFrom(src => src.Items)
             );
     }
 }

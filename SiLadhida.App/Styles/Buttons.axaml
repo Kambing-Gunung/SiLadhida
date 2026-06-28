@@ -1,0 +1,116 @@
+<Styles xmlns="https://github.com/avaloniaui">
+
+    <!--  🔥 BASE BUTTON  -->
+    <Style Selector="Button">
+        <Setter Property="Height" Value="44" />
+        <Setter Property="MinWidth" Value="100" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+
+        <!--  🔥 INTERACTION BASE  -->
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <ScaleTransform ScaleX="1" ScaleY="1" />
+        </Setter>
+
+        <Setter Property="Opacity" Value="1" />
+
+        <!--  HOVER  -->
+        <Style Selector="^:pointerover">
+            <Setter Property="Opacity" Value="0.9" />
+        </Style>
+
+        <!--  PRESSED  -->
+        <Style Selector="^:pressed">
+            <Setter Property="Opacity" Value="0.8" />
+            <Setter Property="RenderTransform">
+                <ScaleTransform ScaleX="0.97" ScaleY="0.97" />
+            </Setter>
+        </Style>
+
+        <!--  DISABLED  -->
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </Style>
+
+    <!--  🔥 PRIMARY  -->
+    <Style Selector="Button.primary">
+        <Setter Property="Background" Value="{DynamicResource CoffeePrimaryBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <!--  🔥 SECONDARY  -->
+    <Style Selector="Button.secondary">
+        <Setter Property="Background" Value="{DynamicResource CoffeeAccentBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+    </Style>
+
+    <!--  🔥 DANGER  -->
+    <Style Selector="Button.danger">
+        <Setter Property="Background" Value="IndianRed" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <!--  🔥 NAV BUTTON  -->
+    <Style Selector="Button.nav-button">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Padding" Value="20,14" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="Button.nav-button:pointerover">
+        <Setter Property="Background" Value="{DynamicResource CoffeeAccentBrush}" />
+    </Style>
+
+    <Style Selector="Button.nav-button.active">
+        <Setter Property="BorderThickness" Value="4,0,0,0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CoffeePrimaryBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <!--  🔥 ICON BUTTON  -->
+    <Style Selector="Button.icon-button">
+        <Setter Property="Width" Value="44" />
+        <Setter Property="MinWidth" Value="44" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <!--  🔥 BASE STATUS PILL  -->
+    <Style Selector="Button.status-pill">
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <!--  🔥 VARIANTS  -->
+    <Style Selector="Button.status-pill.status-pending">
+        <Setter Property="Background" Value="{DynamicResource StatusPendingBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="Button.status-pill.status-ready">
+        <Setter Property="Background" Value="{DynamicResource StatusReadyBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="Button.status-pill.status-done">
+        <Setter Property="Background" Value="{DynamicResource StatusDoneBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="Button.status-pill.status-cancel">
+        <Setter Property="Background" Value="{DynamicResource StatusCancelBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+</Styles>

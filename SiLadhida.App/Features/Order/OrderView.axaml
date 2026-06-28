@@ -1,0 +1,85 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.Features.Order"
+    xmlns:model="using:SiLadhida.App.Features.Order"
+    x:Class="SiLadhida.App.Features.Order.OrderView"
+    x:DataType="vm:OrderViewModel">
+
+    <Grid Classes="page">
+        <ScrollViewer>
+            <StackPanel Classes="section" Spacing="15">
+
+                <TextBlock Classes="heading" Text="Pesanan"/>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button
+                        Classes="primary"
+                        Content="+ Buat Pesanan Baru"
+                        Command="{Binding OpenCreateOrderDialogCommand}" />
+                </StackPanel>
+
+                <TextBlock
+                    Text="Loading orders..."
+                    IsVisible="{Binding IsLoading}"
+                    HorizontalAlignment="Center"
+                    Margin="0,10"/>
+
+                <TextBlock Text="Pesanan Aktif" FontWeight="Bold" FontSize="16" Margin="0,10,0,0"/>
+                <ItemsControl ItemsSource="{Binding ActiveOrders}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="model:Order">
+                            <Border Classes="card" Margin="8">
+                                <StackPanel Classes="section">
+                                    <TextBlock Classes="heading" Text="{Binding NamaPemesan}"/>
+                                    <TextBlock Text="{Binding StatusSekarang}" FontWeight="SemiBold"/>
+                                    <TextBlock Classes="subtitle" Text="{Binding TotalHarga, StringFormat='Total: Rp {0:N0}'}"/>
+                                    
+                                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,10,0,0">
+                                        <Button Classes="icon-button" Content="⚙" Click="Manage_Click" Tag="{Binding}" IsEnabled="{Binding CanManage}" />
+                                        <Button Classes="icon-button success" Content="💳" Command="{Binding $parent[UserControl].((vm:OrderViewModel)DataContext).PayOrderCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CanPay}" />
+                                        <Button Classes="icon-button danger" Content="✖" Command="{Binding $parent[UserControl].((vm:OrderViewModel)DataContext).CancelOrderCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CanCancel}" ToolTip.Tip="Batalkan Pesanan" /> 
+                                        <Button Content="Selesai" Command="{Binding $parent[UserControl].((vm:OrderViewModel)DataContext).CompleteOrderCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CanComplete}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Separator Background="#DDDDDD" Height="1" Margin="0,15"/>
+
+                <TextBlock Text="Riwayat Pesanan (Selesai)" FontWeight="Bold" FontSize="16"/>
+                    <ItemsControl ItemsSource="{Binding CompletedOrders}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="model:Order">
+                                
+                                <Border Classes="card" Margin="8" Background="#F0FFF0" BorderBrush="#A5D6A7" BorderThickness="2" CornerRadius="6">
+                                    <StackPanel Classes="section">
+                                        
+                                        <TextBlock Classes="heading" Text="{Binding NamaPemesan}" Foreground="#1B5E20" FontSize="18" />
+                                        
+                                        <TextBlock Text="{Binding StatusSekarang}" Foreground="#2E7D32" FontWeight="ExtraBold" Margin="0,4,0,0"/>
+                                        <TextBlock Classes="subtitle" Text="{Binding TotalHarga, StringFormat='Total: Rp {0:N0}'}" Foreground="#555555" Margin="0,4,0,0"/>
+                                        
+                                    </StackPanel>
+                                </Border>
+                                
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

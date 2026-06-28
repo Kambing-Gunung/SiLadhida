@@ -1,69 +1,148 @@
-# SiLadhida
+# ☕ SiLadhida
 
-Solusi `SiLadhida` adalah sebuah aplikasi .NET 8 yang terdiri dari:
-- `SiLadhida.API`: backend REST API dengan ASP.NET Core, Entity Framework Core, dan JWT authentication.
-- `SiLadhida.App`: aplikasi desktop UI menggunakan Avalonia.
-- `SiLadhida.Core`: library domain bersama untuk entitas, enums, dan layanan umum.
-- `SiLadhida.Tests`: proyek unit test.
+**SiLadhida** adalah aplikasi manajemen kedai/kafe berbasis **.NET & Avalonia UI** yang dirancang untuk mengelola produk, pesanan, dan transaksi secara terstruktur menggunakan pendekatan **layered architecture**.
 
-## Struktur Proyek
+---
 
-### Root
-- `SiLadhida.slnx`: solusi utama yang menggabungkan semua proyek.
-- `README.md`: dokumentasi ringkas dan gambaran arsitektur.
+## 🚀 Fitur Utama
 
-### SiLadhida.API
-- `Program.cs`: entry point aplikasi API.
-- `appsettings.json` / `appsettings.Development.json`: konfigurasi aplikasi dan koneksi database.
-- `Auth/`: model user dan layanan autentikasi.
-- `Common/`: kelas utilitas untuk respons API umum.
-- `Controllers/`: endpoint HTTP untuk autentikasi, produk, order, lookup, dan lain-lain.
-- `Data/`: `AppDbContext` dan konfigurasi Entity Framework Core.
-- `DTOs/`: objek transfer data untuk input dan output API.
-- `Extensions/`: ekstensi untuk servis, middleware, dan otentikasi.
-- `Mappings/`: profil AutoMapper untuk konversi antar model dan DTO.
-- `Middleware/`: middleware custom, termasuk penanganan exception.
-- `Repositories/`: implementasi dan interface repositori untuk akses data.
-- `Services/`: logika bisnis dan layanan aplikasi.
-- `Validators/`: validasi input menggunakan FluentValidation.
-- `Migrations/`: migrasi database Entity Framework Core.
+* 📦 Manajemen Produk
+* 🧾 Manajemen Pesanan (Order)
+* 💳 Proses Pembayaran
+* 📊 Dashboard Ringkasan
+* 🧮 Riwayat Transaksi
+* 🎯 Status Order berbasis State Machine
 
-### SiLadhida.App
-- `App.axaml` / `App.axaml.cs`: inisialisasi aplikasi Avalonia.
-- `MainWindow.axaml` / `MainWindow.axaml.cs`: jendela utama aplikasi.
-- `Assets/`: gambar, ikon, dan aset statis.
-- `Components/`: komponen UI kembali pakai seperti kartu, sidebar, topbar.
-- `Controls/`: kontrol khusus untuk UI.
-- `Helpers/`: utilitas client-side dan helper UI.
-- `Layouts/`: tata letak atau kontrol layout.
-- `Models/`: model data lokal untuk UI dan mapping ke API.
-- `Resources/`: sumber daya aplikasi seperti ikon atau file data.
-- `Services/`: layanan komunikasi API dan logika panggilan HTTP.
-- `Styles/`, `Themes/`: definisi tema, styling, dan resource Avalonia.
-- `ViewModels/`: pola MVVM untuk data binding dan logika tampilan.
-- `Views/`: halaman dan tampilan UI.
+---
 
-### SiLadhida.Core
-- `SiLadhida.Core.csproj`: library shared untuk semua proyek.
-- `Configs/`: konfigurasi umum yang dibagikan.
-- `Entities/`: kelas entitas domain.
-- `Enums/`: tipe enum bersama.
-- `Services/`: layanan domain reusable.
-- `StateMachines/`: logika status atau state machine jika digunakan.
+## 🧱 Arsitektur Project
 
-### SiLadhida.Tests
-- `SiLadhida.Tests.csproj`: proyek unit test.
-- `UnitTest1.cs`: contoh tes unit.
-- `Services/`: tes untuk layanan aplikasi.
+Project ini menggunakan pendekatan **Layered Architecture** dengan pembagian sebagai berikut:
 
-## Cara Menjalankan
+```
+SiLadhida
+│
+├── SiLadhida.App           → UI (Avalonia)
+├── SiLadhida.API           → Web API (Controller)
+├── SiLadhida.Application   → Business Logic
+├── SiLadhida.Core          → Domain & Entity
+├── SiLadhida.Infrastructure → Data Access & External Service
+```
 
-1. Buka solusi `SiLadhida.slnx` di Visual Studio atau JetBrains Rider.
-2. Jalankan `SiLadhida.API` untuk memulai backend.
-3. Jalankan `SiLadhida.App` untuk membuka aplikasi desktop.
-4. Gunakan `dotnet test` pada proyek `SiLadhida.Tests` untuk menjalankan unit test.
+---
 
-## Catatan
+## 🔄 Alur Data
 
-- Output build diabaikan (`bin/` dan `obj/`).
-- Struktur folder mengikuti pemisahan tanggung jawab antara API, UI, shared core, dan test.
+```
+UI (App)
+   ↓
+App Service (HTTP Client)
+   ↓
+API Controller
+   ↓
+Application Service
+   ↓
+Domain (Core)
+   ↓
+Database (Infrastructure)
+```
+
+---
+
+## 🧠 Design Pattern yang Digunakan
+
+* MVVM (Model-View-ViewModel)
+* Service Layer Pattern
+* State Machine Pattern (Order Status)
+* Command Pattern (RelayCommand)
+* Separation of Concerns
+
+---
+
+## ⚙️ Teknologi
+
+* .NET 8
+* Avalonia UI
+* CommunityToolkit.Mvvm
+* REST API
+* JSON Serialization
+
+---
+
+## 📌 Status Order
+
+Menggunakan State Machine:
+
+```
+MenungguPembayaran → SiapDiambil → Selesai
+                 ↘ Dibatalkan
+```
+
+---
+
+## 📷 Tampilan Utama
+
+* Dashboard
+* Order Management
+* Product Management
+* Transaction History
+
+---
+
+## 🛠️ Cara Menjalankan
+
+### 1. Jalankan API
+
+```bash
+cd SiLadhida.API
+dotnet run
+```
+
+### 2. Jalankan App
+
+```bash
+cd SiLadhida.App
+dotnet run
+```
+
+---
+
+## 📦 Struktur Folder (Ringkas)
+
+```
+Features/
+    Order/
+    Product/
+    Transaction/
+Components/
+    Dialogs/
+    Inputs/
+Services/
+Core/
+```
+
+---
+
+## 🎯 Tujuan Project
+
+Project ini dibuat untuk:
+
+* Menerapkan konsep Clean Architecture
+* Membangun aplikasi desktop modern
+* Memahami pemisahan antara UI, Business Logic, dan Domain
+* Menjadi portfolio aplikasi real-world
+
+---
+
+## 🚧 Pengembangan Selanjutnya
+
+* 📈 Dashboard Chart
+* 🔄 Real-time Update
+* 🧠 State Management Improvement
+* 📱 Cross-platform expansion
+
+---
+
+## 📄 License
+
+Project ini digunakan untuk pembelajaran dan pengembangan pribadi.

@@ -1,0 +1,101 @@
+<UserControl
+    x:Class="SiLadhida.App.Features.Dashboard.DashboardView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SiLadhida.App.Features.Dashboard"
+    xmlns:model="using:SiLadhida.App.Features.Order"
+    x:DataType="vm:DashboardViewModel">
+
+    <!-- 🔥 OUTER GRID (CENTERING) -->
+    <Grid Classes="page">
+
+        <ScrollViewer>
+
+            <!-- 🔥 CONTAINER (INI YANG FIX NEMPEL) -->
+            <Grid
+                Width="900"
+                HorizontalAlignment="Center">
+
+                <StackPanel Classes="section" Spacing="24">
+
+                    <!-- 🔥 TITLE -->
+                    <TextBlock Classes="heading" Text="Dashboard"/>
+
+                    <!-- 🔥 SUMMARY GRID -->
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="16">
+
+                        <Border Classes="card dashboard-card">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Total Order" Classes="label"/>
+                                <TextBlock Text="{Binding TotalOrders}" Classes="dashboard-number"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="card dashboard-card" Grid.Column="1">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Order Aktif" Classes="label"/>
+                                <TextBlock Text="{Binding ActiveOrders}" Classes="dashboard-number"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="card dashboard-card" Grid.Column="2">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Selesai" Classes="label"/>
+                                <TextBlock Text="{Binding CompletedOrders}" Classes="dashboard-number"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="card dashboard-card" Grid.Column="3">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Pendapatan" Classes="label"/>
+                                <TextBlock
+                                    Text="{Binding TotalRevenue, StringFormat='Rp {0:N0}'}"
+                                    Classes="dashboard-number"
+                                    Foreground="{DynamicResource CoffeePrimaryBrush}"/>
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>
+
+                    <!-- 🔥 RECENT -->
+                    <TextBlock Classes="heading" Text="Order Terbaru"/>
+
+                    <ItemsControl ItemsSource="{Binding RecentOrders}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="model:Order">
+
+                                <Border Classes="card recent-item" Margin="0,4">
+
+                                    <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+
+                                        <TextBlock
+                                            Text="{Binding NamaPemesan}"
+                                            FontWeight="SemiBold"/>
+
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Text="{Binding StatusSekarang}"
+                                            Classes="subtitle"/>
+
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Text="{Binding TotalHarga, StringFormat='Rp {0:N0}'}"
+                                            FontWeight="Bold"/>
+
+                                    </Grid>
+
+                                </Border>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </StackPanel>
+
+            </Grid>
+
+        </ScrollViewer>
+
+    </Grid>
+
+</UserControl>

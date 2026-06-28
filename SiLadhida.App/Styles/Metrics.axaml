@@ -1,0 +1,17 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Spacing -->
+    <Thickness x:Key="SpaceXS">4</Thickness>
+    <Thickness x:Key="SpaceSmall">8</Thickness>
+    <Thickness x:Key="SpaceMedium">16</Thickness>
+    <Thickness x:Key="SpaceLarge">24</Thickness>
+    <Thickness x:Key="SpaceXLarge">32</Thickness>
+
+    <!-- Radius -->
+    <CornerRadius x:Key="RadiusSmall">8</CornerRadius>
+    <CornerRadius x:Key="RadiusMedium">12</CornerRadius>
+    <CornerRadius x:Key="RadiusLarge">20</CornerRadius>
+
+</ResourceDictionary>

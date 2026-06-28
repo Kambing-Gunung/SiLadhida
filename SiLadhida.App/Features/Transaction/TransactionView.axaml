@@ -1,0 +1,72 @@
+<UserControl
+    x:Class="SiLadhida.App.Features.Transaction.TransactionView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:inputs="using:SiLadhida.App.Components.Inputs"
+    xmlns:model="using:SiLadhida.App.Features.Order"
+    xmlns:vm="using:SiLadhida.App.Features.Transaction"
+    x:DataType="vm:TransactionViewModel">
+
+    <Grid Classes="page">
+
+        <StackPanel Classes="section" Spacing="12">
+
+            <!--  🔥 TITLE  -->
+            <TextBlock Classes="title" Text="Riwayat Transaksi" />
+            <TextBlock Classes="subtitle" Text="Daftar transaksi yang telah selesai atau dibatalkan" />
+
+            <!--  🔥 SEARCH  -->
+            <inputs:SearchBox Placeholder="Cari nama pemesan..." Text="{Binding SearchText, Mode=TwoWay}" />
+
+            <!--  🔥 TABLE  -->
+            <Border Classes="card">
+
+                <DataGrid
+                    HorizontalAlignment="Center"
+                    AutoGenerateColumns="False"
+                    ColumnHeaderHeight="50"
+                    FontWeight="Bold"
+                    GridLinesVisibility="All"
+                    HeadersVisibility="Column"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Transactions}">
+
+                    <DataGrid.Columns>
+
+                        <!--  Nama  -->
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding NamaPemesan}"
+                            Header="NAMA PEMESAN" />
+
+                        <!--  Status  -->
+                        <DataGridTemplateColumn Width="Auto" Header="STATUS">
+                            <DataTemplate x:DataType="model:Order">
+                                <Button
+                                Classes="status-pill"
+                                    HorizontalAlignment="Center"
+                                    Background="{Binding StatusSekarang, Converter={StaticResource StatusToBrushConverter}}"
+                                    Content="{Binding StatusSekarang}"
+                                    Foreground="White"
+                                    IsEnabled="True" />
+
+                            </DataTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--  Total  -->
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding TotalHarga, StringFormat='Rp {0:N0}'}"
+                            Header="TOTAL" />
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </Border>
+
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>

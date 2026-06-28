@@ -1,6 +1,0 @@
-<Solution>
-  <Project Path="SiLadhida.API/SiLadhida.API.csproj" />
-  <Project Path="SiLadhida.App/SiLadhida.App.csproj" />
-  <Project Path="SiLadhida.Core/SiLadhida.Core.csproj" />
-  <Project Path="SiLadhida.Tests/SiLadhida.Tests.csproj" />
-</Solution>

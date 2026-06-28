@@ -1,0 +1,17 @@
+<Styles xmlns="https://github.com/avaloniaui">
+
+        <Style Selector="TextBox">
+
+                <Setter Property="Height" Value="44" />
+
+                <Setter Property="Padding" Value="12" />
+
+                <Setter Property="CornerRadius" Value="12" />
+
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+
+                <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
+
+        </Style>
+
+</Styles>

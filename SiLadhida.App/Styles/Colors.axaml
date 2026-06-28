@@ -1,0 +1,44 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Brand  -->
+    <SolidColorBrush x:Key="CoffeePrimaryBrush" Color="#6D4C41" />
+    <SolidColorBrush x:Key="CoffeeSecondaryBrush" Color="#8D6E63" />
+    <SolidColorBrush x:Key="CoffeeAccentBrush" Color="#D7CCC8" />
+
+    <SolidColorBrush x:Key="StatusPendingBrush" Color="#FBC02D" />
+    <SolidColorBrush x:Key="StatusReadyBrush" Color="#1976D2" />
+    <SolidColorBrush x:Key="StatusDoneBrush" Color="#388E3C" />
+    <SolidColorBrush x:Key="StatusCancelBrush" Color="#D32F2F" />
+
+
+    <ResourceDictionary.ThemeDictionaries>
+
+        <!--  Light Theme  -->
+        <ResourceDictionary x:Key="Light">
+
+            <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F5F3F1" />
+
+            <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
+
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1E1E1E" />
+
+            <SolidColorBrush x:Key="TextSecondaryBrush" Color="#666666" />
+
+        </ResourceDictionary>
+
+        <!--  Dark Theme  -->
+        <ResourceDictionary x:Key="Dark">
+
+            <SolidColorBrush x:Key="PageBackgroundBrush" Color="#1B1B1B" />
+
+            <SolidColorBrush x:Key="CardBackgroundBrush" Color="#252525" />
+
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#FFFFFF" />
+
+            <SolidColorBrush x:Key="TextSecondaryBrush" Color="#C8C8C8" />
+
+        </ResourceDictionary>
+
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

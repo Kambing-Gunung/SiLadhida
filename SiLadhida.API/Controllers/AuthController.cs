@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using SiLadhida.API.Auth;
+using SiLadhida.Application.Interfaces;
 using SiLadhida.API.Common;
 using SiLadhida.API.DTOs;
-using SiLadhida.API.Services.Interfaces;
+using SiLadhida.API.Auth;
+using SiLadhida.Core.Entities;
+using SiLadhida.Infrastructure.Persistence;
 
 namespace SiLadhida.API.Controllers;
 
@@ -10,62 +12,54 @@ namespace SiLadhida.API.Controllers;
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
+    private readonly AppDbContext _context;
     private readonly IAuthService _authService;
     private readonly ILogger<AuthController> _logger;
 
     public AuthController(
         IAuthService authService,
-        ILogger<AuthController> logger)
+        ILogger<AuthController> logger,
+        AppDbContext context)
     {
         _authService = authService;
         _logger = logger;
+        _context = context;
     }
 
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginDto dto)
     {
-        if (dto == null)
-        {
-            return BadRequest(
-                ApiResponse<string>.ErrorResponse(
-                    "Username dan password tidak boleh kosong"
-                )
-            );
-        }
-
         _logger.LogInformation("Login attempt for user {Username}", dto.Username);
 
-        // TODO: Replace with proper user authentication from database
-        if (dto.Username != "admin" || dto.Password != "admin123")
+        var user = _context.Users.FirstOrDefault(u => u.Username == dto.Username);
+
+        if (user is null)
         {
             _logger.LogWarning("Failed login attempt for user {Username}", dto.Username);
 
-            return Unauthorized(
-                ApiResponse<string>.ErrorResponse(
-                    "Username atau password salah"
-                )
-            );
+            return Unauthorized(ApiResponse<string>.ErrorResponse("Username atau password salah"));
         }
 
-        var user = new AppUser
-        {
-            Username = dto.Username,
-            Role = "Admin"
-        };
+        var isValidPassword = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
 
-        var token = _authService.GenerateToken(user);
+        if (!isValidPassword)
+        {
+            _logger.LogWarning("Failed login attempt for user {Username}", dto.Username);
+
+            return Unauthorized(ApiResponse<string>.ErrorResponse("Username atau password salah"));
+        }
 
         _logger.LogInformation("User {Username} logged in successfully", dto.Username);
 
-        return Ok(
-            ApiResponse<object>.SuccessResponse(
-                new
-                {
-                    token,
-                    role = user.Role
-                },
-                "Login berhasil"
-            )
-        );
+        var token = _authService.GenerateToken(new AppUser
+        {
+            Username = user.Username,
+            Role = user.Role
+        });
+
+        return Ok(ApiResponse<object>.SuccessResponse(
+            new { token, role = user.Role },
+            "Login berhasil"
+        ));
     }
 }

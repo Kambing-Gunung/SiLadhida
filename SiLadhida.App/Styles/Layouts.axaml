@@ -1,0 +1,73 @@
+<Styles
+    xmlns="https://github.com/avaloniaui">
+
+    <!-- Root Page -->
+    <Style Selector="Grid.page">
+
+        <Setter Property="Margin"
+                Value="{DynamicResource SpaceLarge}" />
+
+        <Setter Property="RowSpacing"
+                Value="16" />
+
+    </Style>
+
+    <!-- Vertical Section -->
+    <Style Selector="StackPanel.section">
+
+        <Setter Property="Spacing"
+                Value="12" />
+
+    </Style>
+
+    <!-- Horizontal Toolbar -->
+    <Style Selector="StackPanel.toolbar">
+
+        <Setter Property="Orientation"
+                Value="Horizontal" />
+
+        <Setter Property="Spacing"
+                Value="12" />
+
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+
+    </Style>
+
+    <!-- Form Field -->
+    <Style Selector="StackPanel.form-field">
+
+        <Setter Property="Spacing"
+                Value="4" />
+
+    </Style>
+
+    <!-- Action Buttons -->
+    <Style Selector="StackPanel.actions">
+
+        <Setter Property="Orientation"
+                Value="Horizontal" />
+
+        <Setter Property="Spacing"
+                Value="12" />
+
+        <Setter Property="HorizontalAlignment"
+                Value="Right" />
+
+    </Style>
+
+    <!-- Content Card -->
+    <Style Selector="Border.section-card">
+
+        <Setter Property="Padding"
+                Value="{DynamicResource SpaceLarge}" />
+
+        <Setter Property="CornerRadius"
+                Value="{DynamicResource RadiusLarge}" />
+
+        <Setter Property="Background"
+                Value="{DynamicResource CardBackgroundBrush}" />
+
+    </Style>
+
+</Styles>
