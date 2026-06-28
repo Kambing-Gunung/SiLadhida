@@ -1,15 +1,28 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using SiLadhida.App.Features.Auth;
-using SiLadhida.App.Features.Dashboard;
-using SiLadhida.App.Features.Product;
-using SiLadhida.App.Features.Order;
-using SiLadhida.App.Features.Transaction;
 using SiLadhida.App.Layouts;
 
 namespace SiLadhida.App.Services.App;
 
 public partial class NavigationService : ObservableObject
 {
+    private static NavigationService? _instance;
+
+    public static NavigationService Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new NavigationService();
+
+            return _instance;
+        }
+    }
+
+    private NavigationService()
+    {
+    }
+
     [ObservableProperty]
     private object? currentView;
 

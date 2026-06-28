@@ -11,14 +11,11 @@
 
         <StackPanel Classes="section" Spacing="12">
 
-            <!--  🔥 TITLE  -->
             <TextBlock Classes="title" Text="Riwayat Transaksi" />
             <TextBlock Classes="subtitle" Text="Daftar transaksi yang telah selesai atau dibatalkan" />
 
-            <!--  🔥 SEARCH  -->
             <inputs:SearchBox Placeholder="Cari nama pemesan..." Text="{Binding SearchText, Mode=TwoWay}" />
 
-            <!--  🔥 TABLE  -->
             <Border Classes="card">
 
                 <DataGrid
@@ -33,19 +30,17 @@
 
                     <DataGrid.Columns>
 
-                        <!--  Nama  -->
                         <DataGridTextColumn
                             Width="*"
                             Binding="{Binding NamaPemesan}"
                             Header="NAMA PEMESAN" />
 
-                        <!--  Status  -->
                         <DataGridTemplateColumn Width="Auto" Header="STATUS">
                             <DataTemplate x:DataType="model:Order">
                                 <Button
-                                Classes="status-pill"
                                     HorizontalAlignment="Center"
                                     Background="{Binding StatusSekarang, Converter={StaticResource StatusToBrushConverter}}"
+                                    Classes="status-pill"
                                     Content="{Binding StatusSekarang}"
                                     Foreground="White"
                                     IsEnabled="True" />
@@ -53,7 +48,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn>
 
-                        <!--  Total  -->
                         <DataGridTextColumn
                             Width="*"
                             Binding="{Binding TotalHarga, StringFormat='Rp {0:N0}'}"

@@ -6,6 +6,23 @@ namespace SiLadhida.App.Services.App;
 
 public partial class NotificationService : ObservableObject, IObserver
 {
+    private static NotificationService? _instance;
+
+    public static NotificationService Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new NotificationService();
+
+            return _instance;
+        }
+    }
+
+    private NotificationService()
+    {
+    }
+
     [ObservableProperty]
     private string message = "";
 
@@ -18,6 +35,7 @@ public partial class NotificationService : ObservableObject, IObserver
     public async void UpdateNotification(string message)
     {
         Message = message;
+        IsError = false;
         IsVisible = true;
 
         await Task.Delay(2500);
