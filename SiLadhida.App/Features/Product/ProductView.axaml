@@ -66,8 +66,11 @@
                 <dg:DataGrid.Columns>
 
                     <dg:DataGridTextColumn Binding="{Binding Nama}" Header="Nama" />
+Ruben
+                    <dg:DataGridTextColumn Binding="{Binding Harga, Converter={StaticResource CurrencyConverter}}" Header="Harga" />
 
                     <dg:DataGridTextColumn Binding="{Binding Harga, StringFormat='Rp {0:N0}'}" Header="Harga" />
+ main
 
                     <dg:DataGridTextColumn Binding="{Binding Stock}" Header="Stock" />
 

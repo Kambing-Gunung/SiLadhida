@@ -1,4 +1,4 @@
-using System;
+﻿using System.Globalization;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
@@ -21,34 +21,28 @@ public partial class ProductDialog : UserControl
         DataContext = new ProductFormModel
         {
             Nama = product.Nama,
-            Harga = product.Harga,
-            Stock = product.Stock,
-            Title = "Edit Produk"
+            HargaText = product.Harga.ToString("0.##", CultureInfo.InvariantCulture),
+            StockText = product.Stock.ToString(CultureInfo.InvariantCulture),
+            Title = "Edit Produk",
+            IsEdit = true
         };
     }
 
     private async void Save_Click(object? sender, RoutedEventArgs e)
     {
         var model = DataContext as ProductFormModel;
-
         if (model == null || !model.IsValid())
             return;
 
         var dialog = this.FindAncestorOfType<BaseDialog>();
-
         if (dialog != null)
-        {
             await dialog.CloseWithAnimation(model);
-        }
     }
 
     private async void Cancel_Click(object? sender, RoutedEventArgs e)
     {
         var dialog = this.FindAncestorOfType<BaseDialog>();
-
         if (dialog != null)
-        {
             await dialog.CloseWithAnimation(null);
-        }
     }
 }

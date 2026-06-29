@@ -1,8 +1,7 @@
-<dialogs:BaseDialog
+<UserControl
     x:Class="SiLadhida.App.Features.Product.ProductDialog"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:dialogs="using:SiLadhida.App.Components.Dialogs"
     xmlns:model="using:SiLadhida.App.Features.Product"
     x:DataType="model:ProductFormModel">
 
@@ -12,18 +11,24 @@
 
         <StackPanel Classes="form-field">
             <TextBlock Classes="label" Text="Nama" />
-            <TextBox Text="{Binding Nama}" />
+            <TextBox Text="{Binding Nama}" Watermark="Nama produk" />
         </StackPanel>
 
         <StackPanel Classes="form-field">
             <TextBlock Classes="label" Text="Harga" />
-            <TextBox Text="{Binding Harga}" />
+            <TextBox Text="{Binding HargaText}" Watermark="cth: 24000" />
         </StackPanel>
 
         <StackPanel Classes="form-field">
             <TextBlock Classes="label" Text="Stock" />
-            <TextBox Text="{Binding Stock}" />
+            <TextBox Text="{Binding StockText}" Watermark="cth: 50" />
         </StackPanel>
+
+        <!-- Pesan error ramah -->
+        <TextBlock
+            Classes="error"
+            Text="{Binding ErrorMessage}"
+            IsVisible="{Binding HasError}" />
 
         <StackPanel Classes="actions">
 
@@ -41,4 +46,4 @@
 
     </StackPanel>
 
-</dialogs:BaseDialog>
+</UserControl>

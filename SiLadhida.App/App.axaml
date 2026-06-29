@@ -43,6 +43,7 @@
         <StyleInclude Source="avares://SiLadhida.App/Styles/Cards.axaml" />
         <StyleInclude Source="avares://SiLadhida.App/Styles/Typography.axaml" />
         <StyleInclude Source="avares://SiLadhida.App/Styles/Layouts.axaml" />
+        <StyleInclude Source="avares://SiLadhida.App/Styles/DataGrid.axaml" />
 
     </Application.Styles>
 
