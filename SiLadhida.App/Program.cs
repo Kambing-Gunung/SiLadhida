@@ -9,7 +9,6 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        // 🔥 Tangkap error yang bikin app close mendadak -> tulis ke Desktop
         AppDomain.CurrentDomain.UnhandledException += (_, e) =>
             LogCrash(e.ExceptionObject as Exception);
 
