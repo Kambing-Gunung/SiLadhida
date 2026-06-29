@@ -12,7 +12,7 @@ namespace SiLadhida.App.Core.Api;
 public class ApiClient
 {
     private readonly HttpClient _http;
-    private AuthSession? _session;
+    private readonly AuthSession _session;
 
     private static ApiClient? _instance;
 
@@ -33,18 +33,15 @@ public class ApiClient
         {
             BaseAddress = new Uri("http://localhost:5135/")
         };
-    }
 
-    public void SetSession(AuthSession session)
-    {
-        _session = session;
+        _session = AuthSession.Instance;
     }
 
     private void AttachToken()
     {
         _http.DefaultRequestHeaders.Authorization = null;
 
-        if (_session != null && _session.IsAuthenticated)
+        if (_session.IsAuthenticated)
         {
             _http.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", _session.Token);

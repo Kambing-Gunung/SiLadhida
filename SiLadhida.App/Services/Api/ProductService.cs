@@ -1,14 +1,32 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SiLadhida.App.Features.Product;
 using SiLadhida.App.Core.Api;
 using SiLadhida.App.Core.Models;
+using SiLadhida.App.Features.Product;
 
 namespace SiLadhida.App.Services.Api;
 
 public class ProductService
 {
-    private readonly ApiClient _client = ApiClient.Instance;
+    private static ProductService? _instance;
+
+    public static ProductService Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new ProductService();
+
+            return _instance;
+        }
+    }
+
+    private readonly ApiClient _client;
+
+    private ProductService()
+    {
+        _client = ApiClient.Instance;
+    }
 
     public async Task<List<Product>> GetProductsAsync()
     {

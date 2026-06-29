@@ -37,11 +37,7 @@
     <Application.Styles>
 
         <FluentTheme />
-
-        <!--  DataGrid (optional, aman)  -->
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
-
-        <!--  🔥 DESIGN SYSTEM  -->
         <StyleInclude Source="avares://SiLadhida.App/Styles/Buttons.axaml" />
         <StyleInclude Source="avares://SiLadhida.App/Styles/TextBoxes.axaml" />
         <StyleInclude Source="avares://SiLadhida.App/Styles/Cards.axaml" />
@@ -68,10 +64,7 @@
 
             <ResourceDictionary.MergedDictionaries>
 
-                <!--  🔥 COLOR SYSTEM  -->
                 <MergeResourceInclude Source="avares://SiLadhida.App/Styles/Colors.axaml" />
-
-                <!--  🔥 SPACING / SIZE  -->
                 <MergeResourceInclude Source="avares://SiLadhida.App/Styles/Metrics.axaml" />
 
             </ResourceDictionary.MergedDictionaries>

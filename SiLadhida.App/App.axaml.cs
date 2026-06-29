@@ -17,19 +17,15 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        // 🔥 INIT SERVICES
         Services = new ServiceLocator();
-        Services.Initialize();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // 🔥 SET ROOT WINDOW
             desktop.MainWindow = new MainWindow
             {
                 DataContext = Services.Navigation
             };
 
-            // 🔥 START FROM LOGIN
             Services.Navigation.NavigateToLogin();
         }
 

@@ -7,13 +7,26 @@ namespace SiLadhida.App.Services.Api;
 
 public class AuthService
 {
-    private readonly ApiClient _client = ApiClient.Instance;
+    private static AuthService? _instance;
+
+    public static AuthService Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new AuthService();
+
+            return _instance;
+        }
+    }
+
+    private readonly ApiClient _client;
     private readonly AuthSession _session;
 
-    public AuthService(ApiClient client, AuthSession session)
+    private AuthService()
     {
-        _client = client;
-        _session = session;
+        _client = ApiClient.Instance;
+        _session = AuthSession.Instance;
     }
 
     public async Task<bool> LoginAsync(string username, string password)

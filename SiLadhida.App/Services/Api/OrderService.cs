@@ -1,16 +1,34 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SiLadhida.App.Features.Order;
-using SiLadhida.App.Shared.Requests;
 using SiLadhida.App.Core.Api;
 using SiLadhida.App.Core.Models;
+using SiLadhida.App.Features.Order;
+using SiLadhida.App.Shared.Requests;
 using SiLadhida.Core.Enums;
 
 namespace SiLadhida.App.Services.Api;
 
 public class OrderService
 {
-    private readonly ApiClient _client = ApiClient.Instance;
+    private static OrderService? _instance;
+
+    public static OrderService Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new OrderService();
+
+            return _instance;
+        }
+    }
+
+    private readonly ApiClient _client;
+
+    private OrderService()
+    {
+        _client = ApiClient.Instance;
+    }
 
     public async Task<List<Order>> GetOrdersAsync()
     {
