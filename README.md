@@ -1,10 +1,8 @@
 # ☕ SiLadhida — Coffee Shop Management System
 
-Modern desktop application for managing products, orders, and transactions built with **.NET 8** and **Avalonia UI**, using a clean and scalable layered architecture.
+> Modern desktop application for managing products, orders, and transactions built with **.NET 8** and **Avalonia UI**, using a clean and scalable layered architecture.
 
 ---
-
-## 📸 Preview
 
 ## 📸 Preview
 
@@ -18,7 +16,7 @@ Modern desktop application for managing products, orders, and transactions built
 
 ---
 
-# 📖 About
+## 📖 About
 
 SiLadhida is a desktop Point of Sale (POS) application developed to simplify product management, order processing, transactions, and inventory management for small businesses.
 
@@ -46,29 +44,29 @@ This project was built to:
 
 ---
 
-# ✨ Features
+## ✨ Features
 
-## Product Management
+### Product Management
 
 - Product CRUD
 - Category Management
 - Stock Management
 - Search & Filtering
 
-## Order Management
+### Order Management
 
 - Create Order
 - Order Detail
 - Payment Processing
 - State Machine Workflow
 
-## Dashboard
+### Dashboard
 
 - Sales Summary
 - Product Summary
 - Transaction Overview
 
-## Transaction
+### Transaction
 
 - Transaction History
 - Payment Record
@@ -76,7 +74,7 @@ This project was built to:
 
 ---
 
-# 🛠 Technology Stack
+## 🛠 Technology Stack
 
 | Category | Technology |
 |----------|------------|
@@ -91,9 +89,9 @@ This project was built to:
 
 ---
 
-# 🏛 Architecture
+## 🏛 Architecture
 
-This project follows a layered architecture to separate presentation, business logic, domain, and infrastructure.
+This project follows a layered architecture to separate presentation, business logic, domain, and infrastructure. The application separates responsibilities into five layers to improve maintainability, scalability, and testability.
 
 ```
 ┌─────────────────────────────┐
@@ -123,30 +121,21 @@ This project follows a layered architecture to separate presentation, business l
 
 ---
 
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```
 SiLadhida
 │
-├── SiLadhida.App
-│     Desktop Application (Avalonia)
-│
-├── SiLadhida.API
-│     ASP.NET Core REST API
-│
-├── SiLadhida.Application
-│     Business Logic
-│
-├── SiLadhida.Core
-│     Domain Models & Interfaces
-│
-└── SiLadhida.Infrastructure
-      Database & Persistence
+├── SiLadhida.App              # Avalonia Desktop UI
+├── SiLadhida.API              # ASP.NET Core REST API
+├── SiLadhida.Application      # Business Logic & Use Cases
+├── SiLadhida.Core             # Domain Models & Contracts
+└── SiLadhida.Infrastructure   # Database & External Services
 ```
 
 ---
 
-# 💡 Engineering Practices
+## 💡 Engineering Practices
 
 This project applies several software engineering concepts:
 
@@ -161,26 +150,27 @@ This project applies several software engineering concepts:
 
 ---
 
-# 🚀 Getting Started
+## 🚀 Getting Started
 
-## 1. Clone Repository
+### Prerequisites
+
+- .NET 8 SDK
+- Git
+
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/Kambing-Gunung/SiLadhida.git
 ```
 
----
-
-## 2. Run Backend API
+### 2. Run Backend API
 
 ```bash
 cd SiLadhida.API
 dotnet run
 ```
 
----
-
-## 3. Run Desktop Application
+### 3. Run Desktop Application
 
 ```bash
 cd SiLadhida.App
@@ -191,14 +181,15 @@ dotnet run
 
 ## 🗺️ Roadmap
 
-* 📈 Dashboard Charts
-* 🔄 Real-time updates
-* 🧠 Advanced state management
-* 📱 Cross-platform (mobile/web)
-* 🌙 Dark/Light theme switching
+- [x] Dark / Light Theme
+- [ ] Dashboard Analytics
+- [ ] Export PDF
+- [ ] Export Excel
+- [ ] Real-time Update
+- [ ] Cross-platform Support
 
 ---
 
-# 📄 License
+## 📄 License
 
 This project is developed for educational and portfolio purposes.
