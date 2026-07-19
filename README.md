@@ -6,15 +6,15 @@ Modern desktop application for managing products, orders, and transactions built
 
 ## 📸 Preview
 
-```
-![Login](docs/images/login.png)
+## 📸 Preview
 
-![Dashboard](docs/images/dashboard.png)
+| Login | Dashboard |
+|-------|-----------|
+| ![Login Page](docs/images/login.png) | ![Dashboard Page](docs/images/dashboard.png) |
 
-![Product](docs/images/product.png)
-
-![Transaction](docs/images/transaction.png)
-```
+| Product | Transaction |
+|---------|-------------|
+| ![Product Page](docs/images/product.png) | ![Transaction Page](docs/images/transaction.png) |
 
 ---
 
