@@ -8,11 +8,14 @@ Modern desktop application for managing products, orders, and transactions built
 
 > *(Tambahkan screenshot di sini nanti)*
 
-```id="img1"
-![Login](/SiLadhida.App/Shared/Resources/Screenshot%202026-07-20%20052240.png)
-![Dashboard](/SiLadhida.App/Shared/Resources/Screenshot%202026-07-20%20052253.png)
-![Product](/SiLadhida.App/Shared/Resources/Screenshot%202026-07-20%20052302.png)
-![Transactions](/SiLadhida.App/Shared/Resources/Screenshot%202026-07-20%20052910.png)
+```
+![Login](docs/images/login.png)
+
+![Dashboard](docs/images/dashboard.png)
+
+![Product](docs/images/product.png)
+
+![Transaction](docs/images/transaction.png)
 ```
 
 ---
