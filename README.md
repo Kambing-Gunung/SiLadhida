@@ -6,8 +6,6 @@ Modern desktop application for managing products, orders, and transactions built
 
 ## 📸 Preview
 
-> *(Tambahkan screenshot di sini nanti)*
-
 ```
 ![Login](docs/images/login.png)
 
