@@ -1,104 +1,185 @@
-# ☕ SiLadhida
+# ☕ SiLadhida — Coffee Shop Management System
 
-**SiLadhida** adalah aplikasi manajemen kedai/kafe berbasis **.NET & Avalonia UI** yang dirancang untuk mengelola produk, pesanan, dan transaksi secara terstruktur menggunakan pendekatan **layered architecture**.
-
----
-
-## 🚀 Fitur Utama
-
-* 📦 Manajemen Produk
-* 🧾 Manajemen Pesanan (Order)
-* 💳 Proses Pembayaran
-* 📊 Dashboard Ringkasan
-* 🧮 Riwayat Transaksi
-* 🎯 Status Order berbasis State Machine
+Modern desktop application for managing products, orders, and transactions built with **.NET 8** and **Avalonia UI**, using a clean and scalable layered architecture.
 
 ---
 
-## 🧱 Arsitektur Project
+## 📸 Preview
 
-Project ini menggunakan pendekatan **Layered Architecture** dengan pembagian sebagai berikut:
+> *(Tambahkan screenshot di sini nanti)*
+
+```id="img1"
+![Login](/SiLadhida.App/Shared/Resources/Screenshot%202026-07-20%20052240.png)
+![Dashboard](/SiLadhida.App/Shared/Resources/Screenshot%202026-07-20%20052253.png)
+![Product](/SiLadhida.App/Shared/Resources/Screenshot%202026-07-20%20052302.png)
+![Transactions](/SiLadhida.App/Shared/Resources/Screenshot%202026-07-20%20052910.png)
+```
+
+---
+
+# 📖 About
+
+SiLadhida is a desktop Point of Sale (POS) application developed to simplify product management, order processing, transactions, and inventory management for small businesses.
+
+Rather than focusing only on CRUD functionality, this project emphasizes **software architecture**, **maintainability**, and **real-world business logic** by applying modern engineering practices such as Layered Architecture, MVVM, REST API, and State Machine.
+
+---
+
+## 🎯 Why This Project?
+
+This project was built to:
+
+* Practice **clean architecture principles**
+* Implement **real-world business logic**
+* Build a **modern desktop application**
+* Improve understanding of **scalable system design**
+
+---
+
+## 🔥 Highlights
+
+* Not just UI — includes **full backend architecture**
+* Implements **State Machine for business rules**
+* Clean separation between **UI, API, and Domain**
+* Reusable and scalable structure
+
+---
+
+# ✨ Features
+
+## Product Management
+
+- Product CRUD
+- Category Management
+- Stock Management
+- Search & Filtering
+
+## Order Management
+
+- Create Order
+- Order Detail
+- Payment Processing
+- State Machine Workflow
+
+## Dashboard
+
+- Sales Summary
+- Product Summary
+- Transaction Overview
+
+## Transaction
+
+- Transaction History
+- Payment Record
+- Receipt Generation *(Planned)*
+
+---
+
+# 🛠 Technology Stack
+
+| Category | Technology |
+|----------|------------|
+| Language | C# |
+| Framework | .NET 8 |
+| Desktop UI | Avalonia UI |
+| Backend | ASP.NET Core Web API |
+| Architecture | Layered Architecture |
+| Pattern | MVVM |
+| Communication | REST API |
+| Toolkit | CommunityToolkit.MVVM |
+
+---
+
+# 🏛 Architecture
+
+This project follows a layered architecture to separate presentation, business logic, domain, and infrastructure.
+
+```
+┌─────────────────────────────┐
+│      Avalonia Desktop UI    │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│      ASP.NET Core API       │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│   Application (Use Cases)   │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│      Domain (Core)          │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│ Infrastructure (Database)   │
+└─────────────────────────────┘
+```
+
+---
+
+# 📂 Project Structure
 
 ```
 SiLadhida
 │
-├── SiLadhida.App           → UI (Avalonia)
-├── SiLadhida.API           → Web API (Controller)
-├── SiLadhida.Application   → Business Logic
-├── SiLadhida.Core          → Domain & Entity
-├── SiLadhida.Infrastructure → Data Access & External Service
+├── SiLadhida.App
+│     Desktop Application (Avalonia)
+│
+├── SiLadhida.API
+│     ASP.NET Core REST API
+│
+├── SiLadhida.Application
+│     Business Logic
+│
+├── SiLadhida.Core
+│     Domain Models & Interfaces
+│
+└── SiLadhida.Infrastructure
+      Database & Persistence
 ```
 
 ---
 
-## 🔄 Alur Data
+# 💡 Engineering Practices
 
-```
-UI (App)
-   ↓
-App Service (HTTP Client)
-   ↓
-API Controller
-   ↓
-Application Service
-   ↓
-Domain (Core)
-   ↓
-Database (Infrastructure)
-```
+This project applies several software engineering concepts:
+
+- Layered Architecture
+- MVVM
+- Repository Pattern
+- Dependency Injection
+- REST API
+- State Machine
+- Separation of Concerns
+- SOLID Principles
 
 ---
 
-## 🧠 Design Pattern yang Digunakan
+# 🚀 Getting Started
 
-* MVVM (Model-View-ViewModel)
-* Service Layer Pattern
-* State Machine Pattern (Order Status)
-* Command Pattern (RelayCommand)
-* Separation of Concerns
+## 1. Clone Repository
 
----
-
-## ⚙️ Teknologi
-
-* .NET 8
-* Avalonia UI
-* CommunityToolkit.Mvvm
-* REST API
-* JSON Serialization
-
----
-
-## 📌 Status Order
-
-Menggunakan State Machine:
-
-```
-MenungguPembayaran → SiapDiambil → Selesai
-                 ↘ Dibatalkan
+```bash
+git clone https://github.com/Kambing-Gunung/SiLadhida.git
 ```
 
 ---
 
-## 📷 Tampilan Utama
-
-* Dashboard
-* Order Management
-* Product Management
-* Transaction History
-
----
-
-## 🛠️ Cara Menjalankan
-
-### 1. Jalankan API
+## 2. Run Backend API
 
 ```bash
 cd SiLadhida.API
 dotnet run
 ```
 
-### 2. Jalankan App
+---
+
+## 3. Run Desktop Application
 
 ```bash
 cd SiLadhida.App
@@ -107,42 +188,16 @@ dotnet run
 
 ---
 
-## 📦 Struktur Folder (Ringkas)
+## 🗺️ Roadmap
 
-```
-Features/
-    Order/
-    Product/
-    Transaction/
-Components/
-    Dialogs/
-    Inputs/
-Services/
-Core/
-```
+* 📈 Dashboard Charts
+* 🔄 Real-time updates
+* 🧠 Advanced state management
+* 📱 Cross-platform (mobile/web)
+* 🌙 Dark/Light theme switching
 
 ---
 
-## 🎯 Tujuan Project
+# 📄 License
 
-Project ini dibuat untuk:
-
-* Menerapkan konsep Clean Architecture
-* Membangun aplikasi desktop modern
-* Memahami pemisahan antara UI, Business Logic, dan Domain
-* Menjadi portfolio aplikasi real-world
-
----
-
-## 🚧 Pengembangan Selanjutnya
-
-* 📈 Dashboard Chart
-* 🔄 Real-time Update
-* 🧠 State Management Improvement
-* 📱 Cross-platform expansion
-
----
-
-## 📄 License
-
-Project ini digunakan untuk pembelajaran dan pengembangan pribadi.
+This project is developed for educational and portfolio purposes.
